@@ -23,7 +23,14 @@ const RegisterCustomer = props => {
                         className="form-control"
                         />
                     </div>
-                    
+                    <div className="form-group">
+                        <input
+                        type="text"
+                        placeholder="Credit card number"
+                        name="cardNumber"
+                        className="form-control"
+                        />
+                    </div>
                     <div className="form-group">
                         <input
                         type="password"
