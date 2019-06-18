@@ -1,25 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import store from './store';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-function App() {
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
+import 'bootstrap/dist/js/bootstrap.js';
+
+import Home from './components/Home'
+import Header from './components/Header'
+import LoginCustomer from './components/login/LoginCustomer'
+import LoginTranslator from './components/login/LoginTranslator'
+import RegisterCustomer from './components/register/RegisterCustomer'
+
+const App = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={ store }>
+      <Router >    
+          <Header history={props.history}/>
+          <main className="mainContext">
+            <div className="container cheifAppContainer">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/loginCustomer" component={LoginCustomer} />
+              <Route exact path="/loginTranslator" component={LoginTranslator} />
+              <Route exact path="/registerCustomer" component={RegisterCustomer} />
+            </Switch>
+            </div>
+          </main>
+      </Router>
+    </Provider>
   );
 }
 
