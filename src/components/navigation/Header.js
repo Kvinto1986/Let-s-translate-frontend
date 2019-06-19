@@ -15,33 +15,36 @@ class Header extends Component {
 
     render() {
 
-        const {isAuthenticated,user} = this.props.auth;
+        const {isAuthenticated, user} = this.props.auth;
 
         const authLinks = (
             <Fragment>
-                <div>
-                    <span className={'text-white'}>{user.name}<br/> Profile</span>
-                <button className="btn btn-primary" type="button" onClick={this.onLogout.bind(this)}>
-                    Logout
-                </button>
+                <div className="my-2 my-lg-0">
+                    <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
+                    <button
+                        className="btn btn-success align-content-lg-end"
+                        type="button"
+                        onClick={this.onLogout.bind(this)}>Logout
+                    </button>
                 </div>
             </Fragment>
         );
 
         const guestLinks = (
             <Fragment>
-                <div className="col-8">
                     <Link className="dropdown-item" to="/login">LogIn</Link>
-                </div>
             </Fragment>
         );
 
         return (
             <header>
-                <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
+                <nav className={"navbar navbar-expand-lg navbar-dark bg-dark d-flex"}>
+
                     <Link className="navbar-brand" to="/">
-                        <img src={logo} alt="logo-translate.png"/>
+                        <img src={logo} alt="logo-translate.png" width="150" height="120"/>
+                        <span className='h1 ml-3'>Let's translate</span>
                     </Link>
+
                     {isAuthenticated ? authLinks : guestLinks}
                 </nav>
             </header>
