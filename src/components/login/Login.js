@@ -2,20 +2,26 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {loginUser} from '../../actions/userAction';
+import {loginUser} from '../../actions/authAction';
 
-class LoginTranslator extends Component {
+class Login extends Component {
 
     state = {
         email: '',
         password: '',
-        errors: {}
+        role:'',
+        errors: {},
+        userStatus: false
     };
 
     handleInputChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
+    };
+
+    handleChangeUser = () => {
+        this.setState({userStatus: !this.state.userStatus});
     };
 
     handleSubmit = (e) => {
@@ -26,7 +32,17 @@ class LoginTranslator extends Component {
             password: this.state.password,
         };
 
-        this.props.loginUser(user);
+        let path='';
+
+        if(this.state.userStatus){
+            path='api/users/login';
+        }
+
+        if(!this.state.userStatus){
+            path='api/customers/login';
+        }
+
+        this.props.loginUser(user,path);
     };
 
     componentDidMount = () => {
@@ -53,7 +69,24 @@ class LoginTranslator extends Component {
             <div className="login">
                 <div className="container">
                     <h2>Login</h2>
-                    <p className="text-info">Translator</p>
+                    <h5 className="text-info">{this.state.userStatus?'Translator':'Customer'}</h5>
+                    <label className="radio-inline">
+                        <input
+                            type="radio"
+                            checked={!this.state.userStatus}
+                            onChange={this.handleChangeUser}
+                        />
+                        Customer
+                    </label>
+                    <label className="radio-inline ml-5 ">
+                        <input
+                            type="radio"
+                            checked={this.state.userStatus}
+                            onChange={this.handleChangeUser}
+                        />
+                        Translator
+                    </label>
+
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <input
@@ -90,7 +123,7 @@ class LoginTranslator extends Component {
     }
 }
 
-LoginTranslator.propTypes = {
+Login.propTypes = {
     loginUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
@@ -101,4 +134,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, {loginUser})(LoginTranslator)
+export default connect(mapStateToProps, {loginUser})(Login)

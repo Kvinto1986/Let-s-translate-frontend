@@ -1,8 +1,10 @@
 import React, {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
-import {logoutUser} from '../../actions/userAction';
+import {logoutUser} from '../../actions/authAction';
 import {withRouter} from 'react-router-dom';
+
+import logo from '../../resources/images/logo/logo-translate.png'
 
 class Header extends Component {
 
@@ -13,32 +15,23 @@ class Header extends Component {
 
     render() {
 
-        const {isAuthenticated} = this.props.auth;
+        const {isAuthenticated,user} = this.props.auth;
 
         const authLinks = (
             <Fragment>
+                <div>
+                    <span className={'text-white'}>{user.name}<br/> Profile</span>
                 <button className="btn btn-primary" type="button" onClick={this.onLogout.bind(this)}>
                     Logout
                 </button>
+                </div>
             </Fragment>
         );
 
         const guestLinks = (
             <Fragment>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1"
-                        aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
-                </button>
-                <div className="collapse navbar-collapse" id="navbar1">
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item dropdown dropleft">
-                            <a className="nav-link dropdown-toggle" href="" id="navbarDropdown1" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">LogIn</a>
-                            <div className="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                <Link className="dropdown-item" to="/loginCustomer">Customer</Link>
-                                <Link className="dropdown-item" to="/loginTranslator">Translator</Link>
-                            </div>
-                        </li>
-                    </ul>
+                <div className="col-8">
+                    <Link className="dropdown-item" to="/login">LogIn</Link>
                 </div>
             </Fragment>
         );
@@ -47,7 +40,7 @@ class Header extends Component {
             <header>
                 <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
                     <Link className="navbar-brand" to="/">
-                        <h1>L T R</h1>
+                        <img src={logo} alt="logo-translate.png"/>
                     </Link>
                     {isAuthenticated ? authLinks : guestLinks}
                 </nav>

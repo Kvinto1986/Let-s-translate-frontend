@@ -1,6 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
+import pic from '../../resources/images/carousel/dogi.jpeg'
+
 const Home = () => {
     return (
         <div className='landing'>
@@ -12,21 +14,21 @@ const Home = () => {
                 </ol>
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                        <img className="d-block w-100" src="public/images/carousel/dogi.jpeg" alt="First slide" />
+                        <img className="d-block w-100" src={pic} alt="First slide" />
                         <div className="carousel-caption d-none d-md-block">
                             <h5>Best of ever translators!</h5>
                             <p>Our transloators make translates so fast!</p>
                         </div>
                     </div>
                     <div className="carousel-item">
-                        <img className="d-block w-100" src="../public/images/carousel/dogi.jpeg" alt="Second slide" />
+                        <img className="d-block w-100" src={pic} alt="Second slide" />
                         <div className="carousel-caption d-none d-md-block">
                             <h5>Best of ever translators!</h5>
                             <p>Our transloators make translates so fast!</p>
                         </div>
                     </div>
                     <div className="carousel-item">
-                        <img className="d-block w-100" src=".../public/images/carousel/dogi.jpeg" alt="Third slide" />
+                        <img className="d-block w-100" src={pic} alt="Third slide" />
                         <div className="carousel-caption d-none d-md-block">
                             <h5>Best of ever translators!</h5>
                             <p>Our transloators make translates so fast!</p>
