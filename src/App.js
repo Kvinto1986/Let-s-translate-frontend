@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './setAuthToken';
-import {setCurrentUser} from './actions/userAction';
+import {setCurrentUser} from './actions/authAction';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
@@ -13,8 +13,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 
 import Home from './components/home/Home'
 import Header from './components/navigation/Header'
-import LoginCustomer from './components/login/LoginCustomer'
-import LoginTranslator from './components/login/LoginTranslator'
+import Login from './components/login/Login'
 import RegisterCustomer from './components/register/RegisterCustomer'
 import AdminHome from './components/admin/AdminHome'
 
@@ -34,8 +33,7 @@ class App extends Component {
                         <div className="container cheifAppContainer">
                                 <Route exact path="/" component={Home}/>
                                 <Route exact path="/admin" component={AdminHome}/>
-                                <Route exact path="/loginCustomer" component={LoginCustomer}/>
-                                <Route exact path="/loginTranslator" component={LoginTranslator}/>
+                                <Route exact path="/login" component={Login}/>
                                 <Route exact path="/registerCustomer" component={RegisterCustomer}/>
                         </div>
                     </main>
