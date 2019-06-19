@@ -1,12 +1,27 @@
 import React from 'react'
+import AdminPanel from '../admin/AdminPanel'
+import DashBoard from '../customer/DashBoard'
+import TranslatorPanel from '../translator/TranslatorPanel'
 
 const AuthHome = ({auth}) => {
-    console.log(auth.user.role);
+    let homeComponent
+
+    switch (auth.user.role) {
+        case 'admin':
+            homeComponent = <AdminPanel />
+            break;
+        case 'customer':
+            homeComponent = <DashBoard />
+            break;
+        case 'translator':
+            homeComponent = <TranslatorPanel />
+            break;
+        default:
+            break;
+    }
     
     return (
-        <div>
-            Loged in
-        </div>
+        homeComponent
     )
 }
 

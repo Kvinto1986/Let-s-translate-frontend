@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {registerTranslator} from '../../actions/regTranslatorAction'
 import {connect} from 'react-redux'
 
-class AdminHome extends Component {
+class AdminPanel extends Component {
     state = {
         name: "",
         email: "",
@@ -135,4 +135,4 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     registerTranslator
-})(AdminHome)
+})(AdminPanel)
