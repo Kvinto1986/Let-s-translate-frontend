@@ -2,10 +2,10 @@ import React,{Component} from 'react';
 import './App.css';
 import store from './store';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './setAuthToken';
-import {setCurrentUser} from './actions/authenticationAction';
+import {setCurrentUser} from './actions/userAction';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
@@ -28,15 +28,13 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <Router>
-                    <main className="mainContext">
                         <Header/>
+                        <main className="mainContext">
                         <div className="container cheifAppContainer">
-                            <Switch>
                                 <Route exact path="/" component={Home}/>
                                 <Route exact path="/loginCustomer" component={LoginCustomer}/>
                                 <Route exact path="/loginTranslator" component={LoginTranslator}/>
                                 <Route exact path="/registerCustomer" component={RegisterCustomer}/>
-                            </Switch>
                         </div>
                     </main>
                 </Router>
