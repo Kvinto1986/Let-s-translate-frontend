@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
 
+import authReducer from './authReduser';
+import errorsReduser from './errorsReduser'
+
 export default combineReducers({
-    // store varible name: reducer name
+    auth: authReducer,
+    errors:errorsReduser
 });

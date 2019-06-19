@@ -3,6 +3,9 @@ import './App.css';
 import store from './store';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+import setAuthToken from './setAuthToken';
+import {setCurrentUser} from './actions/authenticationAction';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
@@ -14,6 +17,11 @@ import LoginCustomer from './components/login/LoginCustomer'
 import LoginTranslator from './components/login/LoginTranslator'
 import RegisterCustomer from './components/register/RegisterCustomer'
 
+if (localStorage.jwtToken) {
+    setAuthToken(localStorage.jwtToken);
+    const decoded = jwt_decode(localStorage.jwtToken);
+    store.dispatch(setCurrentUser(decoded));
+}
 
 class App extends Component {
     render() {

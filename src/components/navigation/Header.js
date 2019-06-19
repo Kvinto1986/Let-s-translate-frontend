@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 const Header = () => {
     return (
         <header>
-            <nav className="navbar navbar-expand-lg navbar-light" style={{backgroundColor: "white"}}>
+            <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
                 <Link className="navbar-brand" to="/">
                     <h1>L T R</h1>
                 </Link>
@@ -25,6 +25,6 @@ const Header = () => {
             </nav>
         </header>
     )
-}
+};
 
 export default Header
