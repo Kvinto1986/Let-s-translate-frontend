@@ -32,7 +32,10 @@ class Header extends Component {
 
         const guestLinks = (
             <Fragment>
-                    <Link className={'btn btn-lg btn-info text-decoration-none '}  to="/login">LogIn</Link>
+                <div className={'col-2 d-flex justify-content-between align-items-center'}>
+                    <Link className={'btn btn-lg btn-info text-decoration-none'} to="/registerCustomer">Register</Link>
+                    <Link className={'btn btn-lg btn-warning text-decoration-none'} to="/login">LogIn</Link>
+                </div>
             </Fragment>
         );
 
@@ -40,11 +43,11 @@ class Header extends Component {
             <header>
                 <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
                     <div className={'col-12 d-flex justify-content-between align-items-center'}>
-                    <Link className="navbar-brand" to="/">
-                        <img src={logo} alt="logo-translate.png" width="150" height="120"/>
-                        <span className='h1 ml-3'>Let's translate</span>
-                    </Link>
-                    {isAuthenticated ? authLinks : guestLinks}
+                        <Link className="navbar-brand" to="/">
+                            <img src={logo} alt="logo-translate.png" width="150" height="120"/>
+                            <span className='h1 ml-3'>Let's translate</span>
+                        </Link>
+                        {isAuthenticated ? authLinks : guestLinks}
                     </div>
                 </nav>
             </header>
