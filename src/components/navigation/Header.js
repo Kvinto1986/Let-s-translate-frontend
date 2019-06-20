@@ -6,6 +6,8 @@ import {withRouter} from 'react-router-dom';
 
 import logo from '../../resources/images/logo/logo-translate.png'
 
+import LinkGroup from '../navigation/LinkGroup'
+
 class Header extends Component {
 
     onLogout(e) {
@@ -20,6 +22,7 @@ class Header extends Component {
         const authLinks = (
             <Fragment>
                 <div className="my-2 my-lg-0">
+                    <LinkGroup role={user.role}/>
                     <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
                     <button
                         className="btn btn-success align-content-lg-end"
@@ -32,7 +35,8 @@ class Header extends Component {
 
         const guestLinks = (
             <Fragment>
-                    <Link className="dropdown-item" to="/login">LogIn</Link>
+                <Link className="dropdown-item" to="/registerCustomer">Register</Link>
+                <Link className="dropdown-item" to="/login">LogIn</Link>
             </Fragment>
         );
 
