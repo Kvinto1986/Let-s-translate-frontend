@@ -3,7 +3,7 @@ import {GET_ERRORS} from './types';
 import server from '../serverConfig'
 
 export const registerCustomer = (customer, reset) => dispatch => {
-    axios.post(`${server}api/users/registration`, customer)
+    axios.post(`${server}api/customers/registration`, customer)
         .then(() => reset())
         .then(() => {
             dispatch({

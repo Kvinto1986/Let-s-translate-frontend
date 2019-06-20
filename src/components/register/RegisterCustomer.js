@@ -37,6 +37,7 @@ class RegisterCustomer extends Component {
         e.preventDefault();
 
         const customer = {
+            role:'customer',
             name: this.state.name,
             email: this.state.email,
             password: this.state.password,
@@ -59,7 +60,7 @@ class RegisterCustomer extends Component {
                 isChecked: false
             })
         }
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
