@@ -56,11 +56,12 @@ class LinkGroup extends Component {
         }
 
         return (
-            <ul className="navbar-nav mr-auto navUserLinks">
+
+            <ul className="navbar-nav mr-auto navUserLinks col-6 d-flex justify-content-around ml-5 ">
                 {links.map(linkUnit => {
                     return (
                         <li className="nav-item" key={linkUnit.title}>
-                            <NavLink to={linkUnit.route} className="nav-link" activeClassName="active">
+                            <NavLink to={linkUnit.route} className="nav-link h5" activeClassName="active">
                                 {linkUnit.title}
                             </NavLink>  
                         </li> 
