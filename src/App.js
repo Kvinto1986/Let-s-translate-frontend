@@ -29,7 +29,7 @@ class App extends Component {
                 <Router>
                     <Header/>
                     <main className="mainContext">
-                        <div className="container cheifAppContainer">
+                        <div className="container cheifAppContainer col-12">
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/login" component={Login}/>
                             <Route exact path="/registerCustomer" component={RegisterCustomer}/>
