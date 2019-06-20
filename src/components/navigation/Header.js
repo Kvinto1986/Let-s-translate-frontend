@@ -6,6 +6,8 @@ import {withRouter} from 'react-router-dom';
 
 import logo from '../../resources/images/logo/logo-translate.png'
 
+import LinkGroup from '../navigation/LinkGroup'
+
 class Header extends Component {
 
     onLogout(e) {
@@ -16,9 +18,12 @@ class Header extends Component {
     render() {
 
         const {isAuthenticated, user} = this.props.auth;
+        console.log(user);
+        
 
         const authLinks = (
             <Fragment>
+                <LinkGroup role={user.role} />
                 <div className="my-2 my-lg-0">
                     <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
                     <button
