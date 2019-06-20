@@ -4,6 +4,8 @@ import {withRouter} from 'react-router-dom';
 
 import {registerCustomer} from '../../actions/customerAction';
 
+import ButtonSubmit from '../common/ButtonSubmit'
+
 class RegisterCustomer extends Component {
     state = {
         name: "",
@@ -46,6 +48,19 @@ class RegisterCustomer extends Component {
 
     };
 
+    handleIsChecked = e => {
+        if (e.target.checked) {
+            this.setState({
+                isChecked: true
+            })
+        }
+        else {
+            this.setState({
+                isChecked: false
+            })
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
             this.setState({
@@ -57,7 +72,10 @@ class RegisterCustomer extends Component {
     componentDidMount = () => {};
 
     render() {
-        const {errors}=this.state;
+        const {errors} = this.state;
+        const buttonSubmit = this.state.isChecked
+        ? <ButtonSubmit title="Register" handleSubmit={this.handleSubmit} isDisabled={false}/>
+        : <ButtonSubmit title="Register" handleSubmit={this.handleSubmit} isDisabled={true}/>
 
         return (
             <div className="registerCustomer">
@@ -123,14 +141,10 @@ class RegisterCustomer extends Component {
                         <div className="form-group">
                             <div className="form-check form-check-inline">
                                 <label className="form-check-label checkingUnit">I read license</label>
-                                <input className="form-check-input" type="checkbox"/>
+                                <input className="form-check-input" type="checkbox" onChange={e => this.handleIsChecked(e)}/>
                             </div>
                         </div>
-                        <div className="form-group">
-                            <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>
-                                Register
-                            </button>
-                        </div>
+                        {buttonSubmit}
                         <div className="form-group">
                         <span className="text-primary">
                             Forget the password

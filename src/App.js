@@ -27,12 +27,12 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <Router>
-                        <Header/>
-                        <main className="mainContext">
+                    <Header/>
+                    <main className="mainContext">
                         <div className="container cheifAppContainer">
-                                <Route exact path="/" component={Home}/>
-                                <Route exact path="/login" component={Login}/>
-                                <Route exact path="/registerCustomer" component={RegisterCustomer}/>
+                            <Route exact path="/" component={Home}/>
+                            <Route exact path="/login" component={Login}/>
+                            <Route exact path="/registerCustomer" component={RegisterCustomer}/>
                         </div>
                     </main>
                 </Router>

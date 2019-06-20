@@ -1,5 +1,4 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 
 const UnAuthHome = props => {
     return (
@@ -44,9 +43,6 @@ const UnAuthHome = props => {
             </div>
             <div className="text-warning">
                 TODO: Tarifs
-            </div>
-            <div className="bottomSide">
-                <Link to="/registerCustomer">Click here to register as customer</Link>
             </div>
         </div>
     )
