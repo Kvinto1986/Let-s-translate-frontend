@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {registerTranslator} from '../../actions/regTranslatorAction'
 import {connect} from 'react-redux'
 
-class AdminPanel extends Component {
+class CustomerRegister extends Component {
     state = {
         name: "",
         email: "",
@@ -71,7 +71,7 @@ class AdminPanel extends Component {
                             onChange={this.handleInputChange}
                             value={this.state.name}
                         />
-                         {errors.name && (<div className='text-danger'>{errors.name}</div>)}
+                        {errors.name && (<div className='text-danger'>{errors.name}</div>)}
                     </div>
                     <div className="form-group">
                         <input
@@ -135,4 +135,4 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     registerTranslator
-})(AdminPanel)
+})(CustomerRegister)

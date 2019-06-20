@@ -1,20 +1,20 @@
 import React from 'react'
 import AdminPanel from '../admin/AdminPanel'
 import DashBoard from '../customer/DashBoard'
-import TranslatorPanel from '../translator/TranslatorPanel'
+import TranslatorPanel from '../translatorPage/translatorPage'
 
 const AuthHome = ({auth}) => {
-    let homeComponent
+    let homeComponent;
 
     switch (auth.user.role) {
         case 'admin':
-            homeComponent = <AdminPanel />
+            homeComponent = <AdminPanel />;
             break;
         case 'customer':
-            homeComponent = <DashBoard />
+            homeComponent = <DashBoard />;
             break;
         case 'translator':
-            homeComponent = <TranslatorPanel />
+            homeComponent = <TranslatorPanel />;
             break;
         default:
             break;
@@ -23,6 +23,6 @@ const AuthHome = ({auth}) => {
     return (
         homeComponent
     )
-}
+};
 
 export default AuthHome
