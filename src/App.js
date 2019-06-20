@@ -15,6 +15,14 @@ import Home from './components/home/Home'
 import Header from './components/navigation/Header'
 import Login from './components/login/Login'
 import RegisterCustomer from './components/register/RegisterCustomer'
+import TranslatorRegister from './components/adminPage/translatorRegister'
+import TarifsEdit from './components/adminPage/tarifsEdit'
+import TranslatesBilboard from './components/translatorPage/translatesBilboard'
+import TranslatorWorkspace from './components/translatorPage/translatorWorkspace'
+import Dashboard from './components/customerPage/dashboard'
+import TextsList from './components/customerPage/textsList'
+import TransactionsBar from './components/customerPage/transactionsBar'
+import MessagesList from './components/customerPage/messagesList'
 
 if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -33,6 +41,17 @@ class App extends Component {
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/login" component={Login}/>
                             <Route exact path="/registerCustomer" component={RegisterCustomer}/>
+                            {/* Admin routes */}
+                            <Route exact path="/registerTranslator" component={TranslatorRegister}/>
+                            <Route exact path="/editTarifs" component={TarifsEdit}/>
+                            {/* Customer routes */}
+                            <Route exact path="/dashboard" component={Dashboard}/>
+                            <Route exact path="/texts" component={TextsList}/>
+                            <Route exact path="/transactions" component={TransactionsBar}/>
+                            <Route exact path="/messages" component={MessagesList}/>
+                            {/* Translator routes */}
+                            <Route exact path="/translates" component={TranslatesBilboard}/>
+                            <Route exact path="/workSpace" component={TranslatorWorkspace}/>
                         </div>
                     </main>
                 </Router>
