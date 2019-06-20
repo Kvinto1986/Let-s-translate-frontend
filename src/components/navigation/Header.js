@@ -44,7 +44,7 @@ class Header extends Component {
                 <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
                     <div className={'col-12 d-flex justify-content-between align-items-center'}>
                         <Link className="navbar-brand" to="/">
-                            <img src={logo} alt="logo-translate.png" width="150" height="120"/>
+                            <img src={logo} alt="logo-translate.png" width="120" height="90"/>
                             <span className='h1 ml-3'>Let's translate</span>
                         </Link>
                         {isAuthenticated ? authLinks : guestLinks}
