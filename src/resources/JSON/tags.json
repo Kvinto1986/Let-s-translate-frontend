@@ -1,0 +1,26 @@
+[
+  {
+    "value": "medicine",
+    "label": "Medicine"
+  },
+  {
+    "value": "science",
+    "label": "Science"
+  },
+  {
+    "value": "equipment",
+    "label": "Equipment"
+  },
+  {
+    "value": "culture",
+    "label": "Culture"
+  },
+  {
+    "value": "art",
+    "label": "Art"
+  },
+  {
+    "value": "history",
+    "label": "History"
+  }
+]

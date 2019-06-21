@@ -20,7 +20,7 @@ import TarifsEdit from './components/adminPage/tarifsEdit'
 import TranslatesBilboard from './components/translatorPage/translatesBilboard'
 import TranslatorWorkspace from './components/translatorPage/translatorWorkspace'
 import Dashboard from './components/customerPage/dashboard'
-import TextsList from './components/customerPage/textsList'
+import TextsList from './components/customerPage/newText'
 import TransactionsBar from './components/customerPage/transactionsBar'
 import MessagesList from './components/customerPage/messagesList'
 
@@ -37,7 +37,7 @@ class App extends Component {
                 <Router>
                     <Header/>
                     <main className="mainContext">
-                        <div className="container cheifAppContainer col-12">
+                        <div className="container cheifAppContainer col-12 d-flex justify-content-center">
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/login" component={Login}/>
                             <Route exact path="/registerCustomer" component={RegisterCustomer}/>
