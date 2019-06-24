@@ -18,8 +18,8 @@ class TranslatorRegister extends Component {
     handleChangeLang = (e) => {
         this.setState({
             languages: e
-        })
-    }
+        });
+    };
 
     handleInputChange = (e) => {
         this.setState({
@@ -42,7 +42,7 @@ class TranslatorRegister extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         
-        const langArr=this.state.languages.map((elem)=>elem.value)
+        const langArr=Array.from(this.state.languages).map((elem)=>elem.value);
 
         const translator = {
             name: this.state.name,
@@ -55,7 +55,7 @@ class TranslatorRegister extends Component {
         };    
 
         this.props.registerTranslator(translator, this.resetForm);
-
+        console.log(this.state)
     };
 
     componentWillReceiveProps(nextProps) {
@@ -69,9 +69,10 @@ class TranslatorRegister extends Component {
     componentDidMount = () => {};
 
     render() {
-        const {errors} = this.state
+        const {errors} = this.state;
+        const {languagesSelect}=this.state.languages
         return (
-            <div className="translatorRegister">
+            <div className="translatorRegister col-8">
                 <h2>Registration</h2>
                 <p className="text-info">Translator</p>
                 <form onSubmit={e => this.handleSubmit(e)}>
@@ -135,7 +136,7 @@ class TranslatorRegister extends Component {
                         <Select
                             isMulti
                             joinValues
-                            value={this.state.languages}
+                            value={languagesSelect}
                             onChange={this.handleChangeLang}
                             options={languages}
                         />
