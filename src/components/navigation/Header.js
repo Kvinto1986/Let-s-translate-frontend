@@ -5,8 +5,13 @@ import {logoutUser} from '../../actions/authAction';
 import {withRouter} from 'react-router-dom';
 
 import logo from '../../resources/images/logo/logo-translate.png'
+import msgImage from '../../resources/images/navigation/message.png'
 
-import LinkGroup from '../navigation/LinkGroup'
+import LinkGroup from './LinkGroup'
+
+const style = {
+    marginBottom: '25px'
+}
 
 class Header extends Component {
 
@@ -16,16 +21,15 @@ class Header extends Component {
     }
 
     render() {
-
         const {isAuthenticated, user} = this.props.auth;
-        console.log(user);
-        
-
         const authLinks = (
             <Fragment>
                 <LinkGroup role={user.role} />
                 <div className="my-2 my-lg-0">
-                    <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
+                    <img src={msgImage} alt='Messages'/>
+                    <Link to="/profile">
+                        <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
+                    </Link>
                     <button
                         className="btn btn-success align-content-lg-end"
                         type="button"
@@ -45,7 +49,7 @@ class Header extends Component {
         );
 
         return (
-            <header>
+            <header style={style}>
                 <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
                     <div className={'col-12 d-flex justify-content-between align-items-center'}>
                         <Link className="navbar-brand" to="/">

@@ -1,39 +1,84 @@
-import React from 'react'
+import React, {Component} from 'react'
+import {connect} from 'react-redux';
+import {fetchTranslatesByAvailableLanguages} from '../../actions/fetchTranslates'
 
-const TranslatesBilboard = props => {
-    return (
-        <div>
-            <table className="table table-borderless">
-                <thead>
-                    <tr class="table-secondary">
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    )
+class TranslatesBilboard extends Component {
+    componentDidMount() {
+        const {languages} = this.props.auth.user
+        this.props.fetchTranslatesByAvailableLanguages(languages)
+    }
+
+    render() {
+        const {translates} = this.props.translatesData
+        const isEmpty = (translates.length === 0) ? true : false
+
+        return (
+            <div className="row">
+                <div className="col-12">
+                    <table className="table table-borderless">
+                        <thead>
+                            <tr className="table-secondary">
+                                <th scope="col">#</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">From</th>
+                                <th scope="col">To</th>
+                                <th scope="col">Format</th>
+                                <th scope="col">Difficulty</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                !isEmpty
+                                // isEmpty
+                                ? (
+                                    <tr>
+                                        Here in no any available translates
+                                    </tr>
+                                )
+                                : (
+                                    // translates.map(translate => {
+                                    //     return (
+                                    //         <tr key="translate">
+                                    //             <th scope="row">2</th>
+                                    //             <td>JSON Statham</td>
+                                    //             <td>English</td>
+                                    //             <td>Russian</td>
+                                    //         </tr>
+                                    //     )
+                                    // })
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>JSON Statham</td>
+                                        <td>English</td>
+                                        <td>Russian</td>
+                                        <td>File</td>
+                                        <td>Fast</td>
+                                        <td>
+                                            <button type="button" className="btn btn-outline-dark btn-sm">
+                                                Send message
+                                            </button>
+                                            <button type="button" className="btn btn-outline-dark btn-sm">
+                                                Translate
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        )
+    }
 }
 
-export default TranslatesBilboard
+const mapStateToProps = state => ({
+    auth: state.auth,
+    translatesData: state.translatesData
+});
+
+export default connect(mapStateToProps, {
+    fetchTranslatesByAvailableLanguages
+})(TranslatesBilboard)
