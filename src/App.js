@@ -23,6 +23,8 @@ import Dashboard from './components/customerPage/dashboard'
 import TextsList from './components/customerPage/newText'
 import TransactionsBar from './components/customerPage/transactionsBar'
 import MessagesList from './components/customerPage/messagesList'
+import UserProfile from './components/userProfile/UserProfile'
+import EditUserProfile from './components/userProfile/EditUserProfile'
 
 if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -37,22 +39,23 @@ class App extends Component {
                 <Router>
                     <Header/>
                     <main className="mainContext">
-                        <div className="container cheifAppContainer col-12 d-flex justify-content-center">
-                            <Route exact path="/" component={Home}/>
-                            <Route exact path="/login" component={Login}/>
-                            <Route exact path="/registerCustomer" component={RegisterCustomer}/>
-                            {/* Admin routes */}
-                            <Route exact path="/registerTranslator" component={TranslatorRegister}/>
-                            <Route exact path="/editTarifs" component={TarifsEdit}/>
-                            {/* Customer routes */}
-                            <Route exact path="/dashboard" component={Dashboard}/>
-                            <Route exact path="/texts" component={TextsList}/>
-                            <Route exact path="/transactions" component={TransactionsBar}/>
-                            <Route exact path="/messages" component={MessagesList}/>
-                            {/* Translator routes */}
-                            <Route exact path="/translates" component={TranslatesBilboard}/>
-                            <Route exact path="/workSpace" component={TranslatorWorkspace}/>
-                        </div>
+                        <Route exact path="/" component={Home}/>
+                        <Route exact path="/login" component={Login}/>
+                        <Route exact path="/registerCustomer" component={RegisterCustomer}/>
+                        {/* Admin routes */}
+                        <Route exact path="/registerTranslator" component={TranslatorRegister}/>
+                        <Route exact path="/editTarifs" component={TarifsEdit}/>
+                        {/* Customer routes */}
+                        <Route exact path="/dashboard" component={Dashboard}/>
+                        <Route exact path="/texts" component={TextsList}/>
+                        <Route exact path="/transactions" component={TransactionsBar}/>
+                        <Route exact path="/messages" component={MessagesList}/>
+                        {/* Translator routes */}
+                        <Route exact path="/translates" component={TranslatesBilboard}/>
+                        <Route exact path="/workSpace" component={TranslatorWorkspace}/>
+                        {/* Common routes */}
+                        <Route exact path="/profile" component={UserProfile}/>
+                        <Route exact path="/profile/edit" component={EditUserProfile}/>
                     </main>
                 </Router>
             </Provider>
