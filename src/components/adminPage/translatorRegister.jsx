@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {registerTranslator} from '../../actions/regTranslatorAction'
 import {connect} from 'react-redux'
+import Select from 'react-select'
+import languages from '../../resources/JSON/langForForm'
 
 class TranslatorRegister extends Component {
     state = {
@@ -9,8 +11,15 @@ class TranslatorRegister extends Component {
         password: '',
         password_confirm: '',
         phone:'',
+        languages: [],
         errors: {},
     };
+
+    handleChangeLang = (e) => {
+        this.setState({
+            languages: e
+        })
+    }
 
     handleInputChange = (e) => {
         this.setState({
@@ -25,12 +34,15 @@ class TranslatorRegister extends Component {
             password: '',
             password_confirm: '',
             phone:'',
+            languages: [],
             errors: {},
         });
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
+        
+        const langArr=this.state.languages.map((elem)=>elem.value)
 
         const translator = {
             name: this.state.name,
@@ -38,8 +50,9 @@ class TranslatorRegister extends Component {
             phone:this.state.phone,
             password: this.state.password,
             password_confirm: this.state.password_confirm,
+            languages: langArr,
             role: 'translator'
-        };
+        };    
 
         this.props.registerTranslator(translator, this.resetForm);
 
@@ -94,6 +107,7 @@ class TranslatorRegister extends Component {
                             value={this.state.phone}
                         />
                         {errors.phone && (<div className='text-danger'>{errors.phone}</div>)}
+                        
                     </div>
                     <div className="form-group">
                         <input
@@ -116,6 +130,15 @@ class TranslatorRegister extends Component {
                             value={this.state.password_confirm}
                         />
                         {errors.password_confirm && (<div className='text-danger'>{errors.password_confirm}</div>)}
+                    </div>
+                    <div className="form-group">
+                        <Select
+                            isMulti
+                            joinValues
+                            value={this.state.languages}
+                            onChange={this.handleChangeLang}
+                            options={languages}
+                        />
                     </div>
                     <div className="form-group">
                         <button type="submit" className="btn btn-primary">
