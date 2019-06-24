@@ -1,0 +1,46 @@
+[
+    {
+      "value": "English",
+      "label": "English"
+    },
+    {
+      "value": "Russian",
+      "label": "Russian"
+    },
+    {
+      "value": "Spanish",
+      "label": "Spanish"
+    },
+    {
+      "value": "Deutsch",
+      "label": "Deutsch"
+    },
+    {
+      "value": "Polish",
+      "label": "Polish"
+    },
+    {
+      "value": "Japanese",
+      "label": "Japanese"
+    },
+    {
+      "value": "Chinese",
+      "label": "Chinese"
+    },
+    {
+      "value": "Hindi",
+      "label": "Hindi"
+    },
+    {
+      "value": "Portuguese",
+      "label": "Portuguese"
+    },
+    {
+      "value": "French",
+      "label": "French"
+    },
+    {
+      "value": "Italian",
+      "label": "Italian"
+    }
+  ]
