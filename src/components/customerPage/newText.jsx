@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom';
-
 import * as firebase from 'firebase';
-import FileUploader from 'react-firebase-file-uploader';
 
 import {registerText} from '../../actions/textAction'
 import Select from 'react-select';
@@ -17,8 +15,9 @@ class NewText extends Component {
     state = {
         customerEmail: this.props.auth.user.email,
         customerName: this.props.auth.user.name,
-        textArea: '',
-        textFile: "",
+        textAreaName: "",
+        textArea: "",
+        textFileName: "",
         textFileURL: "",
         originalLanguage: '',
         translationLanguage: '',
@@ -29,28 +28,63 @@ class NewText extends Component {
         fileDownloadVisibility: false,
     };
 
-    handleInputChange = (e) => {
-        if (e.target.value.length === 0) {
+    handleInputFileChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.files[0], textAreaVisibility: true, textAreaName: "",
+            textArea: ""
+        });
+
+    };
+
+    handleChangeTextAreaName = (e) => {
+        this.setState({
+            textAreaName: e.target.value
+        });
+
+        if (e.target.value.length === 0 && this.state.textArea.length === 0) {
             this.setState({
                 fileDownloadVisibility: false
             })
-        } else this.setState({
-            fileDownloadVisibility: true
+        } else {
+            this.setState({
+                fileDownloadVisibility: true
+            });
+        }
+    };
+
+    handleChangeTextArea = (e) => {
+        this.setState({
+            textArea: e.target.value
         });
 
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+        if (e.target.value.length === 0 && this.state.textAreaName.length === 0) {
+            this.setState({
+                fileDownloadVisibility: false
+            })
+        } else {
+            this.setState({
+                fileDownloadVisibility: true
+            });
+        }
     };
 
     handleUploadText = (filename) => {
-        this.setState({textFile: filename, textAreaVisibility: true,});
         firebase
             .storage()
             .ref("texts")
-            .child(filename)
+            .child(this.state.customerEmail+filename)
             .getDownloadURL()
             .then(url => this.setState({textFileURL: url}));
+    };
+
+    handleUploadTextArea = (filename, file) => {
+        firebase
+            .storage()
+            .ref("texts")
+            .child(this.state.customerEmail+filename + '.txt')
+            .putString(file).then((snapshot) => {
+            snapshot.ref.getDownloadURL().then(url => this.setState({textFileURL: url}));
+        });
     };
 
     handleChangeOriginLang = (language) => {
@@ -79,34 +113,35 @@ class NewText extends Component {
         this.setState({tags: tags});
     };
 
-    handleSubmit=(e)=>{
+    handleSubmit = (e) => {
         e.preventDefault();
 
-        const tagsArr=Array.from(this.state.tags).map((elem)=>elem.value);
-
+        const tagsArr = Array.from(this.state.tags).map((elem) => elem.value);
         const text = {
             name: this.state.customerName,
             email: this.state.customerEmail,
-            originalLanguage:this.state.originalLanguage,
-            translationLanguage:this.state.translationLanguage,
-            extraReview:this.state.addReview,
-            translationSpeed:this.state.translationSpeedCheck,
-            tags:tagsArr
+            originalLanguage: this.state.originalLanguage,
+            translationLanguage: this.state.translationLanguage,
+            extraReview: this.state.addReview,
+            translationSpeed: this.state.translationSpeedCheck,
+            tags: tagsArr
         };
 
-        if(this.state.textFile.length>0&&this.state.textArea.length===0){
-            text.fileName=this.state.textFile;
-            text.fileUrl=this.state.textFileURL;
+
+        if (this.state.textFileName.name) {
+            this.handleUploadText(this.state.textFileName.name);
+            text.fileName = this.state.customerEmail+this.state.textFileName.name;
+            text.fileUrl = this.state.textFileURL;
         }
-        if(this.state.textArea.length>0&&this.state.textFile.length===0){
-            text.textArea=this.state.textArea;
+        if (this.state.textArea.length > 0 && this.state.textAreaName.length>0) {
+            this.handleUploadTextArea(this.state.textAreaName, this.state.textArea);
+            text.fileName = this.state.customerEmail+this.state.textAreaName;
+            text.fileUrl = this.state.textFileURL;
         }
 
         this.props.registerText(text);
         console.log(this.state)
     };
-
-
 
     render() {
         const {originalLang} = this.state.originalLanguage;
@@ -119,13 +154,23 @@ class NewText extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label className={'mr-3'}>Download text:</label>
-                        <FileUploader
-                            accept="texts/*"
-                            name="text"
-                            randomizeFilename
-                            storageRef={firebase.storage().ref("texts")}
-                            onUploadSuccess={this.handleUploadText}
+                        <input
+                            type="file"
+                            placeholder="Text"
+                            name="textFileName"
+                            onChange={this.handleInputFileChange}
                             disabled={this.state.fileDownloadVisibility}
+                        />
+                    </div>
+                    <div className="form-group mt-3">
+                        <label className={'mr-3'}>Text name:</label>
+                        <input
+                            type="text"
+                            placeholder="Text"
+                            name="textAreaName"
+                            onChange={this.handleChangeTextAreaName}
+                            disabled={this.state.textAreaVisibility}
+                            value={this.state.textAreaName}
                         />
                     </div>
                     <div className="form-group">
@@ -134,7 +179,7 @@ class NewText extends Component {
                             name='textArea'
                             className="form-control"
                             placeholder="Text"
-                            onChange={this.handleInputChange}
+                            onChange={this.handleChangeTextArea}
                             value={this.state.textArea}
                             disabled={this.state.textAreaVisibility}
                         />
