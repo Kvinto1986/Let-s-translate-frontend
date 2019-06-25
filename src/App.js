@@ -19,6 +19,7 @@ import TranslatorRegister from './components/adminPage/translatorRegister'
 import TarifsEdit from './components/adminPage/tarifsEdit'
 import TranslatesBilboard from './components/translatorPage/translatesBilboard'
 import TranslatorWorkspace from './components/translatorPage/translatorWorkspace'
+import TranslateInfoPage from './components/translatorPage/translate/TranslateInfoPage'
 import Dashboard from './components/customerPage/dashboard'
 import TextsList from './components/customerPage/newText'
 import TransactionsBar from './components/customerPage/transactionsBar'
@@ -52,6 +53,7 @@ class App extends Component {
                         <Route exact path="/messages" component={MessagesList}/>
                         {/* Translator routes */}
                         <Route exact path="/translates" component={TranslatesBilboard}/>
+                        <Route exact path="/translates/:translateId" component={TranslateInfoPage}/>
                         <Route exact path="/workSpace" component={TranslatorWorkspace}/>
                         {/* Common routes */}
                         <Route exact path="/profile" component={UserProfile}/>

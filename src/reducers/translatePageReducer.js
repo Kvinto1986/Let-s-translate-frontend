@@ -1,16 +1,16 @@
 import { 
-    FETCH_TRANSLATES_BY_SELECTED_LANGUAGES,
+    FETCH_TRANSLATE_BY_ID,
 } from '../actions/types';
 
 const initialState = {
-    translates: []
+    data: {}
 };
 
 export default function (state = initialState, action ) {
     switch(action.type) {
-        case FETCH_TRANSLATES_BY_SELECTED_LANGUAGES:
+        case FETCH_TRANSLATE_BY_ID:
             return {
-                translates: action.payload
+                data: action.payload
             };
         default:
             return state;

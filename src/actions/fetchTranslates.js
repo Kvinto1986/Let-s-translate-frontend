@@ -3,8 +3,7 @@ import server from '../serverConfig'
 import {FETCH_TRANSLATES_BY_SELECTED_LANGUAGES} from './types'
 
 export const fetchTranslatesByAvailableLanguages = (languages) => dispatch => {
-    // Yan API ...
-    axios.get(`${server}api/translates/fetchByAvailableLanguages`, languages)
+    axios.post(`${server}api/texts/fetchByAvailableLanguages`, languages)
     .then(res => {
         dispatch({
             type: FETCH_TRANSLATES_BY_SELECTED_LANGUAGES,
