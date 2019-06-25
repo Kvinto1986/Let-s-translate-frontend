@@ -68,20 +68,21 @@ class NewText extends Component {
         }
     };
 
-    handleUploadText = (filename) => {
+    handleUploadText = (file) => {
         firebase
             .storage()
             .ref("texts")
-            .child(this.state.customerEmail+filename)
-            .getDownloadURL()
-            .then(url => this.setState({textFileURL: url}));
+            .child(this.state.customerEmail + '-' + file.name)
+            .put(file).then((snapshot) => {
+            snapshot.ref.getDownloadURL().then(url => this.setState({textFileURL: url}));
+        });
     };
 
     handleUploadTextArea = (filename, file) => {
         firebase
             .storage()
             .ref("texts")
-            .child(this.state.customerEmail+filename + '.txt')
+            .child(this.state.customerEmail + '-' + filename + '.txt')
             .putString(file).then((snapshot) => {
             snapshot.ref.getDownloadURL().then(url => this.setState({textFileURL: url}));
         });
@@ -117,6 +118,7 @@ class NewText extends Component {
         e.preventDefault();
 
         const tagsArr = Array.from(this.state.tags).map((elem) => elem.value);
+        
         const text = {
             name: this.state.customerName,
             email: this.state.customerEmail,
@@ -129,13 +131,13 @@ class NewText extends Component {
 
 
         if (this.state.textFileName.name) {
-            this.handleUploadText(this.state.textFileName.name);
-            text.fileName = this.state.customerEmail+this.state.textFileName.name;
+            this.handleUploadText(this.state.textFileName);
+            text.fileName = this.state.customerEmail + '-' + this.state.textFileName.name;
             text.fileUrl = this.state.textFileURL;
         }
-        if (this.state.textArea.length > 0 && this.state.textAreaName.length>0) {
+        if (this.state.textArea.length > 0 && this.state.textAreaName.length > 0) {
             this.handleUploadTextArea(this.state.textAreaName, this.state.textArea);
-            text.fileName = this.state.customerEmail+this.state.textAreaName;
+            text.fileName = this.state.customerEmail + '-' + this.state.textAreaName + '.txt';
             text.fileUrl = this.state.textFileURL;
         }
 
