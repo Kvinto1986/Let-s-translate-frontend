@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux';
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {fetchTranslatesByAvailableLanguages} from '../../actions/fetchTranslates'
+import hotImg from '../../resources/images/bilboard/flame.png'
 
 class TranslatesBilboard extends Component {
     componentDidMount() {
@@ -11,7 +13,7 @@ class TranslatesBilboard extends Component {
     render() {
         const {translates} = this.props.translatesData
         const isEmpty = (translates.length === 0) ? true : false
-
+        
         return (
             <div className="row">
                 <div className="col-12">
@@ -22,48 +24,47 @@ class TranslatesBilboard extends Component {
                                 <th scope="col">Customer</th>
                                 <th scope="col">From</th>
                                 <th scope="col">To</th>
-                                <th scope="col">Format</th>
-                                <th scope="col">Difficulty</th>
+                                <th scope="col">Deadline</th>
+                                <th scope="col">Review</th>
+                                <th scope="col">Tags</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                !isEmpty
-                                // isEmpty
+                                isEmpty
                                 ? (
                                     <tr>
-                                        Here in no any available translates
+                                        <td>Here is no any available translates</td>
                                     </tr>
                                 )
                                 : (
-                                    // translates.map(translate => {
-                                    //     return (
-                                    //         <tr key="translate">
-                                    //             <th scope="row">2</th>
-                                    //             <td>JSON Statham</td>
-                                    //             <td>English</td>
-                                    //             <td>Russian</td>
-                                    //         </tr>
-                                    //     )
-                                    // })
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>JSON Statham</td>
-                                        <td>English</td>
-                                        <td>Russian</td>
-                                        <td>File</td>
-                                        <td>Fast</td>
-                                        <td>
-                                            <button type="button" className="btn btn-outline-dark btn-sm">
-                                                Send message
-                                            </button>
-                                            <button type="button" className="btn btn-outline-dark btn-sm">
-                                                Translate
-                                            </button>
-                                        </td>
-
-                                    </tr>
+                                    translates.map((translate, index) => {
+                                        return (
+                                            <tr key={translate.name + index}>
+                                                <th scope="row">{index+1}</th>
+                                                <td>{translate.name}</td>
+                                                <td>{translate.originalLanguage}</td>
+                                                <td>{translate.translationLanguage}</td>
+                                                {translate.translationSpeed
+                                                    ? <td><img src={hotImg} alt="Hot"/></td>
+                                                    : <td>Not urgent</td>
+                                                }
+                                                {translate.extraReview
+                                                    ? <td>+</td>
+                                                    : <td>-</td>
+                                                }
+                                                <td><em>{translate.tags.join(', ')}</em></td>
+                                                <td>
+                                                    <Link to={`/translates/${translate.id}`}>
+                                                        <button type="button" className="btn btn-outline-dark btn-sm">
+                                                            See more
+                                                        </button>
+                                                    </Link>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
                                 )
                             }
                         </tbody>
