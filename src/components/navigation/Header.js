@@ -11,11 +11,11 @@ import LinkGroup from './LinkGroup'
 
 const style = {
     marginBottom: '25px'
-}
+};
 
 const badgeStyle = {
     fontSize: '9px'
-}
+};
 
 class Header extends Component {
 
@@ -31,8 +31,8 @@ class Header extends Component {
                 <LinkGroup role={user.role} />
                 <div className="my-2 my-lg-0">
                     <Link to="/messages">
-                        <img src={msgImage} alt='Messages'/>
-                        <span className="badge badge badge-pill badge-secondary" style={badgeStyle}>2</span>
+                        <img src={msgImage} alt='Messages' className="mr-1"/>
+                        <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>3</span>
                     </Link>
                     <Link to="/profile">
                         <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
