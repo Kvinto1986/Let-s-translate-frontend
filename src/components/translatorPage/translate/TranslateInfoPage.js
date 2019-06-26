@@ -52,7 +52,7 @@ class TranslateInfoPage extends Component {
                                 <span>{translate.date} </span>
                             </section>
                             <div>
-                                <button type="button" className="btn btn-dark" onClick={e => e.preventDefault()}>
+                                <button type="button" className="btn btn-dark" >
                                     <a href={translate.fileUrl} download={translate.fileName}>Donwload</a>
                                 </button>
                             </div>
@@ -65,12 +65,9 @@ class TranslateInfoPage extends Component {
                             <section>
                                 <p><b>Email:</b> {customerData.email}</p>
                             </section>
-                            <form className="d-flex flex-column align-items-end">
-                                <textarea className="form-control" placeholder="Send message" ></textarea>
-                                <button type="submit" className="btn btn-outline-dark btn-sm" style={btnSmStyle}>
-                                    Send
-                                </button>
-                            </form>
+                            <button type="submit" className="btn btn-outline-dark btn-sm" style={btnSmStyle}>
+                                Send
+                            </button>
                         </div>
                         <div style={style}>
                             <Link to="/profile/edit">

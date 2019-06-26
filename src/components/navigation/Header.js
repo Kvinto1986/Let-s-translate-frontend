@@ -13,6 +13,10 @@ const style = {
     marginBottom: '25px'
 }
 
+const badgeStyle = {
+    fontSize: '9px'
+}
+
 class Header extends Component {
 
     onLogout(e) {
@@ -26,7 +30,10 @@ class Header extends Component {
             <Fragment>
                 <LinkGroup role={user.role} />
                 <div className="my-2 my-lg-0">
-                    <img src={msgImage} alt='Messages'/>
+                    <Link to="/messages">
+                        <img src={msgImage} alt='Messages'/>
+                        <span className="badge badge badge-pill badge-secondary" style={badgeStyle}>2</span>
+                    </Link>
                     <Link to="/profile">
                         <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
                     </Link>
