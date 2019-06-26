@@ -17,7 +17,9 @@ class NewText extends Component {
         customerName: this.props.auth.user.name,
         textAreaName: "",
         textArea: "",
+        textAreaRequired: "required",
         textFileName: "",
+        textFileRequired: "required",
         textFileURL: "",
         originalLanguage: '',
         translationLanguage: '',
@@ -26,6 +28,7 @@ class NewText extends Component {
         tags: [],
         textAreaVisibility: false,
         fileDownloadVisibility: false,
+        errors: {}
     };
 
     handleInputFileChange = (e) => {
@@ -68,26 +71,6 @@ class NewText extends Component {
         }
     };
 
-    handleUploadText = (file) => {
-        firebase
-            .storage()
-            .ref("texts")
-            .child(this.state.customerEmail + '-' + file.name)
-            .put(file).then((snapshot) => {
-            snapshot.ref.getDownloadURL().then(url => this.setState({textFileURL: url}));
-        });
-    };
-
-    handleUploadTextArea = (filename, file) => {
-        firebase
-            .storage()
-            .ref("texts")
-            .child(this.state.customerEmail + '-' + filename + '.txt')
-            .putString(file).then((snapshot) => {
-            snapshot.ref.getDownloadURL().then(url => this.setState({textFileURL: url}));
-        });
-    };
-
     handleChangeOriginLang = (language) => {
         this.setState({
             originalLanguage: language.label
@@ -111,14 +94,39 @@ class NewText extends Component {
     };
 
     handleChangeTags = (tags) => {
-        this.setState({tags: tags});
+        if (tags === null)
+            this.setState({tags: []});
+
+        else
+            this.setState({tags: tags});
+    };
+
+    resetForm = () => {
+        this.setState({
+            customerEmail: this.props.auth.user.email,
+            customerName: this.props.auth.user.name,
+            textAreaName: "",
+            textArea: "",
+            textAreaRequired: "required",
+            textFileName: "",
+            textFileRequired: "required",
+            textFileURL: "",
+            originalLanguage: '',
+            translationLanguage: '',
+            addReview: false,
+            translationSpeedCheck: false,
+            tags: [],
+            textAreaVisibility: false,
+            fileDownloadVisibility: false,
+            errors: {}
+        });
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
 
         const tagsArr = Array.from(this.state.tags).map((elem) => elem.value);
-        
+
         const text = {
             name: this.state.customerName,
             email: this.state.customerEmail,
@@ -129,27 +137,52 @@ class NewText extends Component {
             tags: tagsArr
         };
 
-
         if (this.state.textFileName.name) {
-            this.handleUploadText(this.state.textFileName);
-            text.fileName = this.state.customerEmail + '-' + this.state.textFileName.name;
-            text.fileUrl = this.state.textFileURL;
-        }
-        if (this.state.textArea.length > 0 && this.state.textAreaName.length > 0) {
-            this.handleUploadTextArea(this.state.textAreaName, this.state.textArea);
-            text.fileName = this.state.customerEmail + '-' + this.state.textAreaName + '.txt';
-            text.fileUrl = this.state.textFileURL;
+            firebase
+                .storage()
+                .ref("texts")
+                .child(this.state.customerEmail + '-' + this.state.textFileName.name)
+                .put(this.state.textFileName).then((snapshot) => {
+                snapshot.ref.getDownloadURL().then(url =>
+                    this.setState({textFileURL: url})).then(() => {
+                    text.fileName = this.state.customerEmail + '-' + this.state.textFileName.name;
+                    text.fileUrl = this.state.textFileURL;
+                    this.props.registerText(text, this.resetForm);
+                })
+            });
         }
 
-        this.props.registerText(text);
-        console.log(this.state)
+        if (this.state.textArea.length > 0 && this.state.textAreaName.length > 0) {
+
+            firebase
+                .storage()
+                .ref("texts")
+                .child(this.state.customerEmail + '-' + this.state.textAreaName + '.txt')
+                .putString(this.state.textArea).then((snapshot) => {
+                snapshot.ref.getDownloadURL().then(url =>
+                    this.setState({textFileURL: url})).then(() => {
+                    text.fileName = this.state.customerEmail + '-' + this.state.textAreaName + '.txt';
+                    text.fileUrl = this.state.textFileURL;
+                    this.props.registerText(text, this.resetForm);
+                })
+            });
+        }
+
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
+    }
+
+    componentDidMount = () => {
     };
 
     render() {
-        const {originalLang} = this.state.originalLanguage;
-        const {translationLanguage} = this.state.translationLanguage;
-        const {tagsSelect} = this.state.tags;
-        console.log(this.state);
+        const {errors} = this.state;
 
         return (
             <div className="col-8 mt-5">
@@ -162,6 +195,7 @@ class NewText extends Component {
                             name="textFileName"
                             onChange={this.handleInputFileChange}
                             disabled={this.state.fileDownloadVisibility}
+                            required={this.state.textFileRequired}
                         />
                     </div>
                     <div className="form-group mt-3">
@@ -173,6 +207,7 @@ class NewText extends Component {
                             onChange={this.handleChangeTextAreaName}
                             disabled={this.state.textAreaVisibility}
                             value={this.state.textAreaName}
+                            required={this.state.textAreaRequired}
                         />
                     </div>
                     <div className="form-group">
@@ -184,24 +219,27 @@ class NewText extends Component {
                             onChange={this.handleChangeTextArea}
                             value={this.state.textArea}
                             disabled={this.state.textAreaVisibility}
+                            required={this.state.textAreaRequired}
                         />
+                        {errors.text && (<div className='text-danger'>{errors.text}</div>)}
                     </div>
                     <div className="form-group">
                         <label>Original language</label>
                         <Select
-                            value={originalLang}
                             onChange={this.handleChangeOriginLang}
                             options={languages}
                         />
+                        {errors.originalLanguage && (<div className='text-danger'>{errors.originalLanguage}</div>)}
                     </div>
 
                     <div className="form-group">
                         <label>Translation language</label>
                         <Select
-                            value={translationLanguage}
                             onChange={this.handleChangeTranslateLang}
                             options={languages}
                         />
+                        {errors.translationLanguage && (
+                            <div className='text-danger'>{errors.translationLanguage}</div>)}
                     </div>
 
                     <div className="form-check">
@@ -247,10 +285,10 @@ class NewText extends Component {
                         <Select
                             isMulti
                             joinValues
-                            value={tagsSelect}
                             onChange={this.handleChangeTags}
                             options={tags}
                         />
+                        {errors.tags && (<div className='text-danger'>{errors.tags}</div>)}
                     </div>
                     <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
