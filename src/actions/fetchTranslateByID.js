@@ -11,4 +11,4 @@ export const fetchTranslateDataByID = (id) => dispatch => {
         });
     })
     .catch(err => console.log(err.response.data));
-}
+};

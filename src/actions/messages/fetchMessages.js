@@ -11,4 +11,4 @@ export const fetchAllMessages = senderData => dispatch => {
         });
     })
     .catch(err => console.log(err.response.data));
-}
+};

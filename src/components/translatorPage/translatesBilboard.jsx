@@ -5,13 +5,14 @@ import {fetchTranslatesByAvailableLanguages} from '../../actions/fetchTranslates
 import hotImg from '../../resources/images/bilboard/flame.png'
 
 class TranslatesBilboard extends Component {
+
     componentDidMount() {
-        const {languages} = this.props.auth.user
+        const {languages} = this.props.auth.user;
         this.props.fetchTranslatesByAvailableLanguages(languages)
     }
 
     render() {
-        const {translates} = this.props.translatesData
+        const {translates} = this.props.translatesData;
         const isEmpty = (translates.length === 0) ? true : false
         
         return (
