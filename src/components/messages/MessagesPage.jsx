@@ -1,29 +1,42 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {fetchAllMessages} from '../../actions/messages/fetchMessages'
-
-const readed = {
-    opacity: '0.5'
-}
+import {Link, Switch, Route, Redirect} from 'react-router-dom'
+import MessageInbox from './elements/MessageInbox'
+import MessageCreate from './elements/MessageCreate'
 
 class MessagesPage extends Component {
     componentDidMount() {
-        const role = this.props.auth.user.role
-        const name = this.props.auth.user.name
-        this.props.fetchAllMessages({role, name})
+        // this.props.history.push('/messages')
+        const {role, name, email} = this.props.auth.user
+        this.props.fetchAllMessages({role, name, email})
     }
 
     render() {
+        if(this.props.location.pathname === '/messages') {
+            return <Redirect from="/messages" to="/messages/inbox" />
+        }
+
         const {messages} = this.props.messages
         const isEmpty = (messages.length === 0) ? true : false
+        const {role, name, email} = this.props.auth.user
+        
         return (
             <div className="row">
                 <div className="col-2 bg-dark">
                     <div className="d-flex flex-column align-items-center">
                         <h3 className="text-light">Messages</h3>
                         <ul>
-                            <li>Inbox (3)</li>
-                            <li>New message</li>
+                            <li>
+                                <Link to="/messages/inbox">
+                                    Inbox (3)
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/messages/newMessage">
+                                    Write new message
+                                </Link>
+                            </li>
                         </ul>
                         <hr />
                         <p>Sort</p>
@@ -34,63 +47,10 @@ class MessagesPage extends Component {
                     </div>
                 </div>
                 <div className="col-10 bg-light">
-                    <h3>Inbox</h3>
-                    <hr/>
-                    <section>
-                        <table className="table table-borderless">
-                            <tbody>
-                                {
-                                    // isEmpty
-                                    !isEmpty
-                                    ? (
-                                        <tr>
-                                            <td>Here is no any messages</td>
-                                        </tr>
-                                    )
-                                    : (
-                                        // messages.map(message => {
-                                        //     return (
-                                        //         <tr>
-                                        //             <td>
-                                        //                 <input type="checkbox" />
-                                        //             </td>
-                                        //             <td><b>John</b></td>
-                                        //             <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet soluta nostrum consectetur commodi ...</td>
-                                        //             <td>5:03 am</td>
-                                        //         </tr>
-                                        //     )
-                                        // })
-                                        <>
-                                            <tr>
-                                                <td>
-                                                    <input type="checkbox" />
-                                                </td>
-                                                <td><b>John</b></td>
-                                                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet soluta nostrum consectetur commodi ...</td>
-                                                <td>5:03 am</td>
-                                            </tr>
-                                            <tr style={readed}>
-                                                <td>
-                                                    <input type="checkbox" />
-                                                </td>
-                                                <td><b>System</b></td>
-                                                <td>A new translations!</td>
-                                                <td>23 Jul</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input type="checkbox" />
-                                                </td>
-                                                <td><b>Bob</b></td>
-                                                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet soluta nostrum consectetur commodi ...</td>
-                                                <td>4 Oct 2018</td>
-                                        </tr>
-                                        </>
-                                    )
-                                }
-                            </tbody>
-                        </table>
-                    </section>
+                    <Switch>
+                        <Route exact path="/messages/inbox" render={(props) => <MessageInbox props={this.props} messages={messages} isEmpty={isEmpty}/>}/>
+                        <Route exact path="/messages/newMessage" render={(props) => <MessageCreate props={this.props} role={role} name={name} email={email} />}/>
+                    </Switch>
                 </div>
             </div>
         );

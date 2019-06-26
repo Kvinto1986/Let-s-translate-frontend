@@ -57,7 +57,7 @@ class App extends Component {
                         {/* Common routes */}
                         <Route exact path="/profile" component={UserProfile}/>
                         <Route exact path="/profile/edit" component={EditUserProfile}/>
-                        <Route exact path="/messages" component={MessagesPage}/>
+                        <Route path="/messages" component={MessagesPage}/>
                     </main>
                 </Router>
             </Provider>
