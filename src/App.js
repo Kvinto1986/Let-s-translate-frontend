@@ -23,9 +23,9 @@ import TranslateInfoPage from './components/translatorPage/translate/TranslateIn
 import Dashboard from './components/customerPage/dashboard'
 import TextsList from './components/customerPage/newText'
 import TransactionsBar from './components/customerPage/transactionsBar'
-import MessagesList from './components/customerPage/messagesList'
 import UserProfile from './components/userProfile/UserProfile'
 import EditUserProfile from './components/userProfile/EditUserProfile'
+import MessagesPage from './components/messages/MessagesPage'
 
 if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -50,7 +50,6 @@ class App extends Component {
                         <Route exact path="/dashboard" component={Dashboard}/>
                         <Route exact path="/texts" component={TextsList}/>
                         <Route exact path="/transactions" component={TransactionsBar}/>
-                        <Route exact path="/messages" component={MessagesList}/>
                         {/* Translator routes */}
                         <Route exact path="/translates" component={TranslatesBilboard}/>
                         <Route exact path="/translates/:translateId" component={TranslateInfoPage}/>
@@ -58,6 +57,7 @@ class App extends Component {
                         {/* Common routes */}
                         <Route exact path="/profile" component={UserProfile}/>
                         <Route exact path="/profile/edit" component={EditUserProfile}/>
+                        <Route exact path="/messages" component={MessagesPage}/>
                     </main>
                 </Router>
             </Provider>
