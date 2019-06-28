@@ -26,6 +26,7 @@ class TranslateInfoPage extends Component {
         const {data} = this.props.selectedTranslate;
         if (Object.keys(data).length > 0) {
             const {translate, customerData} = data;
+
             return (
                     <div className="col-12 mt-5 d-flex justify-content-center align-items-center">
                         <div className="col-4 mt-5">
@@ -67,24 +68,13 @@ class TranslateInfoPage extends Component {
                                 <p><b>Email:</b> {customerData.email}</p>
                             </section>
                             <form>
-                                <div className="form-group mt-3">
-                                    <label className={'mr-3'}>Massage topic:</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Text"
-                                        name="textAreaName"
-                                    />
-                                </div>
                                 <div className="form-group">
-                                    <label>Your text</label>
+                                    <label>Your message to customer</label>
                                     <textarea
                                         name='textArea'
                                         className="form-control"
-                                        placeholder="Text"
+                                        placeholder={`Hello! My name is ${this.props.auth.user.name}, I'm glad to accept your order` }
                                     />
-                                </div>
-                                <div className="form-group">
-                                <button type="submit" className="btn btn-primary">Submit</button>
                                 </div>
                                 <div className="form-group">
                                 <button type="button" className="btn btn-dark">
