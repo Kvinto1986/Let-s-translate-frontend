@@ -17,7 +17,7 @@ class MessagesPage extends Component {
             return <Redirect from="/messages" to="/messages/inbox" />
         }
 
-        const {messages} = this.props.messages
+        const messages = this.props.messages
         const isEmpty = (messages.length === 0) ? true : false
         const {role, name, email} = this.props.auth.user
         
