@@ -1,71 +1,53 @@
-import React from 'react'
+import React, {Component, Fragment} from 'react'
+import {fetchAllMessages} from '../../../actions/messages/fetchMessages'
+import {connect} from "react-redux";
+import {Link} from 'react-router-dom'
 
-const readed = {
-    opacity: '0.5'
+class MessageInbox extends Component {
+
+    componentDidMount() {
+        this.props.fetchAllMessages({email: this.props.auth.user.email})
+    }
+
+    render() {
+
+
+        const inboxArr = this.props.messages.map((elem) => {
+            return (<tr key={elem.id}>
+                <Link to='messages/newMessage'>
+                    <td>
+                        {elem.recipientEmail}
+                    </td>
+                    <td>
+                        {elem.messageText}
+                    </td>
+                </Link>
+            </tr>
+        )
+        });
+
+        console.log(inboxArr)
+        return (
+            <>
+                <h3>Inbox</h3>
+                <hr/>
+                <section>
+                    <table className="table table-borderless">
+                        <tbody>
+                        {inboxArr}
+                        </tbody>
+                    </table>
+                </section>
+            </>
+        )
+    }
 }
 
-const MessageInbox = ({messages, isEmpty}, ...props) => {
-    return (
-        <>
-            <h3>Inbox</h3>
-            <hr />
-            <section>
-                <table className="table table-borderless">
-                    <tbody>
-                        {
-                            // isEmpty
-                            !isEmpty
-                                ? (
-                                    <tr>
-                                        <td>Here is no any messages</td>
-                                    </tr>
-                                )
-                                : (
-                                    // props.messages.map(message => {
-                                    //     return (
-                                    //         <tr>
-                                    //             <td>
-                                    //                 <input type="checkbox" />
-                                    //             </td>
-                                    //             <td><b>John</b></td>
-                                    //             <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet soluta nostrum consectetur commodi ...</td>
-                                    //             <td>5:03 am</td>
-                                    //         </tr>
-                                    //     )
-                                    // })
-                                    <>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" />
-                                            </td>
-                                            <td><b>John</b></td>
-                                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet soluta nostrum consectetur commodi ...</td>
-                                            <td>5:03 am</td>
-                                        </tr>
-                                        <tr style={readed}>
-                                            <td>
-                                                <input type="checkbox" />
-                                            </td>
-                                            <td><b>System</b></td>
-                                            <td>A new translations!</td>
-                                            <td>23 Jul</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" />
-                                            </td>
-                                            <td><b>Bob</b></td>
-                                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet soluta nostrum consectetur commodi ...</td>
-                                            <td>4 Oct 2018</td>
-                                        </tr>
-                                    </>
-                                )
-                        }
-                    </tbody>
-                </table>
-            </section>
-        </>
-    )
-}
+const mapStateToProps = state => ({
+    auth: state.auth,
+    messages: state.messages,
+});
 
-export default MessageInbox
+export default connect(mapStateToProps, {
+    fetchAllMessages
+})(MessageInbox)
