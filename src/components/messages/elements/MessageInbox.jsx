@@ -1,7 +1,6 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
 import {fetchAllMessages} from '../../../actions/messages/fetchMessages'
 import {connect} from "react-redux";
-import {Link} from 'react-router-dom'
 
 class MessageInbox extends Component {
 
@@ -10,23 +9,6 @@ class MessageInbox extends Component {
     }
 
     render() {
-
-
-        const inboxArr = this.props.messages.map((elem) => {
-            return (<tr key={elem.id}>
-                <Link to='messages/newMessage'>
-                    <td>
-                        {elem.recipientEmail}
-                    </td>
-                    <td>
-                        {elem.messageText}
-                    </td>
-                </Link>
-            </tr>
-        )
-        });
-
-        console.log(inboxArr)
         return (
             <>
                 <h3>Inbox</h3>
@@ -34,7 +16,18 @@ class MessageInbox extends Component {
                 <section>
                     <table className="table table-borderless">
                         <tbody>
-                        {inboxArr}
+                            {this.props.messages.map((elem) => {
+                                return (
+                                    <tr key={elem.id} onClick={() => this.props.openMessageHistory(elem)}>
+                                        <td>
+                                            {elem.recipientEmail}
+                                        </td>
+                                        <td>
+                                            {elem.messageText}
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </section>

@@ -3,13 +3,16 @@ import {connect} from 'react-redux'
 import {fetchAllMessages} from '../../actions/messages/fetchMessages'
 import {Link, Switch, Route, Redirect} from 'react-router-dom'
 import MessageInbox from './elements/MessageInbox'
-import MessageCreate from './elements/MessageCreate'
+import MessagingHistory from './elements/MessagingHistory'
 
 class MessagesPage extends Component {
     componentDidMount() {
-        // this.props.history.push('/messages')
         const {role, name, email} = this.props.auth.user
         this.props.fetchAllMessages({role, name, email})
+    }
+
+    openMessageHistory = (messageElement) => {
+        this.props.history.push(`/messages/history/${messageElement.id}`)   
     }
 
     render() {
@@ -29,27 +32,35 @@ class MessagesPage extends Component {
                         <ul>
                             <li>
                                 <Link to="/messages/inbox">
-                                    Inbox (3)
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/messages/newMessage">
-                                    Write new message
+                                    Inbox ({messages.length})
                                 </Link>
                             </li>
                         </ul>
                         <hr />
-                        <p>Sort</p>
-                        <ul>
-                            <li>Customers </li>
-                            <li>System</li>
-                        </ul>
                     </div>
                 </div>
                 <div className="col-10 bg-light">
                     <Switch>
-                        <Route exact path="/messages/inbox" render={(props) => <MessageInbox props={this.props} messages={messages} isEmpty={isEmpty}/>}/>
-                        <Route exact path="/messages/newMessage" render={(props) => <MessageCreate props={this.props} role={role} name={name} email={email} />}/>
+                        <Route 
+                        exact 
+                        path="/messages/inbox" 
+                        render={() => (
+                            <MessageInbox 
+                            props={this.props} 
+                            openMessageHistory={this.openMessageHistory} 
+                            messages={messages} 
+                            isEmpty={isEmpty}/>
+                        )}/>
+                        <Route 
+                        exact
+                        path="/messages/history/:inboxElementID"
+                        render={() => (
+                            <MessagingHistory 
+                            // props={this.props} 
+                            role={role} 
+                            name={name} 
+                            email={email} />
+                        )}/>
                     </Switch>
                 </div>
             </div>
