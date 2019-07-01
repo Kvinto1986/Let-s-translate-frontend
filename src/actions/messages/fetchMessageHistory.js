@@ -5,8 +5,6 @@ import server from '../../serverConfig'
 export const fetchMessageHistory = messagingID => dispatch => {
     axios.post(`${server}api/messages/getMessageHistory`, {messagingID})
     .then(res => {
-        console.log(res.body);
-        
         // dispatch({
         //     type: FETCH_SINGLE_MESSAGE_HISTORY,
         //     payload: res.data

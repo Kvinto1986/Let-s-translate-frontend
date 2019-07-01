@@ -22,7 +22,6 @@ class MessagesPage extends Component {
 
         const messages = this.props.messages
         const isEmpty = (messages.length === 0) ? true : false
-        const {role, name, email} = this.props.auth.user
         
         return (
             <div className="row">
@@ -54,13 +53,7 @@ class MessagesPage extends Component {
                         <Route 
                         exact
                         path="/messages/history/:inboxElementID"
-                        render={() => (
-                            <MessagingHistory 
-                            // props={this.props} 
-                            role={role} 
-                            name={name} 
-                            email={email} />
-                        )}/>
+                        component={MessagingHistory}/>
                     </Switch>
                 </div>
             </div>

@@ -4,10 +4,8 @@ import {fetchMessageHistory} from '../../../actions/messages/fetchMessageHistory
 
 class MessagingHistory extends Component {
 
-    componentDidMount() {
-        console.log(this.props)
-        
-        // this.props.fetchMessageHistory(this.props.history.match.params.inboxElementID)
+    componentDidMount() { 
+        // this.props.fetchMessageHistory(this.props.match.params.inboxElementID)
     }
 
     render() {
