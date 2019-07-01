@@ -4,6 +4,7 @@ import {fetchAllMessages} from '../../actions/messages/fetchMessages'
 import {Link, Switch, Route, Redirect} from 'react-router-dom'
 import MessageInbox from './elements/MessageInbox'
 import MessagingHistory from './elements/MessagingHistory'
+import MessageDialog from './elements/MessageDialog'
 
 class MessagesPage extends Component {
     componentDidMount() {
@@ -11,8 +12,8 @@ class MessagesPage extends Component {
         this.props.fetchAllMessages({role, name, email})
     }
 
-    openMessageHistory = (messageElement) => {
-        this.props.history.push(`/messages/history/${messageElement.id}`)   
+    openMessageDialog = (message) => {
+        this.props.history.push(`/messages/dialog/${message.recipientEmail}`)   
     }
 
     render() {
@@ -46,10 +47,15 @@ class MessagesPage extends Component {
                         render={() => (
                             <MessageInbox 
                             props={this.props} 
-                            openMessageHistory={this.openMessageHistory} 
+                            openMessageDialog={this.openMessageDialog} 
                             messages={messages} 
                             isEmpty={isEmpty}/>
                         )}/>
+                        <Route
+                        exact 
+                        path="/messages/dialog/:recipientEmail"
+                        component={MessageDialog}
+                        />
                         <Route 
                         exact
                         path="/messages/history/:inboxElementID"

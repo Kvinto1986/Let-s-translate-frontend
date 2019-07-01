@@ -16,9 +16,9 @@ class MessageInbox extends Component {
                 <section>
                     <table className="table table-borderless">
                         <tbody>
-                            {this.props.messages.map((elem) => {
+                            {this.props.messages.map((elem, index) => {
                                 return (
-                                    <tr key={elem.id} onClick={() => this.props.openMessageHistory(elem)}>
+                                    <tr key={index} onClick={() => this.props.openMessageDialog(elem)}>
                                         <td>
                                             {elem.recipientEmail}
                                         </td>
