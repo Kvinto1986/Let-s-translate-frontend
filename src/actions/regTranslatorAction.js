@@ -3,7 +3,7 @@ import {GET_ERRORS} from './types';
 import server from '../serverConfig'
 
 export const registerTranslator = (translator, reset) => dispatch => {
-    axios.post(`${server}api/users/registration`, translator)
+    axios.post(`${server}api/messages/registration`, translator)
         .then(() => reset())
         .then(() => {
             dispatch({
