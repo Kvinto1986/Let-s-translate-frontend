@@ -8,13 +8,16 @@ import MessageDialog from './elements/MessageDialog'
 
 class MessagesPage extends Component {
     componentDidMount() {
-        const {role, name, email} = this.props.auth.user
+        const {role, name, email} = this.props.auth.user;
         this.props.fetchAllMessages({role, name, email})
     }
 
     openMessageDialog = (message) => {
-        this.props.history.push(`/messages/dialog/${message.recipientEmail}`)   
-    }
+        console.log(message);
+        this.props.history.push(`/messages/dialog/${message.recipientEmail}`)
+    };
+
+
 
     render() {
         if(this.props.location.pathname === '/messages') {

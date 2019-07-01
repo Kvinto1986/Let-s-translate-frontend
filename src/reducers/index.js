@@ -5,11 +5,13 @@ import errorsReduser from './errorsReduser'
 import translatesReducer from './translatesReducer'
 import translatePageReducer from './translatePageReducer'
 import messagesReducer from './messagesReducer'
+import dialogReducer from './dialogReduser'
 
 export default combineReducers({
     auth: authReducer,
     errors:errorsReduser,
     translatesData: translatesReducer,
     selectedTranslate: translatePageReducer,
-    messages: messagesReducer
+    messages: messagesReducer,
+    dialogReducer:dialogReducer
 });
