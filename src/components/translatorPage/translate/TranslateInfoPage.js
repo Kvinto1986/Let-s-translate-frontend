@@ -106,7 +106,7 @@ class TranslateInfoPage extends Component {
                             </div>
                         </form>
                         <button type="button" className="btn btn-dark" onClick={() => this.translateStartHendler()}>
-                            Let's translate
+                            Bind translate
                         </button>
                     </div>
                 </div>
