@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchTranslateDataByID } from '../../../actions/fetchTranslateByID'
 import customerImg from '../../../resources/images/bilboard/f2db5b1fae65676bfd1ecae1dbfdc3a2.jpg'
 import {startTranslate} from '../../../actions/translate/startTranslateAction'
+import {letsTranslate} from '../../../actions/translate/letsTranslate'
 
 class TranslateInfoPage extends Component {
 
@@ -31,6 +32,15 @@ class TranslateInfoPage extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+    }
+
+    translateStartHendler = () => {
+        const sendData = {
+            translatorEmail: this.props.auth.user.email,
+            translateID: this.props.match.params.translateId
+        }
+        
+        this.props.letsTranslate(this.props.history, sendData)
     }
 
     render() {
@@ -95,6 +105,9 @@ class TranslateInfoPage extends Component {
                                 </button>
                             </div>
                         </form>
+                        <button type="button" className="btn btn-dark" onClick={() => this.translateStartHendler()}>
+                            Let's translate
+                        </button>
                     </div>
                 </div>
 
@@ -113,5 +126,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     fetchTranslateDataByID,
-    startTranslate
+    startTranslate,
+    letsTranslate
 })(TranslateInfoPage)
