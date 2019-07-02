@@ -18,7 +18,6 @@ class LinkGroup extends Component {
             {title: 'Dashboard', route: '/dashboard'},
             {title: 'New Texts', route: '/texts'},
             {title: 'My Transactions', route: '/transactions'},
-            {title: 'Messages', route: '/messages'}
         ];
 
         const translatorLinks = [

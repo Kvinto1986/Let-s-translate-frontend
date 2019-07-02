@@ -6,6 +6,7 @@ import translatesReducer from './translatesReducer'
 import translatePageReducer from './translatePageReducer'
 import messagesReducer from './messagesReducer'
 import dialogReducer from './dialogReduser'
+import textsCustomerReduser from './textsCustomerReduser'
 
 export default combineReducers({
     auth: authReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
     translatesData: translatesReducer,
     selectedTranslate: translatePageReducer,
     messages: messagesReducer,
-    dialogReducer:dialogReducer
+    dialogReducer:dialogReducer,
+    textsCustomer:textsCustomerReduser
 });
