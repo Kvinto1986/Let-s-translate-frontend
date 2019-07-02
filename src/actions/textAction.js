@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_ERRORS} from './types';
+import {GET_CUSTOMER_TEXTS, GET_ERRORS} from './types';
 import server from '../serverConfig'
 
 export const registerText = (text, reset) => dispatch => {
@@ -19,4 +19,14 @@ export const registerText = (text, reset) => dispatch => {
                 });
             }
         });
+};
+
+export const getTextCustomers = (customer) => dispatch => {
+    axios.post(`${server}api/texts/getTextCustomers`, customer)
+        .then(res => {
+            dispatch({
+                type: GET_CUSTOMER_TEXTS,
+                payload: res.data
+            });
+        })
 };

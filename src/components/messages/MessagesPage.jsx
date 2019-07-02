@@ -28,21 +28,7 @@ class MessagesPage extends Component {
         const isEmpty = (messages.length === 0) ? true : false
         
         return (
-            <div className="row">
-                <div className="col-2 bg-dark">
-                    <div className="d-flex flex-column align-items-center">
-                        <h3 className="text-light">Messages</h3>
-                        <ul>
-                            <li>
-                                <Link to="/messages/inbox">
-                                    Inbox ({messages.length})
-                                </Link>
-                            </li>
-                        </ul>
-                        <hr />
-                    </div>
-                </div>
-                <div className="col-10 bg-light">
+                <div className="col-12 bg-light">
                     <Switch>
                         <Route 
                         exact 
@@ -65,7 +51,7 @@ class MessagesPage extends Component {
                         component={MessagingHistory}/>
                     </Switch>
                 </div>
-            </div>
+
         );
     }
 }
