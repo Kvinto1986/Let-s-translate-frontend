@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux';
+import Select from 'react-select';
 import {withRouter, Link} from 'react-router-dom';
-import {getTextCustomers} from "../../actions/textAction";
+import {getTextCustomers, registrationCollection, deleteTexts, getAllCollections} from "../../actions/textAction";
 
 class Dashboard extends Component {
 
@@ -10,14 +11,27 @@ class Dashboard extends Component {
         checkedTexts: [],
         textActionsVisibility: true,
         textActionCreateCollectionVisibility: false,
-    };
-
-    handleCollectionsList = () => {
-        this.setState({collectionsListVisibility: !this.state.collectionsListVisibility})
+        textActionAddCollectionVisibility: false,
+        selectedCollection: '',
+        newCollectionName: '',
+        errors: {}
     };
 
     textActionCreateCollection = () => {
-        this.setState({textActionCreateCollectionVisibility: !this.state.textActionCreateCollectionVisibility})
+        this.setState({
+            textActionCreateCollectionVisibility: !this.state.textActionCreateCollectionVisibility,
+            textActionAddCollectionVisibility: false
+        })
+    };
+    textActionAddCollection = () => {
+        this.setState({
+            textActionAddCollectionVisibility: !this.state.textActionAddCollectionVisibility,
+            textActionCreateCollectionVisibility: false
+        })
+    };
+
+    handleChangeNewCollection = (e) => {
+        this.setState({newCollectionName: e.target.value})
     };
 
     handleCheckText = (e) => {
@@ -25,7 +39,11 @@ class Dashboard extends Component {
             const index = this.state.checkedTexts.indexOf(e.target.name);
             this.state.checkedTexts.splice(index, 1);
             if (this.state.checkedTexts.length === 0) {
-                this.setState({textActionsVisibility: true})
+                this.setState({
+                    textActionsVisibility: true,
+                    textActionCreateCollectionVisibility: false,
+                    textActionAddCollectionVisibility: false,
+                })
             }
         } else {
             this.state.checkedTexts.push(e.target.name);
@@ -36,22 +54,102 @@ class Dashboard extends Component {
 
     };
 
+    handleChangeCollection = (collection) => {
+        this.setState({
+            newCollectionName: collection.label
+        });
+    };
+
+    reset = () => {
+        this.setState({
+            collectionsListVisibility: false,
+            checkedTexts: [],
+            textActionsVisibility: true,
+            textActionCreateCollectionVisibility: false,
+            textActionAddCollectionVisibility: false,
+            selectedCollection: this.props.collections[0],
+            newCollectionName: '',
+            errors: {}
+        });
+        this.props.getTextCustomers({email: this.props.auth.user.email, collectionName: this.state.selectedCollection});
+        this.props.getAllCollections({email: this.props.auth.user.email})
+
+    };
+
+    handleCreateCollection = (e) => {
+        e.preventDefault();
+
+        const newCollection = {
+            newCollectionName: this.state.newCollectionName,
+            textsList: this.state.checkedTexts
+        };
+        this.props.registrationCollection(newCollection, this.reset)
+    };
+
+    handleDeleteTexts = (e) => {
+        e.preventDefault();
+
+        const deletedTextsList = {
+            textsList: this.state.checkedTexts
+        };
+        this.props.deleteTexts(deletedTextsList, this.reset)
+    };
+
+    handleGetCustomerCollection = (e) => {
+        e.preventDefault();
+        this.setState({
+            selectedCollection: e.target.name
+        });
+
+        this.props.getTextCustomers({email: this.props.auth.user.email, collectionName: e.target.name});
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
+    }
+
     componentDidMount() {
-        this.props.getTextCustomers({email: this.props.auth.user.email})
+        this.props.getTextCustomers({email: this.props.auth.user.email, collectionName: this.state.selectedCollection});
+        this.props.getAllCollections({email: this.props.auth.user.email})
     }
 
     render() {
-        const collectionList = this.props.textsCustomer.map((elem) => {
-            if (elem.collectionName) {
-                return <Link to='/messages' key={elem.id}
-                             className="list-group-item list-group-item-warning text-decoration-none ml-5">
-                    {elem.collectionName}</Link>
+        const collectionSelectList = this.props.collections.filter((elem) => {
+            return elem !== ''
+        }).map(elem => {
+            return {
+                value: elem,
+                label: elem
+            }
+        });
+
+
+        const collectionList = this.props.collections.map((elem) => {
+            if (elem === '') {
+                return <button
+                    key={elem+'button'}
+                    className="btn list-group-item ml-5"
+                    name=''
+                    onClick={this.handleGetCustomerCollection}>
+                    Texts without collection
+                </button>
+            } else {
+                return <button
+                    key={elem+'button'}
+                    className="btn list-group-item ml-5"
+                    name={elem}
+                    onClick={this.handleGetCustomerCollection}>
+                    {elem}
+                </button>
             }
         });
 
         const textsList = this.props.textsCustomer.map((elem) => {
 
-            if (elem.collectionName === '') {
                 return <tr key={elem.id}>
                     <td>
                         <input
@@ -95,49 +193,76 @@ class Dashboard extends Component {
                         <a className='btn btn-warning text-decoration-none' href={'/messages'}>Edit</a>
                     </td>
                 </tr>
-            }
         });
 
+        const {errors} = this.state;
 
         return (
 
-            <div className="col-12 d-flex flex-wrap justify-content-center">
+            <div className="col-12 row d-flex flex-wrap justify-content-center">
                 <h3>Actions:</h3>
-                <div className="d-flex col-12 justify-content-center mt-3">
-                    <div className="d-flex justify-content-center align-content-center mr-5">
-                        <button className='btn btn-info mr-3' onClick={this.handleCollectionsList}>Show all
-                            collections
-                        </button>
-                        <button className='btn btn-success mr-3' disabled={this.state.textActionsVisibility}
-                                onClick={this.textActionCreateCollection}>Create new
-                            collection
-                        </button>
-                        <button className='btn btn-warning mr-3' disabled={this.state.textActionsVisibility}>Add to
-                            collection
-                        </button>
-                        <button className='btn btn-danger mr-3' disabled={this.state.textActionsVisibility}>Delete
-                        </button>
-                    </div>
+                <div className="d-flex col-12 justify-content-center align-content-center mr-5">
+                    <button
+                        className='btn btn-success mr-3'
+                        disabled={this.state.textActionsVisibility}
+                        onClick={this.textActionCreateCollection}>
+                        Create new collection
+                    </button>
+                    <button
+                        className='btn btn-warning mr-3'
+                        disabled={this.state.textActionsVisibility}
+                        onClick={this.textActionAddCollection}>
+                        Add to collection
+                    </button>
+                    <button
+                        className='btn btn-danger mr-3'
+                        disabled={this.state.textActionsVisibility}
+                        onClick={this.handleDeleteTexts}>
+                        Delete
+                    </button>
                 </div>
-                {this.state.textActionCreateCollectionVisibility && (
-                    <div className="d-inline-flex col-12 justify-content-center mt-3">
-                        <form className="border border-primary">
-                            <label className='m-5 mr-2'>Collection name</label>
+                <div className="d-inline-flex col-12 justify-content-center align-content-center mt-3">
+                    {collectionList}
+                </div>
+                <div className="d-inline-flex col-12 justify-content-center align-content-center mt-3">
+                    {this.state.textActionCreateCollectionVisibility && (
+                        <form onSubmit={this.handleCreateCollection}>
+                            <label className='m-3 mr-2'>Collection name</label>
                             <input
                                 type='text'
-                                className='m-5 ml-2'
+                                className='m-5 ml-2 col-4'
+                                value={this.state.collectionName}
+                                onChange={this.handleChangeNewCollection}
                             />
-                            <button className='btn btn-success m-5'>Create</button>
-                        </form>
-                    </div>)}
+                            <button className='btn btn-success m-5' type='submit'>Create</button>
 
+                        </form>
+
+                    )}
+                    {this.state.textActionAddCollectionVisibility && (
+                        <form className="d-inline-flex col-12 justify-content-center"
+                              onSubmit={this.handleCreateCollection}>
+                            <label className='m-3 mr-2 mt-5'>Select collection</label>
+                            <Select
+                                className='col-4 mt-5'
+                                onChange={this.handleChangeCollection}
+                                options={collectionSelectList}
+                            />
+                            <button className='btn btn-success m-5' type='submit'>Add to collection</button>
+                        </form>
+                    )}
+                </div>
+                {errors.collectionName && (
+                    <div
+                        className='d-inline-flex col-12 justify-content-center text-danger'>{errors.collectionName}</div>)}
                 {this.state.collectionsListVisibility && (
                     <div className="d-inline-flex col-12 justify-content-center mt-3">
                         {collectionList}
-                    </div>)}
+                    </div>
+                )}
 
 
-                <h1 className='mt-5'>Collection free texts:</h1>
+                <h1 className='mt-5'>{this.state.selectedCollection===''?('Texts without collection:'):this.state.selectedCollection}</h1>
                 <div className="d-flex flex-wrap col-12 justify-content-center mt-3">
                     <table className='table'>
                         <tbody>
@@ -190,7 +315,14 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    textsCustomer: state.textsCustomer
+    errors: state.errors,
+    textsCustomer: state.textsCustomer,
+    collections: state.collections,
 });
 
-export default connect(mapStateToProps, {getTextCustomers})(withRouter(Dashboard))
+export default connect(mapStateToProps, {
+    getTextCustomers,
+    registrationCollection,
+    deleteTexts,
+    getAllCollections
+})(withRouter(Dashboard))
