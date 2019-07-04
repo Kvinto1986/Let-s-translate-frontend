@@ -2,13 +2,14 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { fetchTranslatesForCurrentTrarslator } from '../../actions/translate/fetchTranslatesForCurrentTrarslator'
 import hotImg from '../../resources/images/bilboard/flame.png'
+import ManageTranslate from './workspace/manageTranslate'
 
 const unActiveManage = {
-    border: '1px dashed gray', minHeight: '200px', padding: '10px'
+    minHeight: '200px', padding: '10px'
 }
 
 const activeManage = {
-    border: '1px solid lightgray', minHeight: '200px', padding: '10px'
+    minHeight: '200px', padding: '10px'
 }
 
 class TranslatorWorkspace extends Component {
@@ -28,6 +29,7 @@ class TranslatorWorkspace extends Component {
         })
     }
 
+
     render() {
         const {bindedTranslates} = this.props
         const {translateToManage} = this.state
@@ -45,50 +47,16 @@ class TranslatorWorkspace extends Component {
                                 <>
                                     <h4>Manage section</h4>
                                     <div style={manageStyle}>
-                                        Select any translate to manage
+                                        Select any translate to manage it
                                     </div>
                                 </>
                             )
                             : (
-                                <>
-                                    <h4>Manage section</h4>
-                                    <div style={manageStyle}>
-                                        <form>
-                                            <div className="form-group">
-                                                <h5 className="text-info">Create translate</h5>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Translator</label>
-                                                <input type="text" className="form-control"/> 
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Gf</label>
-                                            </div>
-                                            <div className="form-group">
-                                                
-                                            </div>
-                                        </form>
-                                        <form>
-                                            <div className="form-group">
-                                                <h5 className="text-info">Edit translate</h5>
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Translate file</label>
-                                                <input 
-                                                type="file"
-                                                placeholder="Text"
-                                                name="textFileName"
-                                                /> 
-                                            </div>
-                                            <div className="form-group">
-                                                <label>Gf</label>
-                                            </div>
-                                            <div className="form-group">
-                                                
-                                            </div>
-                                        </form>
-                                    </div>
-                                </>
+                                <ManageTranslate 
+                                manageStyle={manageStyle}
+                                translateToManage={translateToManage}
+                                auth={this.props.auth}
+                                />
                             )
                         }
                     </div>

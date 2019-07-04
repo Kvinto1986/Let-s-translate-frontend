@@ -16,7 +16,7 @@ export default combineReducers({
     selectedTranslate: translatePageReducer,
     messages: messagesReducer,
     dialogReducer: dialogReducer,
-    bindedTranslates: bindedTranslatesReducer
+    bindedTranslates: bindedTranslatesReducer,
     dialogReducer: dialogReducer,
     textsCustomer: textsCustomerReduser
 });
