@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 import server from '../serverConfig'
 import {FETCH_TRANSLATES_BY_SELECTED_LANGUAGES} from './types'
 

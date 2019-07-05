@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
+import {saveTranslate} from '../../../actions/translate/saveTranslate'
 
 const tagStyle = {
     borderRadius: '5px',
@@ -11,6 +13,7 @@ const tagStyle = {
 class ManageTranslate extends Component {
 
     state = {
+        textId: this.props.translateToManage.id,
         customerName: this.props.translateToManage.name,
         customerEmail: this.props.translateToManage.email,
         initialfileName: '',
@@ -25,6 +28,7 @@ class ManageTranslate extends Component {
         textAreaVisibility: false,
         fileDownloadVisibility: false,
         progress: this.props.translateToManage.progress,
+        collectionName: this.props.translateToManage.collectionName,
         saveIsSuccess: ''
     }
 
@@ -69,33 +73,35 @@ class ManageTranslate extends Component {
 
     handleSave = () => {
         const {
+            textId,
             customerName,
             customerEmail,
             originalLanguage,
             translationLanguage,
             progress,
             textAreaName,
-            textArea
+            textArea,
+            collectionName
         } = this.state
         
         const translateState = {
+            textId,
             customerName,
-            translatorName: this.auth.user.name,
+            translatorName: this.props.auth.user.name,
             customerEmail,
-            translatorEmail: this.auth.user.email,
+            translatorEmail: this.props.auth.user.email,
             originalLanguage,
             translationLanguage,
             progress,
             isReady: false,
             textName: textAreaName,
             text: textArea,
+            collectionName,
             date: Date.now()
         }
 
+        this.props.saveTranslate(translateState)
         this.setState({saveIsSuccess: true})
-
-        console.log(translateState);
-        // this.props.saveTranslate(translateState)
     }
 
     handleFinish = (e) => {
@@ -281,4 +287,8 @@ class ManageTranslate extends Component {
     }
 }
 
-export default ManageTranslate
+const mapStateToProps = state => ({
+
+});
+
+export default connect(mapStateToProps, {saveTranslate})(ManageTranslate)
