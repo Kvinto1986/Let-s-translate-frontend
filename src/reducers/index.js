@@ -18,6 +18,8 @@ export default combineReducers({
     messages: messagesReducer,
     dialogReducer: dialogReducer,
     bindedTranslates: bindedTranslatesReducer,
+    dialogReducer: dialogReducer,
+    textsCustomer: textsCustomerReduser,
     textsCustomer: textsCustomerReduser,
     collections:collectionReduser
 });

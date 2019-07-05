@@ -36,7 +36,6 @@ class NewText extends Component {
             [e.target.name]: e.target.files[0], textAreaVisibility: true, textAreaName: "",
             textArea: ""
         });
-
     };
 
     handleChangeTextAreaName = (e) => {
