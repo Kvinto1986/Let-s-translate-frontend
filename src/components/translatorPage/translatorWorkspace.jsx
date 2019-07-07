@@ -29,7 +29,6 @@ class TranslatorWorkspace extends Component {
         })
     }
 
-
     render() {
         const {bindedTranslates} = this.props
         const {translateToManage} = this.state
@@ -89,7 +88,7 @@ class TranslatorWorkspace extends Component {
                                     : (
                                         bindedTranslates.map((translate, index) => {
                                             return (
-                                                <tr key={translate.name + index}>
+                                                <tr key={translate.textId}>
                                                     <th scope="row">{index+1}</th>
                                                     <td>{translate.name}</td>
                                                     <td>{translate.originalLanguage}</td>
@@ -115,7 +114,7 @@ class TranslatorWorkspace extends Component {
                                                     <td>
                                                         <div>
                                                             <button type="button" className="btn btn-outline-dark btn-sm" >
-                                                                <a href={translate.fileUrl} className="text-decoration-none text-dark" download={translate.fileName}>Download</a>
+                                                                <a href={translate.initialTextFileUrl} className="text-decoration-none text-dark" download={translate.initialfileName}>Download</a>
                                                             </button>
                                                         </div>
                                                     </td>

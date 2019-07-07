@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import {saveTranslate} from '../../../actions/translate/saveTranslate'
+import {finishTranslate} from '../../../actions/translate/finishTranslate'
 
 const tagStyle = {
     borderRadius: '5px',
@@ -13,38 +14,47 @@ const tagStyle = {
 class ManageTranslate extends Component {
 
     state = {
-        textId: this.props.translateToManage.id,
-        customerName: this.props.translateToManage.name,
-        customerEmail: this.props.translateToManage.email,
+        textId: this.props.translateToManage.textId,
+        customerName: this.props.translateToManage.customerName,
+        customerEmail: this.props.translateToManage.customerEmail,
         initialfileName: '',
-        textAreaName: "",
-        textArea: "",
-        textAreaRequired: "required",
+        translateTextName: this.props.translateToManage.translateTextName,
+        translateText: this.props.translateToManage.translateText,
+        translateTextRequired: "required",
         textFileName: "",
         textFileRequired: "required",
         textFileURL: "",
         originalLanguage: this.props.translateToManage.originalLanguage,
         translationLanguage: this.props.translateToManage.translationLanguage,
-        textAreaVisibility: false,
+        translateTextVisibility: false,
         fileDownloadVisibility: false,
         progress: this.props.translateToManage.progress,
+        tags: this.props.translateToManage.tags,
         collectionName: this.props.translateToManage.collectionName,
         saveIsSuccess: ''
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.translateToManage) {
+            if (nextProps.translateToManage.textId !== this.state.textId) {
+                this.setState(nextProps.translateToManage)
+            }
+        }
+    }
+
     handleInputFileChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.files[0], textAreaVisibility: true, textAreaName: "",
-            textArea: ""
+            [e.target.name]: e.target.files[0], translateTextVisibility: true, translateTextName: "",
+            translateText: ""
         });
     };
 
-    handleChangeTextAreaName = (e) => {
+    handleChangetranslateTextName = (e) => {
         this.setState({
-            textAreaName: e.target.value
+            translateTextName: e.target.value
         });
 
-        if (e.target.value.length === 0 && this.state.textArea.length === 0) {
+        if (e.target.value.length === 0 && this.state.translateText.length === 0) {
             this.setState({
                 fileDownloadVisibility: false
             })
@@ -55,12 +65,12 @@ class ManageTranslate extends Component {
         }
     };
 
-    handleChangeTextArea = (e) => {
+    handleChangetranslateText = (e) => {
         this.setState({
-            textArea: e.target.value
+            translateText: e.target.value
         });
 
-        if (e.target.value.length === 0 && this.state.textAreaName.length === 0) {
+        if (e.target.value.length === 0 && this.state.translateTextName.length === 0) {
             this.setState({
                 fileDownloadVisibility: false
             })
@@ -79,9 +89,8 @@ class ManageTranslate extends Component {
             originalLanguage,
             translationLanguage,
             progress,
-            textAreaName,
-            textArea,
-            collectionName
+            translateTextName,
+            translateText,
         } = this.state
         
         const translateState = {
@@ -94,9 +103,8 @@ class ManageTranslate extends Component {
             translationLanguage,
             progress,
             isReady: false,
-            textName: textAreaName,
-            text: textArea,
-            collectionName,
+            translateTextName: translateTextName,
+            translateText: translateText,
             date: Date.now()
         }
 
@@ -108,17 +116,23 @@ class ManageTranslate extends Component {
         e.preventDefault()
 
         const finalTranslateState = {}
-        this.props.saveTranslate(finalTranslateState)
+        this.props.finishTranslate(finalTranslateState)
     }
 
     render() {
-        const {manageStyle, translateToManage, auth} = this.props
-        const {saveIsSuccess, progress} = this.state
+        const {manageStyle, translateToManage} = this.props
+        const {originalLanguage, translationLanguage, translateText, translateTextName, saveIsSuccess, tags, progress} = this.state
         let alert
 
-        if (translateToManage) {
-            var {originalLanguage, translationLanguage, tags} = translateToManage
-        }
+        console.log('==========================')
+        console.log(this.props.translateToManage.translateText);
+        console.log(this.state.translateText);
+
+        // if (translateToManage) {
+        //     var {
+        //         originalLanguage, translationLanguage, tags, translateTextName, translateText 
+        //     } = translateToManage
+        // }
         
         if (progress == 100) {
             alert = (
@@ -232,22 +246,22 @@ class ManageTranslate extends Component {
                                 placeholder="Text name"
                                 name="initialfileName"
                                 className="form-control"
-                                onChange={this.handleChangeTextAreaName}
-                                disabled={this.state.textAreaVisibility}
-                                value={this.state.textAreaName}
-                                required={this.state.textAreaRequired}
+                                onChange={this.handleChangetranslateTextName}
+                                disabled={this.state.translateTextVisibility}
+                                value={translateTextName || ''}
+                                required={this.state.translateTextRequired}
                             />
                         </div>
                         <div className="form-group">
                             <label>Your text</label>
-                            <textarea
-                                name='textArea'
+                            <input
+                                name='translateText'
                                 className="form-control"
                                 placeholder="Text"  
-                                onChange={this.handleChangeTextArea}
-                                value={this.state.textArea}
-                                disabled={this.state.textAreaVisibility}
-                                required={this.state.textAreaRequired}
+                                onChange={this.handleChangetranslateText}
+                                value={translateText || ''}
+                                disabled={this.state.translateTextVisibility}
+                                required={this.state.translateTextRequired}
                             />
                             {/* {errors.text && (<div className='text-danger'>{errors.text}</div>)} */}
                         </div>
@@ -275,7 +289,11 @@ class ManageTranslate extends Component {
                                 <button type="button" className="btn btn-sm btn-primary mr-3" onClick={() => this.handleSave()}>
                                     Save
                                 </button>
-                                <button type="submit" className="btn btn-sm btn-success">
+                                <button 
+                                type="submit" 
+                                className="btn btn-sm btn-success"
+                                disabled={(progress == 100) ? false : true}
+                                >
                                     Finish
                                 </button>
                             </div>

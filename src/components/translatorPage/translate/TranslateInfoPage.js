@@ -51,6 +51,7 @@ class TranslateInfoPage extends Component {
             tags: text.tags,
             initialfileName: text.fileName,
             initialTextFileUrl: text.fileUrl,
+            progress: 0
         }
         
         this.props.letsTranslate(this.props.history, sendData)

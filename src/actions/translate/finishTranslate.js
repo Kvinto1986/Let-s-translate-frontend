@@ -2,8 +2,8 @@ import axios from 'axios'
 import {GET_ERRORS} from '../types';
 import server from '../../serverConfig'
 
-export const saveTranslate = (savedData) => dispatch => {
-    axios.post(`${server}api/translates/saveTranslate`, savedData)
+export const finishTranslate = (totalData) => dispatch => {
+    axios.post(`${server}api/translates/finishTranslate`, totalData)
     .then(res => {
         console.log(res.data);
         
