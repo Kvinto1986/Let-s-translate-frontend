@@ -4,6 +4,7 @@ import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import {saveTranslate} from '../../../actions/translate/saveTranslate'
 import {finishTranslate} from '../../../actions/translate/finishTranslate'
+import classnames from 'classnames';
 
 const tagStyle = {
     borderRadius: '5px',
@@ -31,7 +32,8 @@ class ManageTranslate extends Component {
         progress: this.props.translateToManage.progress,
         tags: this.props.translateToManage.tags,
         collectionName: this.props.translateToManage.collectionName,
-        saveIsSuccess: ''
+        saveIsSuccess: '',
+        errors: {}
     }
 
     componentWillReceiveProps(nextProps) {
@@ -39,6 +41,12 @@ class ManageTranslate extends Component {
             if (nextProps.translateToManage.textId !== this.state.textId) {
                 this.setState(nextProps.translateToManage)
             }
+        }
+
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
         }
     }
 
@@ -156,8 +164,8 @@ class ManageTranslate extends Component {
 
     render() {
         const {manageStyle} = this.props
-        const {originalLanguage, translationLanguage, translateText, translateTextName, saveIsSuccess, tags, progress} = this.state
-        let alert
+        const {originalLanguage, translationLanguage, translateText, translateTextName, saveIsSuccess, tags, progress, errors} = this.state
+        let alert, fileIsDisabled
         
         // TODO: Create Alert separated component
         if (progress == 100) {
@@ -201,6 +209,27 @@ class ManageTranslate extends Component {
                     <p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
                 </div>
             )
+        }
+
+        if(this.state.errors.translateManage) {
+            alert = (
+                <div className="alert alert-danger mt-4" role="alert">
+                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 className="alert-heading">Manage error!</h4>
+                    <p>
+                        Here is {this.state.errors.translateManage}
+                    </p>
+                </div>
+            )
+        }
+
+        if (progress < 100) {
+            fileIsDisabled = true
+        }
+        else {
+            fileIsDisabled = false
         }
 
         return (
@@ -261,8 +290,11 @@ class ManageTranslate extends Component {
                                 type="file"
                                 name="textFileName"
                                 onChange={this.handleInputFileChange}
-                                disabled={this.state.fileDownloadVisibility}
+                                disabled={this.state.fileDownloadVisibility || fileIsDisabled}
                                 required={this.state.textFileRequired}
+                                className={classnames({
+                                    'is-invalid': errors.translateManage
+                                })}
                             />
                         </div>
                         <div className="form-group mt-3">
@@ -271,7 +303,9 @@ class ManageTranslate extends Component {
                                 type="text"
                                 placeholder="Text name"
                                 name="initialfileName"
-                                className="form-control"
+                                className={classnames('form-control', {
+                                    'is-invalid': errors.translateManage
+                                })}
                                 onChange={this.handleChangetranslateTextName}
                                 disabled={this.state.translateTextVisibility}
                                 value={translateTextName || ''}
@@ -282,18 +316,19 @@ class ManageTranslate extends Component {
                             <label>Your text</label>
                             <textarea
                                 name='translateText'
-                                className="form-control"
+                                className={classnames('form-control', {
+                                    'is-invalid': errors.translateManage
+                                })}
                                 placeholder="Text"  
                                 onChange={this.handleChangetranslateText}
                                 value={translateText || ''}
                                 disabled={this.state.translateTextVisibility}
                                 required={this.state.translateTextRequired}
                             />
-                            {/* {errors.text && (<div className='text-danger'>{errors.text}</div>)} */}
                         </div>
                         <div className="form-group mt-4">
                             <label>
-                                Mark your translate progress here. <br/>
+                                Mark your translate progress here bellow. <br/>
                                 <small>That's important for customer!</small>
                             </label>
                             <input
@@ -301,13 +336,16 @@ class ManageTranslate extends Component {
                                 min="0"
                                 max="100"
                                 value={this.state.progress}
-                                className="form-control"
+                                className={classnames('form-control', {
+                                    'is-invalid': errors.progress
+                                })}
                                 onChange={(e) => this.setState({progress: e.target.value})}
                             />
+                            {errors.progress && (<div className="invalid-feedback">{errors.progress}</div>)}
                         </div>
                         <div>
                             {tags.map((tag, index) => {
-                                return <span key={tag+index} style={tagStyle} className="mr-1"><em>#{tag}</em></span>
+                                return <span key={tag + index} style={tagStyle} className="mr-1"><em>#{tag}</em></span>
                             })}
                         </div>
                         <div className="form-group d-flex justify-content-end">
@@ -332,7 +370,7 @@ class ManageTranslate extends Component {
 }
 
 const mapStateToProps = state => ({
-    
+    errors: state.errors
 });
 
 export default connect(mapStateToProps, {
