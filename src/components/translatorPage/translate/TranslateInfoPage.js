@@ -4,6 +4,7 @@ import { fetchTranslateDataByID } from '../../../actions/fetchTranslateByID'
 import customerImg from '../../../resources/images/bilboard/f2db5b1fae65676bfd1ecae1dbfdc3a2.jpg'
 import {startTranslate} from '../../../actions/translate/startTranslateAction'
 import {letsTranslate} from '../../../actions/translate/letsTranslate'
+import { log } from 'util';
 
 class TranslateInfoPage extends Component {
 
@@ -35,9 +36,22 @@ class TranslateInfoPage extends Component {
     }
 
     translateStartHendler = () => {
+        const {translate: text} = this.props.selectedTranslate.data
+
         const sendData = {
+            textId: this.props.match.params.translateId,
+            translatorName: this.props.auth.user.name,
             translatorEmail: this.props.auth.user.email,
-            translateID: this.props.match.params.translateId
+            customerName: text.name,
+            customerEmail: text.email,
+            originalLanguage: text.originalLanguage,
+            translationLanguage: text.translationLanguage,
+            translationSpeed: text.translationSpeed,
+            extraReview: text.extraReview,
+            tags: text.tags,
+            initialfileName: text.fileName,
+            initialTextFileUrl: text.fileUrl,
+            progress: 0
         }
         
         this.props.letsTranslate(this.props.history, sendData)
