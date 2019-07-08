@@ -1,7 +1,7 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import Select from 'react-select';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {getTextCustomers, registrationCollection, deleteTexts, getAllCollections} from "../../actions/textAction";
 
 class Dashboard extends Component {
