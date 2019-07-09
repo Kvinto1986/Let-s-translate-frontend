@@ -2,8 +2,17 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {getCustomersTranslates} from "../../actions/translate/getTranslatesForCustomer";
-
+import NewText from './newText'
 class OrdersBar extends Component {
+
+    state = {
+        editedTranslate: {}
+    };
+
+    handleChangeEditedTranslate = (e,elem) => {
+        e.preventDefault();
+        this.setState({editedTranslate:elem})
+    };
 
     openMessageDialog = (message) => {
         this.props.history.push(`/messages/dialog/${message.translatorEmail}`)
@@ -16,10 +25,16 @@ class OrdersBar extends Component {
     render() {
 
         const inProgressList = this.props.customerTranslates.filter((elem) => {
-            return elem.progress!=='100'
-        }).map(elem=> {
+            return elem.progress !== '100'
+        }).map(elem => {
 
             return <tr key={elem.id}>
+                <td>
+                    <button type="button" className="btn btn-success" data-toggle="modal"
+                            data-target="#exampleModalCenter" onClick={(e)=>{this.handleChangeEditedTranslate(e,elem)}}>
+                        Edit
+                    </button>
+                </td>
                 <td>
                     {elem.translatorName}
                 </td>
@@ -47,10 +62,6 @@ class OrdersBar extends Component {
                 <td>
                     {elem.tags.join(', ')}
                 </td>
-                <td>
-                    {elem.collectionName}
-                </td>
-
                 <td>
                     {elem.progress} %
                 </td>
@@ -63,10 +74,10 @@ class OrdersBar extends Component {
         });
 
         const completedList = this.props.customerTranslates.filter((elem) => {
-            return elem.progress==='100'
-        }).map(elem=> {
+            return elem.progress === '100'
+        }).map(elem => {
 
-            return <tr key={elem.id}>
+            return <tr key={elem.id} className='bg-info'>
                 <td>
                     {elem.translatorName}
                 </td>
@@ -74,10 +85,10 @@ class OrdersBar extends Component {
                     {elem.translatorEmail}
                 </td>
                 <td>
-                    {elem.initialfileName}
+                    {elem.translatedfileName}
                 </td>
                 <td>
-                    <a className='btn btn-info text-decoration-none' href={elem.initialTextFileUrl}>Download</a>
+                    <a className='btn btn-success text-decoration-none' href={elem.translatedTextFileUrl}>Download</a>
                 </td>
                 <td>
                     {elem.originalLanguage}
@@ -86,22 +97,11 @@ class OrdersBar extends Component {
                     {elem.translationLanguage}
                 </td>
                 <td>
-                    {elem.extraReview ? ('Yes') : 'No'}
+                    {elem.finalCost} $
                 </td>
-                <td>
-                    {elem.translationSpeed ? ('Fast') : 'Ordinary'}
-                </td>
-                <td>
-                    {elem.tags.join(', ')}
-                </td>
-                <td>
-                    {elem.collectionName}
-                </td>
-
                 <td>
                     {elem.progress} %
                 </td>
-
                 <td>
                     <a className='btn btn-warning text-decoration-none'
                        onClick={() => this.openMessageDialog(elem)}>Open</a>
@@ -127,96 +127,109 @@ class OrdersBar extends Component {
                     <div className="tab-pane fade show active" id="pills-home" role="tabpanel"
                          aria-labelledby="pills-home-tab">
                         <table className='table'>
-                        <tbody>
-                        <tr key={'texts-tr'}>
-                            <th>
-                                Translator name
-                            </th>
-                            <th>
-                                Translator email
-                            </th>
-                            <th>
-                                File name
-                            </th>
-                            <th>
-                                Download file link
-                            </th>
-                            <th>
-                                Original language
-                            </th>
-                            <th>
-                                Translation language
-                            </th>
-                            <th>
-                                Extra review
-                            </th>
-                            <th>
-                                Translation speed
-                            </th>
-                            <th>
-                                Tags
-                            </th>
-                            <th>
-                                Collection name
-                            </th>
-                            <th>
-                                Translation progress
-                            </th>
-                            <th>
-                                Open chat
-                            </th>
-                        </tr>
-                        {inProgressList}
-                        </tbody>
-                    </table>
+                            <tbody>
+                            <tr key={'texts-tr'}>
+                                <th>
+                                    Edit translate
+                                </th>
+                                <th>
+                                    Translator name
+                                </th>
+                                <th>
+                                    Translator email
+                                </th>
+                                <th>
+                                    File name
+                                </th>
+                                <th>
+                                    Download file link
+                                </th>
+                                <th>
+                                    Original language
+                                </th>
+                                <th>
+                                    Translation language
+                                </th>
+                                <th>
+                                    Extra review
+                                </th>
+                                <th>
+                                    Translation speed
+                                </th>
+                                <th>
+                                    Tags
+                                </th>
+                                <th>
+                                    Translation progress
+                                </th>
+                                <th>
+                                    Open chat
+                                </th>
+                            </tr>
+                            {inProgressList}
+                            </tbody>
+                        </table>
                     </div>
                     <div className="tab-pane fade" id="pills-profile" role="tabpanel"
-                         aria-labelledby="pills-profile-tab"> <table className='table'>
-                        <tbody>
-                        <tr key={'texts-tr'}>
-                            <th>
-                                Translator name
-                            </th>
-                            <th>
-                                Translator email
-                            </th>
-                            <th>
-                                File name
-                            </th>
-                            <th>
-                                Download file link
-                            </th>
-                            <th>
-                                Original language
-                            </th>
-                            <th>
-                                Translation language
-                            </th>
-                            <th>
-                                Extra review
-                            </th>
-                            <th>
-                                Translation speed
-                            </th>
-                            <th>
-                                Tags
-                            </th>
-                            <th>
-                                Collection name
-                            </th>
-                            <th>
-                                Translation progress
-                            </th>
-                            <th>
-                                Open chat
-                            </th>
-                        </tr>
-                        {completedList}
-                        </tbody>
-                    </table>
+                         aria-labelledby="pills-profile-tab">
+                        <table className='table'>
+                            <tbody>
+                            <tr key={'texts-tr'}>
+                                <th>
+                                    Translator name
+                                </th>
+                                <th>
+                                    Translator email
+                                </th>
+                                <th>
+                                    File name
+                                </th>
+                                <th>
+                                    Download file link
+                                </th>
+                                <th>
+                                    Original language
+                                </th>
+                                <th>
+                                    Translation language
+                                </th>
+                                <th>
+                                    Cost
+                                </th>
+                                <th>
+                                    Translation progress
+                                </th>
+                                <th>
+                                    Open chat
+                                </th>
+                            </tr>
+                            {completedList}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog"
+                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered modal-dialog modal-lg" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLongTitle">Translate</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <NewText />
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         )
     }
 }
