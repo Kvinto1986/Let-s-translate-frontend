@@ -1,16 +1,29 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import {fetchTranslatesToReview} from '../../actions/translate/fetchTranslatesToReview'
+import ReviewTranslate from './review/reviewTranslate'
 
 class TranslatesReview extends Component {
 
+    state = {
+        translateToReview: null
+    }
+
     componentDidMount() {
         const languages = this.props.auth.user.languages
+        // TODO: Don't fetch current translator's translates for review
         this.props.fetchTranslatesToReview(languages)
+    }
+
+    manageButtonHendler = (e, translateData) => {
+        this.setState({
+            translateToReview: translateData
+        })
     }
 
     render() {
         const {reviewTranslateList: translates} = this.props
+        const {translateToReview} = this.state
         return (
             <div className="row">
                 <section className="col-xl-6 col-12">
@@ -24,6 +37,7 @@ class TranslatesReview extends Component {
                                 <th scope="col">Source</th>
                                 <th scope="col">Target</th>
                                 <th scope="col">Finish date</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,7 +49,7 @@ class TranslatesReview extends Component {
                                     </tr>
                                 )
                                 : (
-                                    translates.map((translate, index) => {
+                                    translates.map(translate => {
                                         return (
                                             <tr key={translate.textId}>
                                                 <td>{translate.translatorName}</td>
@@ -47,6 +61,15 @@ class TranslatesReview extends Component {
                                                 <td>{translate.originalLanguage}</td>
                                                 <td>{translate.translationLanguage}</td>
                                                 <td>{Date(translate.date).toLocaleString().slice(0,10)}</td>
+                                                <td>
+                                                    <button 
+                                                    type="button" 
+                                                    className="btn btn-outline-dark btn-sm"
+                                                    onClick={(e) => this.manageButtonHendler(e, translate)}
+                                                    >
+                                                        Review
+                                                    </button>
+                                                </td>
                                             </tr>
                                         )
                                     })
@@ -55,9 +78,19 @@ class TranslatesReview extends Component {
                         </tbody>
                     </table>
                 </section>
-                <section className="col-xl-6 col-12">
-                    lol
-                </section>
+                {
+                    translateToReview
+                    ? (
+                        <ReviewTranslate 
+                        translateToReview={translateToReview}
+                        />
+                    )
+                    : (
+                        <section>
+                            Select any translate to review
+                        </section>
+                    )
+                }
             </div>
         )
     }
