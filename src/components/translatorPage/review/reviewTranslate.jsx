@@ -1,6 +1,17 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {translateReview} from '../../../actions/review/translateReviewAction'
 
 class ReviewTranslate extends Component {
+
+    resolveReview = textId => {
+        this.props.translateReview({textId, reviewStatus: true}, this.props.auth.user.languages)
+    }
+
+    rejectReview = textId => {
+        this.props.translateReview({textId, reviewStatus: false}, this.props.auth.user.languages)
+    }
+    
     render() {
         const {translateToReview} = this.props
         return (
@@ -66,8 +77,8 @@ class ReviewTranslate extends Component {
                         </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-dark" type="button">Reject</button>
-                        <button className="ml-1 btn btn-success" type="button">Resolve</button>
+                        <button className="btn btn-dark" type="button" onClick={() => this.rejectReview(translateToReview.textId)}>Reject</button>
+                        <button className="ml-1 btn btn-success" onClick={() => this.resolveReview(translateToReview.textId)} type="button">Resolve</button>
                     </div>
                 </div>
             </section>
@@ -75,4 +86,10 @@ class ReviewTranslate extends Component {
     }
 }
 
-export default ReviewTranslate
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps, {
+    translateReview
+})(ReviewTranslate)
