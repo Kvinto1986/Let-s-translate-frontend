@@ -40,7 +40,9 @@ class Header extends Component {
                     <button
                         className="btn btn-success align-content-lg-end"
                         type="button"
-                        onClick={this.onLogout.bind(this)}>Logout
+                        onClick={this.onLogout.bind(this)}
+                    >
+                        Logout
                     </button>
                 </div>
             </Fragment>

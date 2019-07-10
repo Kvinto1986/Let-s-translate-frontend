@@ -10,6 +10,7 @@ import bindedTranslatesReducer from './bindedTranslatesReducer'
 import textsCustomerReduser from './textsCustomerReduser'
 import collectionReduser from './collectonReduser'
 import customerTranslatesReduser from './customerTranslatesReduser'
+import reviewTranslateListReducer from './reviewTranslateListReducer'
 
 export default combineReducers({
     auth: authReducer,
@@ -20,6 +21,7 @@ export default combineReducers({
     bindedTranslates: bindedTranslatesReducer,
     dialogReducer: dialogReducer,
     textsCustomer: textsCustomerReduser,
-    collections:collectionReduser,
-    customerTranslates:customerTranslatesReduser
+    collections: collectionReduser,
+    customerTranslates: customerTranslatesReduser,
+    reviewTranslateList: reviewTranslateListReducer
 });

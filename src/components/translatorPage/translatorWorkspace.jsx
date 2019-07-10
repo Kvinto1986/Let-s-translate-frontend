@@ -90,7 +90,7 @@ class TranslatorWorkspace extends Component {
                                             return (
                                                 <tr key={translate.textId}>
                                                     <th scope="row">{index+1}</th>
-                                                    <td>{translate.name}</td>
+                                                    <td>{translate.customerName}</td>
                                                     <td>{translate.originalLanguage}</td>
                                                     <td>{translate.translationLanguage}</td>
                                                     {translate.translationSpeed

@@ -23,6 +23,7 @@ class LinkGroup extends Component {
         const translatorLinks = [
             {title: 'Translates', route: '/translates'},
             {title: 'Workspace', route: '/workSpace'},
+            {title: 'Reviews', route: '/translates-review'},
         ];
 
         switch (role) {
