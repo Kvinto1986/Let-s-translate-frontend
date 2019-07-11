@@ -2,17 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {getCustomersTranslates} from "../../actions/translate/getTranslatesForCustomer";
-import NewText from './newText'
 class OrdersBar extends Component {
-
-    state = {
-        editedTranslate: {}
-    };
-
-    handleChangeEditedTranslate = (e,elem) => {
-        e.preventDefault();
-        this.setState({editedTranslate:elem})
-    };
 
     openMessageDialog = (message) => {
         this.props.history.push(`/messages/dialog/${message.translatorEmail}`)
@@ -29,12 +19,6 @@ class OrdersBar extends Component {
         }).map(elem => {
 
             return <tr key={elem.id}>
-                <td>
-                    <button type="button" className="btn btn-success" data-toggle="modal"
-                            data-target="#exampleModalCenter" onClick={(e)=>{this.handleChangeEditedTranslate(e,elem)}}>
-                        Edit
-                    </button>
-                </td>
                 <td>
                     {elem.translatorName}
                 </td>
@@ -130,9 +114,6 @@ class OrdersBar extends Component {
                             <tbody>
                             <tr key={'texts-tr'}>
                                 <th>
-                                    Edit translate
-                                </th>
-                                <th>
                                     Translator name
                                 </th>
                                 <th>
@@ -206,26 +187,6 @@ class OrdersBar extends Component {
                             {completedList}
                             </tbody>
                         </table>
-                    </div>
-                </div>
-
-                <div className="modal fade bd-example-modal-lg" id="exampleModalCenter" tabIndex="-1" role="dialog"
-                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered modal-dialog modal-lg" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLongTitle">Translate</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <NewText />
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
