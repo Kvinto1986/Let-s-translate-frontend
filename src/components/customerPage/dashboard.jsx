@@ -3,7 +3,9 @@ import {connect} from 'react-redux';
 import Select from 'react-select';
 import {withRouter} from 'react-router-dom';
 import {getTextCustomers, registrationCollection, deleteTexts, getAllCollections} from "../../actions/textAction";
-
+import languages from '../../resources/JSON/languages'
+import tags from '../../resources/JSON/tags'
+import EditModal from './editTranslateModal'
 class Dashboard extends Component {
 
     state = {
@@ -14,7 +16,15 @@ class Dashboard extends Component {
         textActionAddCollectionVisibility: false,
         selectedCollection: '',
         newCollectionName: '',
+        editedTranslate: {},
         errors: {}
+    };
+
+    handleChangeEditedTranslate = (e, elem) => {
+        e.preventDefault();
+        this.setState({editedTranslate: elem});
+        console.log(elem)
+
     };
 
     textActionCreateCollection = () => {
@@ -131,7 +141,7 @@ class Dashboard extends Component {
         const collectionList = this.props.collections.map((elem) => {
             if (elem === '') {
                 return <button
-                    key={elem+'button'}
+                    key={elem + 'button'}
                     className="btn list-group-item ml-5"
                     name=''
                     onClick={this.handleGetCustomerCollection}>
@@ -139,7 +149,7 @@ class Dashboard extends Component {
                 </button>
             } else {
                 return <button
-                    key={elem+'button'}
+                    key={elem + 'button'}
                     className="btn list-group-item ml-5"
                     name={elem}
                     onClick={this.handleGetCustomerCollection}>
@@ -150,49 +160,54 @@ class Dashboard extends Component {
 
         const textsList = this.props.textsCustomer.map((elem) => {
 
-                return <tr key={elem.id}>
-                    <td>
-                        <input
-                            onChange={this.handleCheckText}
-                            name={elem.id}
-                            type={'checkbox'}
-                        />
+            return <tr key={elem.id}>
+                <td>
+                    <input
+                        onChange={this.handleCheckText}
+                        name={elem.id}
+                        type={'checkbox'}
+                    />
 
-                    </td>
-                    <td>
-                        {elem.name}
-                    </td>
-                    <td>
-                        {elem.email}
-                    </td>
-                    <td>
-                        {elem.fileName}
-                    </td>
-                    <td>
-                        <a className='btn btn-info text-decoration-none' href={elem.fileUrl}>Download</a>
-                    </td>
-                    <td>
-                        {elem.originalLanguage}
-                    </td>
-                    <td>
-                        {elem.translationLanguage}
-                    </td>
-                    <td>
-                        {elem.extraReview ? ('Yes') : 'No'}
-                    </td>
-                    <td>
-                        {elem.translationSpeed ? ('Fast') : 'Ordinary'}
-                    </td>
-                    <td>
-                        {elem.tags.join(', ')}
-                    </td>
-                    <td>
-                        {elem.date}
-                    </td>
-                    <td>
-                        <a className='btn btn-warning text-decoration-none' href={'/messages'}>Edit</a>
-                    </td>
-                </tr>
+                </td>
+                <td>
+                    {elem.name}
+                </td>
+                <td>
+                    {elem.email}
+                </td>
+                <td>
+                    {elem.fileName}
+                </td>
+                <td>
+                    <a className='btn btn-info text-decoration-none' href={elem.fileUrl}>Download</a>
+                </td>
+                <td>
+                    {elem.originalLanguage}
+                </td>
+                <td>
+                    {elem.translationLanguage}
+                </td>
+                <td>
+                    {elem.extraReview ? ('Yes') : 'No'}
+                </td>
+                <td>
+                    {elem.translationSpeed ? ('Fast') : 'Ordinary'}
+                </td>
+                <td>
+                    {elem.tags.join(', ')}
+                </td>
+                <td>
+                    {elem.date}
+                </td>
+                <td>
+                    <button type="button" className="btn btn-success" data-toggle="modal"
+                            data-target="#exampleModalCenter" onClick={(e) => {
+                        this.handleChangeEditedTranslate(e, elem)
+                    }}>
+                        Edit
+                    </button>
+                </td>
+            </tr>
         });
 
         const {errors} = this.state;
@@ -262,7 +277,7 @@ class Dashboard extends Component {
                 )}
 
 
-                <h1 className='mt-5'>{this.state.selectedCollection===''?('Texts without collection:'):this.state.selectedCollection}</h1>
+                <h1 className='mt-5'>{this.state.selectedCollection === '' ? ('Texts without collection:') : this.state.selectedCollection}</h1>
                 <div className="d-flex flex-wrap col-12 justify-content-center mt-3">
                     <table className='table'>
                         <tbody>
@@ -308,6 +323,9 @@ class Dashboard extends Component {
                         </tbody>
                     </table>
                 </div>
+                <EditModal
+                    editedTranslate={this.state.editedTranslate}
+                />
             </div>
         )
     }
