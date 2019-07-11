@@ -4,7 +4,6 @@ import {FETCH_ALL_MESSAGES} from '../types'
 
 export const fetchAllMessages = senderData => dispatch => {
     axios.post(`${server}api/messages/getMessages`, senderData)
-
     .then(res => {
         dispatch({
             type: FETCH_ALL_MESSAGES,
