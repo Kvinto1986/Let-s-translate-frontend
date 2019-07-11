@@ -3,7 +3,7 @@ import server from '../../serverConfig'
 import {GET_ERRORS} from '../types'
 
 export const editProfileData = (data, user) => dispatch => {
-    let route
+    let route;
 
     if(user.role === 'admin' || user.role === 'translator') {
         route = 'api/users'

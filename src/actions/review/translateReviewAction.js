@@ -5,7 +5,7 @@ import {FETCH_TRANSLATES_TO_REVIEW} from '../types';
 export const translateReview = (data, languages) => dispatch => {
     axios.post(`${server}api/translates/translateReview`, data)
     .then(res => {
-        console.log(res.data);
+        console.log(res.data)
 
         // Update table
         axios.post(`${server}api/translates/getTranslatesForReview`, languages)

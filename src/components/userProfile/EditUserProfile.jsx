@@ -23,7 +23,7 @@ class EditUserProfile extends Component {
         password: '',
         passwordCur: '',
         errors: {}
-    }
+    };
 
     handleChange = (e) => {
         this.setState({

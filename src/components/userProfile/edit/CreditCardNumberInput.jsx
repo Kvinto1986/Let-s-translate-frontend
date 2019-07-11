@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import CurentValue from '../../common/CurentValue'
 import classNames from 'classnames'
 
