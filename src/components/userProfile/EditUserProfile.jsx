@@ -59,9 +59,7 @@ class EditUserProfile extends Component {
 
     render() {
         const {role, name, email, phone, creditCard} = this.props.auth.user
-        const {errors} = this.state
-        console.log(errors);
-        
+        const {errors} = this.state      
         
         return (
             <div className="container">
