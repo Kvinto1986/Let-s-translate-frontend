@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4c2e518f-c45c-4bf9-a611-532bd32c70e1" name="Default Changelist" comment="header style change" />
+    <list default="true" id="4c2e518f-c45c-4bf9-a611-532bd32c70e1" name="Default Changelist" comment="test">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -25,7 +27,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="TEST2" />
       </map>
     </option>
     <favorite-branches>
@@ -120,9 +122,33 @@
             <path>
               <item name="Let-s-translate-frontend" type="b2602c69:ProjectViewProjectNode" />
               <item name="Let-s-translate-frontend" type="462c0819:PsiDirectoryNode" />
-
               <item name="src" type="462c0819:PsiDirectoryNode" />
-
+            </path>
+            <path>
+              <item name="Let-s-translate-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Let-s-translate-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="actions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Let-s-translate-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Let-s-translate-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Let-s-translate-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Let-s-translate-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="customerPage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Let-s-translate-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Let-s-translate-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="userProfile" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -423,23 +449,17 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-
-    <option name="totallyTimeSpent" value="179514000" />
-
+    <option name="totallyTimeSpent" value="179657000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15806112" />
-
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49841937" visible="true" weight="0.26868907" />
-
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -841,7 +861,6 @@
         </state>
       </provider>
     </entry>
-
     <entry file="file://$PROJECT_DIR$/src/components/common/FormTitle.jsx">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -852,14 +871,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3420">
           <caret line="171" selection-start-line="171" selection-end-line="177" selection-end-column="5" />
-
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-
     <entry file="file://$PROJECT_DIR$/src/components/customerPage/customerPage.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
