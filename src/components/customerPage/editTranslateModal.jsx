@@ -14,7 +14,7 @@ class EditModal extends Component {
         tagsEditVisibility: false,
         fileName:'',
         originalLanguage:'',
-        translateLanguage:'',
+        translationLanguage:'',
         review:null,
         speed:null,
         tags:[],
@@ -38,7 +38,7 @@ class EditModal extends Component {
         this.setState({
             fileName: nextProps.editedTranslate.fileName,
             originalLanguage:nextProps.editedTranslate.originalLanguage,
-            translateLanguage:nextProps.editedTranslate.translateLanguage,
+            translationLanguage:nextProps.editedTranslate.translationLanguage,
             review:nextProps.editedTranslate.review,
             speed:nextProps.editedTranslate.speed,
             tags:nextProps.editedTranslate.tags,
