@@ -23,16 +23,16 @@ class EditUserProfile extends Component {
         password: '',
         passwordCur: '',
         errors: {}
-    }
+    };
 
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
-    }
+    };
 
     handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         const data = {
             name: this.state.name,
@@ -41,13 +41,13 @@ class EditUserProfile extends Component {
             creditCard: this.state.creditCard,
             password: this.state.password,
             passwordCur: this.state.passwordCur
-        }
+        };
 
         this.props.editProfileData(data, this.props.auth.user)
         .then((res) => {
             this.props.logoutUser(this.props.history)
         })
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
