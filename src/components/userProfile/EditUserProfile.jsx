@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
 import {editProfileData} from '../../actions/user/editProfileDataAction'
-import {logoutUser} from '../../actions/authAction';
+import {logoutUser} from '../../actions/authAction'
 
 import FormTitle from '../common/FormTitle'
 import ButtonSubmit from '../common/ButtonSubmit'
