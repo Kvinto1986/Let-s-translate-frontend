@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom'
 
 const UserProfile = props => {
     const {isAuthenticated, user} = props.auth
@@ -11,13 +11,8 @@ const UserProfile = props => {
             <div className="col-3 d-flex flex-column align-items-center">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/1200px-Anonymous_emblem.svg.png" alt="userAvatar" width="200px"/>
                 <h3>{name}</h3>
-                <Link to="/profile/edit">
-                    <button className="btn btn-outline-dark">
-                        Edit
-                    </button>
-                </Link>
             </div>
-            <div className="col-9">
+            <div className="col-8">
                 <section>
                     <h5>Email</h5>
                     <span>{email}</span>
@@ -47,13 +42,19 @@ const UserProfile = props => {
                     <span>{date}</span>
                 </section>
             </div>
+            <div className="col-1">
+                <Link to="/profile/edit">
+                    <button className="btn btn-outline-gray">
+                        <em>Edit</em>
+                    </button>
+                </Link>
+            </div>
         </div>
     )
     : (
         <div>
             <div>
                 <img src="" alt="user"/>
-                
             </div>
         </div>
     )
