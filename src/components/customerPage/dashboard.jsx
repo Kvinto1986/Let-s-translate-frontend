@@ -2,10 +2,15 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import Select from 'react-select';
 import {withRouter} from 'react-router-dom';
-import {getTextCustomers, registrationCollection, deleteTexts, getAllCollections} from "../../actions/textAction";
-import languages from '../../resources/JSON/languages'
-import tags from '../../resources/JSON/tags'
+import {
+    getTextCustomers,
+    registrationCollection,
+    deleteTexts,
+    getAllCollections,
+    updateText
+} from "../../actions/textAction";
 import EditModal from './editTranslateModal'
+
 class Dashboard extends Component {
 
     state = {
@@ -325,6 +330,10 @@ class Dashboard extends Component {
                 </div>
                 <EditModal
                     editedTranslate={this.state.editedTranslate}
+                    updateText={this.props.updateText}
+                    customerEmail={this.props.auth.user.email}
+                    customerName={this.props.auth.user.name}
+                    errors={this.props.errors}
                 />
             </div>
         )
@@ -342,5 +351,6 @@ export default connect(mapStateToProps, {
     getTextCustomers,
     registrationCollection,
     deleteTexts,
-    getAllCollections
+    getAllCollections,
+    updateText
 })(withRouter(Dashboard))

@@ -72,3 +72,23 @@ export const deleteTexts = (texts,reset) => dispatch => {
             }
         });
 };
+
+export const updateText = (text, reset) => dispatch => {
+    console.log(text)
+    axios.post(`${server}api/texts/updateText`, text)
+        .then(() => reset())
+        .then(() => {
+            dispatch({
+                type: GET_ERRORS,
+                payload: {}
+            });
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                });
+            }
+        });
+};
