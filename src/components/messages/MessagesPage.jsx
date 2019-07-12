@@ -8,8 +8,8 @@ import MessageDialog from './elements/MessageDialog'
 
 class MessagesPage extends Component {
     componentDidMount() {
-        const {role, name, email} = this.props.auth.user;
-        this.props.fetchAllMessages({role, name, email})
+        //const {role, name, email} = this.props.auth.user;
+        //this.props.fetchAllMessages({role, name, email})
     }
 
     openMessageDialog = (message) => {
