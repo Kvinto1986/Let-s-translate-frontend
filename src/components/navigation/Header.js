@@ -9,6 +9,7 @@ import logo from '../../resources/images/logo/logo-translate.png'
 import msgImage from '../../resources/images/navigation/message.png'
 
 import LinkGroup from './LinkGroup'
+import Alert from '../common/Alert'
 
 const style = {
     marginBottom: '25px'
@@ -25,9 +26,26 @@ class Header extends Component {
     constructor() {
         super();
         this.state = {
-            endpoint: 'http://localhost:4000/'
+            endpoint: 'http://localhost:4000/',
+            newTextAlert: false
         };
         socket = socketIOClient(this.state.endpoint);
+    }
+
+    componentDidMount() {
+        if(this.props.auth.user.role === 'translator') {
+            socket.on('newTextAlert', data => {
+                this.setState({
+                    newTextAlert: data
+                })
+                
+                setTimeout(() => {
+                    this.setState({
+                        newTextAlert: false
+                    })
+                }, 30000)
+            })
+        }
     }
 
     onLogout(e) {
@@ -69,17 +87,24 @@ class Header extends Component {
         );
 
         return (
-            <header style={style}>
-                <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
-                    <div className={'col-12 d-flex justify-content-between align-items-center'}>
-                        <Link className="navbar-brand" to="/">
-                            <img src={logo} alt="logo-translate.png" width="120" height="90"/>
-                            <span className='h1 ml-3'>Let's translate</span>
-                        </Link>
-                        {isAuthenticated ? authLinks : guestLinks}
-                    </div>
-                </nav>
-            </header>
+            <Fragment>
+                <header style={style}>
+                    <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
+                        <div className={'col-12 d-flex justify-content-between align-items-center'}>
+                            <Link className="navbar-brand" to="/">
+                                <img src={logo} alt="logo-translate.png" width="120" height="90"/>
+                                <span className='h1 ml-3'>Let's translate</span>
+                            </Link>
+                            {isAuthenticated ? authLinks : guestLinks}
+                        </div>
+                    </nav>
+                </header>
+                {
+                    ((this.state.newTextAlert && user.languages.every(userLanguage => this.state.newTextAlert.languages.includes(userLanguage))) && (
+                        <Alert data={this.state.newTextAlert} />
+                    ))
+                }
+            </Fragment>
         )
     }
 };
