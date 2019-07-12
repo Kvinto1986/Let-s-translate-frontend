@@ -13,7 +13,7 @@ class MessagesPage extends Component {
     }
 
     openMessageDialog = (message) => {
-        console.log(message);
+        // console.log(message);
         this.props.history.push(`/messages/dialog/${message.recipientEmail}`)
     };
 
