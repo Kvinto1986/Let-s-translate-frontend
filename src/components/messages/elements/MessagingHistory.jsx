@@ -10,7 +10,7 @@ class MessagingHistory extends Component {
 
     render() {
         // const {name} = this.props
-        console.log(this.props.messages);
+        // console.log(this.props.messages);
         
         return (
             <>

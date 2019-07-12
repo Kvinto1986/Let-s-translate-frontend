@@ -19,7 +19,8 @@ class MessageDialog extends Component {
         let recipientEmail = '';
         if (this.props.location.hash) {
             recipientEmail = this.props.match.params.recipientEmail + this.props.location.hash;
-        } else recipientEmail = this.props.match.params.recipientEmail;
+        } 
+        else recipientEmail = this.props.match.params.recipientEmail;
 
         const senderEmail = this.props.auth.user.email;
         this.props.getUniqueDialog({recipientEmail, senderEmail})
@@ -66,7 +67,10 @@ class MessageDialog extends Component {
                 <td>{elem.messageText}</td>
                 <td>{elem.date}</td>
             </tr>
-        });
+        });   
+
+        // console.log('=====================');
+        // console.log(this.props.dialogReducer);
 
         return (
             <Fragment>
@@ -99,7 +103,6 @@ class MessageDialog extends Component {
                                 Send
                             </button>
                         </th>
-
                     </tr>
                     </tbody>
                 </table>

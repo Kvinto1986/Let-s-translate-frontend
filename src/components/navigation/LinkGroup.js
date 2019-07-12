@@ -1,12 +1,18 @@
 import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom'
+import { socket } from "./Header";
 
 class LinkGroup extends Component {
     state = {
         links: []
     };
+    
 
     componentDidMount() {
+        socket.on('povistka_alert', message => {
+            alert(message)
+        })
+        
         const role = this.props.role;
 
         const adminLinks = [
@@ -58,6 +64,7 @@ class LinkGroup extends Component {
         return (
 
             <ul className="navbar-nav mr-auto navUserLinks col-6 d-flex justify-content-around ml-5 ">
+                <button onClick={() => socket.emit("povistka", "Vam povistka!!!")}>Create povistka</button>
                 {links.map(linkUnit => {
                     return (
                         <li className="nav-item" key={linkUnit.title}>

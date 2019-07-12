@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import {logoutUser} from '../../actions/authAction';
 import {withRouter} from 'react-router-dom';
+import socketIOClient from "socket.io-client";
 
 import logo from '../../resources/images/logo/logo-translate.png'
 import msgImage from '../../resources/images/navigation/message.png'
@@ -17,7 +18,17 @@ const badgeStyle = {
     fontSize: '9px'
 };
 
+export let socket;
 class Header extends Component {
+
+    /* Creating a Socket client and exporting it at the end to be used across the Place Order, Kitchen, etc components*/
+    constructor() {
+        super();
+        this.state = {
+            endpoint: 'http://localhost:4000/'
+        };
+        socket = socketIOClient(this.state.endpoint);
+    }
 
     onLogout(e) {
         e.preventDefault();
