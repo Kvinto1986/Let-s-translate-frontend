@@ -16,6 +16,7 @@ class EditModal extends Component {
         tagsEditVisibility: false,
         textAreaVisibility: false,
         fileDownloadVisibility: false,
+        modalDismiss: '',
         customerEmail: '',
         customerName: '',
         translateID: '',
@@ -28,8 +29,8 @@ class EditModal extends Component {
         fileName: '',
         originalLanguage: '',
         translationLanguage: '',
-        extraReview: null,
-        translationSpeed: null,
+        extraReview: '',
+        translationSpeed: '',
         tags: [],
         errors: {}
     };
@@ -111,39 +112,42 @@ class EditModal extends Component {
             this.setState({tags: tags});
     };
 
-    resetForm = () => {
-        this.setState({
-            textEditVisibility: false,
-            originalLanguageEditVisibility: false,
-            translateLanguageEditVisibility: false,
-            reviewEditVisibility: false,
-            speedEditVisibility: false,
-            tagsEditVisibility: false,
-            textAreaVisibility: false,
-            fileDownloadVisibility: false,
-            customerEmail: '',
-            customerName: '',
-            translateID: '',
-            textAreaName: "",
-            textArea: "",
-            textAreaRequired: "required",
-            textFileName: "",
-            textFileRequired: "required",
-            textFileURL: "",
-            fileName: '',
-            originalLanguage: '',
-            translationLanguage: '',
-            extraReview: null,
-            translationSpeed: null,
-            tags: [],
-            errors: {}
-        });
+    resetForm = () => {this.setState({
+        textEditVisibility: false,
+        originalLanguageEditVisibility: false,
+        translateLanguageEditVisibility: false,
+        reviewEditVisibility: false,
+        speedEditVisibility: false,
+        tagsEditVisibility: false,
+        textAreaVisibility: false,
+        fileDownloadVisibility: false,
+        modalDismiss: '',
+        customerEmail: '',
+        customerName: '',
+        translateID: '',
+        textAreaName: "",
+        textArea: "",
+        textAreaRequired: "required",
+        textFileName: "",
+        textFileRequired: "required",
+        textFileURL: "",
+        fileName: '',
+        originalLanguage: '',
+        translationLanguage: '',
+        extraReview: '',
+        translationSpeed: '',
+        tags: [],
+        errors: {}
+    });
+        window.location.reload()
     };
+
+
 
     handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(this.props.updateText)
+        console.log(this.props.updateText);
 
         const tagsArr = Array.from(this.state.tags).map((elem) => elem.value);
 
@@ -186,12 +190,11 @@ class EditModal extends Component {
         } else {
             this.props.updateText(text, this.resetForm);
         }
-
+        this.setState({modalDismiss: 'modal'});
     };
 
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
         if (nextProps.errors) {
             this.setState({
                 errors: nextProps.errors

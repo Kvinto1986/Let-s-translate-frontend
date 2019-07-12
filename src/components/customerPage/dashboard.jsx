@@ -328,12 +328,17 @@ class Dashboard extends Component {
                         </tbody>
                     </table>
                 </div>
+
                 <EditModal
                     editedTranslate={this.state.editedTranslate}
                     updateText={this.props.updateText}
                     customerEmail={this.props.auth.user.email}
                     customerName={this.props.auth.user.name}
                     errors={this.props.errors}
+                    getTextCustomers={this.props.getTextCustomers}
+                    getAllCollections={this.props.getAllCollections}
+                    collectionName={this.state.selectedCollection}
+                    email={this.props.auth.user.email}
                 />
             </div>
         )
