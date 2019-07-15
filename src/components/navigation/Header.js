@@ -27,7 +27,8 @@ class Header extends Component {
         super();
         this.state = {
             endpoint: 'http://localhost:4000/',
-            newTextAlert: false
+            newTextAlert: false,
+            newTranslateStatus: false
         };
         socket = socketIOClient(this.state.endpoint);
     }
@@ -42,6 +43,20 @@ class Header extends Component {
                 setTimeout(() => {
                     this.setState({
                         newTextAlert: false
+                    })
+                }, 30000)
+            })
+        }
+
+        if(this.props.auth.user.role === 'customer') {
+            socket.on('newTranslateStatusAlert', data => {
+                this.setState({
+                    newTranslateStatus: data
+                })
+                
+                setTimeout(() => {
+                    this.setState({
+                        newTranslateStatus: false
                     })
                 }, 30000)
             })
@@ -99,9 +114,19 @@ class Header extends Component {
                         </div>
                     </nav>
                 </header>
+                {/* New text alert */}
                 {
-                    ((this.state.newTextAlert && user.languages.every(userLanguage => this.state.newTextAlert.languages.includes(userLanguage))) && (
-                        <Alert data={this.state.newTextAlert} />
+                    (( this.state.newTextAlert 
+                    && user.languages.every(userLanguage => this.state.newTextAlert.languages.includes(userLanguage))) && (
+                        <Alert data={this.state.newTextAlert} type="newTextAlert" />
+                    ))
+                }
+                {/* Translate status change alert */}
+                {
+                    (( this.state.newTranslateStatus 
+                    && this.state.newTranslateStatus.customerEmail === this.props.auth.user.email
+                    && this.state.newTranslateStatus.customerName === this.props.auth.user.name) && (
+                        <Alert data={this.state.newTranslateStatus} type="newTranslateStatus" />
                     ))
                 }
             </Fragment>

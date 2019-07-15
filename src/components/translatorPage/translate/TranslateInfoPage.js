@@ -59,6 +59,7 @@ class TranslateInfoPage extends Component {
 
     render() {
         const { data } = this.props.selectedTranslate;
+        const { role } = this.props.auth.user
         if (Object.keys(data).length > 0) {
             const { translate, customerData } = data;
 
@@ -96,32 +97,37 @@ class TranslateInfoPage extends Component {
                             </button>
                         </div>
                     </div>
-                    <div className="col-3 mt-5 ">
+                    <div className="col-3 mt-5">
+                        <h3>Customer</h3>
                         <img src={customerImg} alt="Customer" width="200px" />
-                        <h3>{customerData.name}</h3>
+                        <h4>{customerData.name}</h4>
                         <section>
                             <p><b>Email:</b> {customerData.email}</p>
                         </section>
-                        <form onSubmit={e => this.handleSubmit(e)}>
-                            <div className="form-group">
-                                <label>Your message to customer</label>
-                                <textarea
-                                    name='messageText'
-                                    className="form-control"
-                                    placeholder="Yor message"
-                                    onChange={e => this.handleInputChange(e)}
-                                    value={this.state.messageText}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <button type="submit" className="btn btn-dark">
-                                    Take an order
+                        {(role === 'translator') && (
+                            <>
+                                <form onSubmit={e => this.handleSubmit(e)}>
+                                    <div className="form-group">
+                                        <label>Your message to customer</label>
+                                        <textarea
+                                            name='messageText'
+                                            className="form-control"
+                                            placeholder="Yor message"
+                                            onChange={e => this.handleInputChange(e)}
+                                            value={this.state.messageText}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <button type="submit" className="btn btn-dark">
+                                            Take an order
+                                        </button>
+                                    </div>
+                                </form>
+                                <button type="button" className="btn btn-dark" onClick={() => this.translateStartHendler()}>
+                                    Bind translate
                                 </button>
-                            </div>
-                        </form>
-                        <button type="button" className="btn btn-dark" onClick={() => this.translateStartHendler()}>
-                            Bind translate
-                        </button>
+                            </>
+                        )}
                     </div>
                 </div>
 

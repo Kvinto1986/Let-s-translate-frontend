@@ -5,6 +5,7 @@ import "react-sweet-progress/lib/style.css";
 import {saveTranslate} from '../../../actions/translate/saveTranslate'
 import {finishTranslate} from '../../../actions/translate/finishTranslate'
 import classnames from 'classnames';
+import { socket } from '../../navigation/Header';
 
 const tagStyle = {
     borderRadius: '5px',
@@ -34,6 +35,12 @@ class ManageTranslate extends Component {
         collectionName: this.props.translateToManage.collectionName,
         saveIsSuccess: '',
         errors: {}
+    }
+
+    componentDidMount() {
+        socket.on("newTranslateStatusAlert", () => {
+            this.setState({saveIsSuccess: true})
+        })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -119,7 +126,6 @@ class ManageTranslate extends Component {
         }
 
         this.props.saveTranslate(translateState)
-        this.setState({saveIsSuccess: true})
     }
 
     handleFinish = (e) => {
