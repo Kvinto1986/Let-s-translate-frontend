@@ -190,7 +190,7 @@ class EditModal extends Component {
         } else {
             this.props.updateText(text, this.resetForm);
         }
-        this.setState({modalDismiss: 'modal'});
+
     };
 
 

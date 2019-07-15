@@ -117,6 +117,9 @@ class Login extends Component {
                             </button>
                         </div>
                     </form>
+                    <button className="btn btn-outline-warning text-dark">
+                        I've forgot my password
+                    </button>
                 </div>
             </div>
         )

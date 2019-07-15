@@ -17,6 +17,7 @@
     "popper.js": "^1.15.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-credit-card-input": "^1.1.5",
     "react-credit-cards": "^0.7.0",
     "react-dom": "^16.8.6",
     "react-firebase-file-uploader": "^2.4.2",
@@ -31,7 +32,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "socket-client": "^1.0.0",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "styled-components": "^4.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

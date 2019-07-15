@@ -5,6 +5,7 @@ import "react-sweet-progress/lib/style.css";
 import {saveTranslate} from '../../../actions/translate/saveTranslate'
 import {finishTranslate} from '../../../actions/translate/finishTranslate'
 import classnames from 'classnames';
+import * as firebase from "firebase";
 
 const tagStyle = {
     borderRadius: '5px',
@@ -27,8 +28,8 @@ class ManageTranslate extends Component {
         textFileURL: "",
         originalLanguage: this.props.translateToManage.originalLanguage,
         translationLanguage: this.props.translateToManage.translationLanguage,
-        translateTextVisibility: false,
-        fileDownloadVisibility: false,
+        translateTextVisibility: true,
+        fileDownloadVisibility: true,
         progress: this.props.translateToManage.progress,
         tags: this.props.translateToManage.tags,
         collectionName: this.props.translateToManage.collectionName,
@@ -37,10 +38,27 @@ class ManageTranslate extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
         if (nextProps.translateToManage) {
             if (nextProps.translateToManage.textId !== this.state.textId) {
                 this.setState(nextProps.translateToManage)
             }
+        }
+
+        if (nextProps.translateToManage.progress==='100') {
+            this.setState({
+                translateTextVisibility: false,
+                fileDownloadVisibility:false,
+
+            });
+        }
+
+       else {
+            this.setState({
+                translateTextVisibility: true,
+                fileDownloadVisibility:true,
+
+            });
         }
 
         if (nextProps.errors) {
@@ -64,7 +82,7 @@ class ManageTranslate extends Component {
             translateTextName: e.target.value
         });
 
-        if (e.target.value.length === 0 && this.state.translateText.length === 0) {
+        if (e.target.value.length === 0) {
             this.setState({
                 fileDownloadVisibility: false
             })
@@ -117,9 +135,42 @@ class ManageTranslate extends Component {
             translateText,
             date: Date.now()
         }
-
-        this.props.saveTranslate(translateState)
+        
         this.setState({saveIsSuccess: true})
+
+        if (this.state.textFileName.name) {
+            firebase
+                .storage()
+                .ref("translates")
+                .child(this.state.customerEmail + '-' + this.state.textFileName.name)
+                .put(this.state.textFileName).then((snapshot) => {
+                snapshot.ref.getDownloadURL().then(url =>
+                    this.setState({textFileURL: url})).then(() => {
+                    translateState.translatedfileName = this.state.customerEmail + '-' + this.state.textFileName.name;
+                    translateState.translatedTextFileUrl = this.state.textFileURL;
+                    this.props.finishTranslate(translateState);
+                })
+            });
+        }
+
+        else if (this.state.translateTextName.length > 0 && this.state.translateText.length > 0) {
+
+            firebase
+                .storage()
+                .ref("translates")
+                .child(this.state.customerEmail + '-' + this.state.translateTextName + '.txt')
+                .putString(this.state.translateText).then((snapshot) => {
+                snapshot.ref.getDownloadURL().then(url =>
+                    this.setState({textFileURL: url})).then(() => {
+                    translateState.translatedfileName = this.state.customerEmail + '-' + this.state.translateTextName + '.txt';
+                    translateState.translatedTextFileUrl = this.state.textFileURL;
+                    this.props.finishTranslate(translateState);
+                })
+            });
+        } else {
+            this.props.saveTranslate(translateState)
+        }
+
     }
 
     handleFinish = (e) => {
