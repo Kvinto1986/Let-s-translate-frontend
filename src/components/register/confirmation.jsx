@@ -2,54 +2,59 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {loginUser} from '../../actions/authAction';
+import {confirmationCustomer} from '../../actions/customerAction';
 
 class Confirm extends Component {
-    state={
-        confirmUserEmail:'',
-        confirmUserCreditCard:'',
-        redirect:false,
+    state = {
+        redirect: '',
     };
-    
+
+    handleChangeRedirectTrue = () => {
+        this.setState({redirect:true})
+    };
+
+    handleChangeRedirectFalse = () => {
+        this.setState({redirect:false})
+    };
+
+    reset = () => {
+        this.setState({redirect:''})
+    };
+
+
 
     componentDidMount() {
-        const userDataString=this.props.location.pathname.split('/')[2];
-        if(userDataString) {
-            this.setState({
-                confirmUserCreditCard: userDataString.substr(0, 16),
-                confirmUserEmail: userDataString.substr(16),
-            });
-
-        }
-
-        else {
-            console.log(userDataString)
-        }
+        const hash = this.props.location.pathname.replace('/confirm/','');
+        console.log(hash)
+        this.props.confirmationCustomer({hash: hash},this.handleChangeRedirectTrue,this.handleChangeRedirectFalse)
     }
 
     render() {
 
         console.log(this.state)
-        if (this.state.redirect) {
+        if (this.state.redirect===true) {
+
             return (
-               <h1>Noooooo</h1>
+                <div className='col-12 row mt-5 d-flex flex-wrap justify-content-center text-info'>
+                <h1>Congratulations, your profile has been verified!</h1>
+                </div>
+            )
+        } else if (this.state.redirect===false) {
+            this.props.history.push('/');
+            return (
+                <h1>Customer not found</h1>
             )
         }
-        else return (
-            <h1>{this.state.confirmUserEmail} </h1>
-        )
+        else return null
     }
 }
 
 Confirm.propTypes = {
-    loginUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    auth: state.auth,
     errors: state.errors
 });
 
-export default connect(mapStateToProps, {loginUser})(Confirm)
+export default connect(mapStateToProps, {confirmationCustomer})(Confirm)
