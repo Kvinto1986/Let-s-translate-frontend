@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux';
 import {logoutUser} from '../../actions/authAction';
+import {fetchAllUnreadMessages} from '../../actions/messages/fetchAllUnreadMessages'
 import {withRouter} from 'react-router-dom';
 import socketIOClient from "socket.io-client";
 
@@ -61,6 +62,8 @@ class Header extends Component {
                 }, 30000)
             })
         }
+
+        this.props.fetchAllUnreadMessages({user: this.props.auth.user})
     }
 
     onLogout(e) {
@@ -70,13 +73,16 @@ class Header extends Component {
 
     render() {
         const {isAuthenticated, user} = this.props.auth;
+        const {unreadMessages} = this.props
         const authLinks = (
             <Fragment>
                 <LinkGroup role={user.role} />
                 <div className="my-2 my-lg-0">
                     <Link to="/messages">
                         <img src={msgImage} alt='Messages' className="mr-1"/>
-                        <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>3</span>
+                        <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>
+                            {unreadMessages.length}
+                        </span>
                     </Link>
                     <Link to="/profile">
                         <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
@@ -135,7 +141,11 @@ class Header extends Component {
 };
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+    auth: state.auth,
+    unreadMessages: state.unreadMessages
 });
 
-export default connect(mapStateToProps, {logoutUser})(withRouter(Header));
+export default connect(mapStateToProps, {
+    logoutUser,
+    fetchAllUnreadMessages
+})(withRouter(Header));

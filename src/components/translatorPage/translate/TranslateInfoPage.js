@@ -4,7 +4,6 @@ import { fetchTranslateDataByID } from '../../../actions/fetchTranslateByID'
 import customerImg from '../../../resources/images/bilboard/f2db5b1fae65676bfd1ecae1dbfdc3a2.jpg'
 import {startTranslate} from '../../../actions/translate/startTranslateAction'
 import {letsTranslate} from '../../../actions/translate/letsTranslate'
-import { log } from 'util';
 
 class TranslateInfoPage extends Component {
 
