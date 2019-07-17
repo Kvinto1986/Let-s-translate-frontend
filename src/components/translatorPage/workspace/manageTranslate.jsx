@@ -5,7 +5,11 @@ import "react-sweet-progress/lib/style.css";
 import {saveTranslate} from '../../../actions/translate/saveTranslate'
 import {finishTranslate} from '../../../actions/translate/finishTranslate'
 import classnames from 'classnames';
+
 import * as firebase from "firebase";
+
+import { socket } from '../../navigation/Header';
+
 
 const tagStyle = {
     borderRadius: '5px',
@@ -35,6 +39,12 @@ class ManageTranslate extends Component {
         collectionName: this.props.translateToManage.collectionName,
         saveIsSuccess: '',
         errors: {}
+    }
+
+    componentDidMount() {
+        socket.on("newTranslateStatusAlert", () => {
+            this.setState({saveIsSuccess: true})
+        })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -135,7 +145,7 @@ class ManageTranslate extends Component {
             translateText,
             date: Date.now()
         }
-        
+
         this.setState({saveIsSuccess: true})
 
         if (this.state.textFileName.name) {
@@ -170,6 +180,7 @@ class ManageTranslate extends Component {
         } else {
             this.props.saveTranslate(translateState)
         }
+
 
     }
 

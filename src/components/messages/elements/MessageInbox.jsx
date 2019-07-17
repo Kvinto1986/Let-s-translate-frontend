@@ -10,11 +10,11 @@ class MessageInbox extends Component {
 
     render() {
         return (
-            <>
+            <div className="container"> 
                 <h3>Inbox</h3>
                 <hr/>
                 <section>
-                    <table className="table table-borderless">
+                    <table className="table table-borderless table-hover" style={{cursor: "pointer"}}>
                         <tbody>
                             {this.props.messages.map((elem, index) => {
                                 return (
@@ -25,13 +25,28 @@ class MessageInbox extends Component {
                                         <td>
                                             {elem.messageText}
                                         </td>
+                                        <td className="d-flex justify-content-end align-items-center">
+                                            {
+                                                (elem.recipientUnreadedMessagesCount > 0)
+                                                ? (
+                                                    <span className="badge badge-pill badge-dark">
+                                                        New {elem.recipientUnreadedMessagesCount}
+                                                    </span>
+                                                )
+                                                : (
+                                                    <span>
+                                                        <small><em> Last message at {elem.date}</em></small>
+                                                    </span>
+                                                )
+                                            }
+                                        </td>
                                     </tr>
                                 )
                             })}
                         </tbody>
                     </table>
                 </section>
-            </>
+            </div>
         )
     }
 }
