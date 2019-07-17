@@ -29,13 +29,16 @@ class Header extends Component {
         this.state = {
             endpoint: 'http://localhost:4000/',
             newTextAlert: false,
-            newTranslateStatus: false
+            newTranslateStatus: false,
+            unreadMessagesCount: 0
         };
         socket = socketIOClient(this.state.endpoint);
     }
 
     componentDidMount() {
-        if(this.props.auth.user.role === 'translator') {
+        const {user} = this.props.auth;
+
+        if(user.role === 'translator') {
             socket.on('newTextAlert', data => {
                 this.setState({
                     newTextAlert: data
@@ -49,7 +52,7 @@ class Header extends Component {
             })
         }
 
-        if(this.props.auth.user.role === 'customer') {
+        if(user.role === 'customer') {
             socket.on('newTranslateStatusAlert', data => {
                 this.setState({
                     newTranslateStatus: data
@@ -63,6 +66,20 @@ class Header extends Component {
             })
         }
 
+        socket.on('spawnMessage', data => {
+            if (user.email === data.recipientEmail) {
+                if(this.props.history.location.pathname.indexOf('/messages') === -1) {
+                    this.props.fetchAllUnreadMessages({user: this.props.auth.user})
+                }
+            }
+        })
+
+        socket.on('unreadMessageCountDiscard', data => {  
+            if(user.email === data.email) {
+                this.props.fetchAllUnreadMessages({user: this.props.auth.user})
+            }
+        })
+
         this.props.fetchAllUnreadMessages({user: this.props.auth.user})
     }
 
@@ -74,15 +91,19 @@ class Header extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {unreadMessages} = this.props
+        console.log(unreadMessages.length);
+        
         const authLinks = (
             <Fragment>
                 <LinkGroup role={user.role} />
                 <div className="my-2 my-lg-0">
                     <Link to="/messages">
                         <img src={msgImage} alt='Messages' className="mr-1"/>
-                        <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>
-                            {unreadMessages.length}
-                        </span>
+                        {(unreadMessages.length > 0) && (
+                            <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>
+                                {unreadMessages.length}
+                            </span>
+                        )}
                     </Link>
                     <Link to="/profile">
                         <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
@@ -142,7 +163,8 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    unreadMessages: state.unreadMessages
+    unreadMessages: state.unreadMessages,
+    messages: state.messages,
 });
 
 export default connect(mapStateToProps, {

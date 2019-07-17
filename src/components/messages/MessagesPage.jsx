@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {fetchAllMessages} from '../../actions/messages/fetchMessages'
 import {Link, Switch, Route, Redirect} from 'react-router-dom'
 import MessageInbox from './elements/MessageInbox'
-import MessagingHistory from './elements/MessagingHistory'
 import MessageDialog from './elements/MessageDialog'
 
 class MessagesPage extends Component {
@@ -11,8 +10,6 @@ class MessagesPage extends Component {
     openMessageDialog = (message) => {
         this.props.history.push(`/messages/dialog/${message.recipientEmail}`)
     };
-
-
 
     render() {
         if(this.props.location.pathname === '/messages') {
@@ -39,10 +36,6 @@ class MessagesPage extends Component {
                 path="/messages/dialog/:recipientEmail"
                 component={MessageDialog}
                 />
-                <Route 
-                exact
-                path="/messages/history/:inboxElementID"
-                component={MessagingHistory}/>
             </Switch>
         );
     }

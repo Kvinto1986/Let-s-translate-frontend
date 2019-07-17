@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { getUniqueDialog } from '../../../actions/messages/getUniqueDialog'
 import { registerMessage } from '../../../actions/messages/newMessageRegister'
+import { fetchAllUnreadMessages } from '../../../actions/messages/fetchAllUnreadMessages'
 import recipientImg from '../../../resources/images/bilboard/f2db5b1fae65676bfd1ecae1dbfdc3a2.jpg'
 import { socket } from '../../navigation/Header'
 import { DominoSpinner } from "react-spinners-kit"
@@ -41,6 +42,8 @@ class MessageDialog extends Component {
 
         // TODO: Fetch chat member data
         this.props.getUniqueDialog({ recipientEmail, senderEmail })
+        socket.emit('didMountUnreadMessageCountDiscard', user)
+        // this.props.fetchAllUnreadMessages({user: this.props.auth.user})
 
         socket.on('spawnMessage', data => {
             if (user.email === data.senderEmail || user.email === data.recipientEmail) {
@@ -59,7 +62,6 @@ class MessageDialog extends Component {
                 setTimeout(() => this.setState({typing: false}), 1000)
             }
         })
-
     }
 
     reset = () => {
@@ -109,6 +111,7 @@ class MessageDialog extends Component {
                         <div className="col-10">
                             {
                                 this.props.dialogReducer.map((message) => {
+                                    
                                     let msgClasses, msgStyles
                                     if (message.senderEmail === recipientEmail) {
                                         msgClasses = "d-flex flex-column align-items-start"
@@ -237,5 +240,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
     getUniqueDialog,
-    registerMessage
+    registerMessage,
+    fetchAllUnreadMessages
 })(MessageDialog);
