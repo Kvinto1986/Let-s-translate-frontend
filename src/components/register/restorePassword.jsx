@@ -2,15 +2,22 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {newCustomerPassword} from '../../actions/customerAction';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
+
+import {newCustomerPassword,editPassword} from '../../actions/customerAction';
 
 class NewPassword extends Component {
     state = {
         redirect: '',
         user:{},
         password: '',
-        password_confirm: ''
+        password_confirm: '',
+        errors:{}
     };
+
+
 
     handleInputChange = (e) => {
         this.setState({
@@ -23,15 +30,43 @@ class NewPassword extends Component {
         this.setState({redirect:true,user:user})
     };
 
+    reset = () => {
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'Your password has been changed successfully!',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.value) {
+                this.props.history.push('/login');
+            }
+        })
+
+    };
+
     handleChangeRedirectFalse = () => {
         this.setState({redirect:false})
     };
 
-    reset = () => {
-        this.setState({redirect:''})
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        const user = {
+            id: this.state.user.id,
+            password: this.state.password,
+            password_confirm: this.state.password_confirm
+        };
+
+        this.props.editPassword(user,this.reset)
     };
 
-
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
+    }
 
     componentDidMount() {
         const password = this.props.location.pathname.replace('/newPassword/','');
@@ -40,8 +75,7 @@ class NewPassword extends Component {
     }
 
     render() {
-
-        console.log(this.state)
+        const {errors} = this.state;
         if (this.state.redirect===true) {
 
             return (
@@ -92,7 +126,9 @@ class NewPassword extends Component {
                                 onChange={this.handleInputChange}
                                 value={this.state.password_confirm}
                             />
+                            {errors.password && (<div className='text-danger'>{errors.password}</div>)}
                         </div>
+                        <button className='btn btn-info col-7' onClick={this.handleSubmit}>Change password</button>
                     </form>
                 </div>
             )
@@ -106,12 +142,8 @@ class NewPassword extends Component {
     }
 }
 
-NewPassword.propTypes = {
-    errors: PropTypes.object.isRequired
-};
-
 const mapStateToProps = (state) => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, {newCustomerPassword})(NewPassword)
+export default connect(mapStateToProps, {newCustomerPassword,editPassword})(NewPassword)

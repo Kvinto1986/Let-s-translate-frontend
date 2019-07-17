@@ -59,3 +59,18 @@ export const newCustomerPassword = (password,handleChangeRedirectTrue,handleChan
             }
         });
 };
+
+export const editPassword = (password,reset) => dispatch => {
+    axios.post(`${server}api/customers/editPassword`, password)
+        .then((data) => {
+            if(data) reset()
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                });
+            }
+        });
+};
