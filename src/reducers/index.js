@@ -11,6 +11,7 @@ import textsCustomerReduser from './textsCustomerReduser'
 import collectionReduser from './collectonReduser'
 import customerTranslatesReduser from './customerTranslatesReduser'
 import reviewTranslateListReducer from './reviewTranslateListReducer'
+import unreadMessagesReducer from './unreadMessagesReducer'
 
 export default combineReducers({
     auth: authReducer,
@@ -23,5 +24,6 @@ export default combineReducers({
     textsCustomer: textsCustomerReduser,
     collections: collectionReduser,
     customerTranslates: customerTranslatesReduser,
-    reviewTranslateList: reviewTranslateListReducer
+    reviewTranslateList: reviewTranslateListReducer,
+    unreadMessages: unreadMessagesReducer
 });

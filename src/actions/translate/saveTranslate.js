@@ -1,11 +1,12 @@
 import axios from 'axios'
 import {GET_ERRORS} from '../types';
 import server from '../../serverConfig'
+import { socket } from "../../components/navigation/Header";
 
 export const saveTranslate = (savedData) => dispatch => {
     axios.post(`${server}api/translates/saveTranslate`, savedData)
     .then(res => {
-        console.log(res.data);
+        socket.emit('newTranslateStatusData', res.data)
     })
     .catch(err => {
         if (err.response) {

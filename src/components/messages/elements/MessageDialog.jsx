@@ -1,12 +1,21 @@
-import React, {Component, Fragment} from 'react'
-import {connect} from 'react-redux'
-import {getUniqueDialog} from '../../../actions/messages/getUniqueDialog'
-import {registerMessage} from '../../../actions/messages/newMessageRegister'
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { getUniqueDialog } from '../../../actions/messages/getUniqueDialog'
+import { registerMessage } from '../../../actions/messages/newMessageRegister'
+import { fetchAllUnreadMessages } from '../../../actions/messages/fetchAllUnreadMessages'
+import recipientImg from '../../../resources/images/bilboard/f2db5b1fae65676bfd1ecae1dbfdc3a2.jpg'
+import { socket } from '../../navigation/Header'
+import { DominoSpinner } from "react-spinners-kit"
 
 class MessageDialog extends Component {
 
     state = {
-        messageText: ""
+        messageText: "",
+        senderEmail: "",
+        recipientEmail: "",
+        liveTimeMessages: [],
+        typing: false,
+        loading: true
     };
 
     handleInputChange = (e) => {
@@ -15,26 +24,50 @@ class MessageDialog extends Component {
         })
     };
 
-    getDialog = () => {
+    componentDidMount() {
         let recipientEmail = '';
+        const {user} = this.props.auth
+
         if (this.props.location.hash) {
             recipientEmail = this.props.match.params.recipientEmail + this.props.location.hash;
-        } 
+        }
         else recipientEmail = this.props.match.params.recipientEmail;
 
         const senderEmail = this.props.auth.user.email;
-        this.props.getUniqueDialog({recipientEmail, senderEmail})
-    };
 
-    componentDidMount() {
-        this.getDialog()
+        this.setState({
+            senderEmail: senderEmail,
+            recipientEmail: recipientEmail,
+        })
+
+        // TODO: Fetch chat member data
+        this.props.getUniqueDialog({ recipientEmail, senderEmail })
+        socket.emit('didMountUnreadMessageCountDiscard', user)
+        // this.props.fetchAllUnreadMessages({user: this.props.auth.user})
+
+        socket.on('spawnMessage', data => {
+            if (user.email === data.senderEmail || user.email === data.recipientEmail) {
+                this.setState({liveTimeMessages: [...this.state.liveTimeMessages, data]})
+            }
+        })
+
+        socket.on('typing', typerEmail => {
+            if (user.email === senderEmail && typerEmail === recipientEmail) {
+                this.setState({typing: 'Someone'})
+            } 
+        })
+
+        socket.on('stopTyping', typerEmail => {
+            if (user.email === senderEmail && typerEmail === recipientEmail && this.state.typing) {
+                setTimeout(() => this.setState({typing: false}), 1000)
+            }
+        })
     }
 
     reset = () => {
         this.setState({
             messageText: ""
         });
-        window.location.reload()
     };
 
     handleSubmit = (e) => {
@@ -56,56 +89,142 @@ class MessageDialog extends Component {
             messageData.recipientName = currentRecipient.senderName;
         }
 
-        this.props.registerMessage(messageData,this.reset)
+        this.props.registerMessage(messageData, this.reset)
     };
 
+    handleKeyPressing(e) {
+        socket.emit('typingEcho', this.props.auth.user.email)
+    }
+
     render() {
+        const { recipientEmail } = this.state
+        const { user } = this.props.auth
 
-        const dialog = this.props.dialogReducer.map((elem) => {
-            return <tr key={elem.id}>
-                <td>{elem.senderEmail}</td>
-                <td>{elem.messageText}</td>
-                <td>{elem.date}</td>
-            </tr>
-        });   
-
-        // console.log('=====================');
-        // console.log(this.props.dialogReducer);
-
+        if (this.state.messageText === "") {
+            socket.emit('stopTypingEcho', user.email)
+        }
+        
         return (
             <Fragment>
-                <table className="table table-borderless">
-                    <tbody>
-                    <tr key={'header-tr'}>
-                        <th>Sender</th>
-                        <th>Message</th>
-                        <th>Date</th>
-                    </tr>
-                    {dialog}
-                    <tr key={'message=text'} className='mt-5'>
-                        <th>{this.props.auth.user.email}</th>
-                        <th>
-                            <form>
-                                <div className="form-group">
-                                    <label>Your message</label>
-                                    <textarea
-                                        name='messageText'
-                                        className="form-control"
-                                        placeholder="Yor message"
-                                        onChange={this.handleInputChange}
-                                        value={this.state.messageText}
-                                    />
+                <div style={{padding:"10px 25px"}}>
+                    <div className="row">
+                        <div className="col-10">
+                            {
+                                this.props.dialogReducer.map((message) => {
+                                    
+                                    let msgClasses, msgStyles
+                                    if (message.senderEmail === recipientEmail) {
+                                        msgClasses = "d-flex flex-column align-items-start"
+                                        msgStyles = {
+                                            display: "block",
+                                            minWidth: "155px",
+                                            padding: "10px",
+                                            backgroundColor: "lightgray",
+                                            borderRadius: "5px"
+                                        }
+                                    }
+                                    else {
+                                        msgClasses = "d-flex flex-column align-items-end"
+                                        msgStyles = {
+                                            display: "block",
+                                            minWidth: "155px",
+                                            padding: "10px",
+                                            backgroundColor: "lightgreen",
+                                            borderRadius: "5px"
+                                        }
+                                    }
+                                    return (
+                                        <div key={message.id} className={msgClasses}>
+                                            <div className="d-flex flex-column align-items-start">
+                                                <span style={msgStyles}>{message.messageText}</span>
+                                                <p><em><small>{message.date}</small></em></p>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                            {
+                                ((this.state.liveTimeMessages.length > 0) && (
+                                    this.state.liveTimeMessages.map(msg => {
+                                        let msgClasses, msgStyles
+                                    if (msg.senderEmail === recipientEmail) {
+                                        msgClasses = "d-flex flex-column align-items-start"
+                                        msgStyles = {
+                                            display: "block",
+                                            minWidth: "155px",
+                                            padding: "10px",
+                                            backgroundColor: "lightgray",
+                                            borderRadius: "5px"
+                                        }
+                                    }
+                                    else {
+                                        msgClasses = "d-flex flex-column align-items-end"
+                                        msgStyles = {
+                                            display: "block",
+                                            minWidth: "155px",
+                                            padding: "10px",
+                                            backgroundColor: "lightgreen",
+                                            borderRadius: "5px"
+                                        }
+                                    }
+                                    return (
+                                        <div key={msg.id} className={msgClasses}>
+                                            <div className="d-flex flex-column align-items-start">
+                                                <span style={msgStyles}>{msg.messageText}</span>
+                                                <p><em><small>{msg.date}</small></em></p>
+                                            </div>
+                                        </div>
+                                    )
+                                    })
+                                ))
+                            }
+                            {
+                                (this.state.typing && (
+                                    <div className="d-flex align-items-center">
+                                        <span className="mr-1"><small><em>{this.state.typing} is typing ... </em></small></span>
+                                        <DominoSpinner 
+                                            size={45}
+                                            color="#686769"
+                                            loading={this.state.loading}
+                                        />
+                                    </div>
+                                ))
+                            }
+                            <form onSubmit={this.handleSubmit} className="mt-5">
+                                <div className="d-flex justify-content-center">
+                                    <div className="form-group" style={{ width: "75%" }}>
+                                        <textarea
+                                            name='messageText'
+                                            className="form-control"
+                                            placeholder="Type a message"
+                                            onChange={this.handleInputChange}
+                                            value={this.state.messageText}
+                                            rows="1"
+                                            onKeyPress={e => this.handleKeyPressing(e)}
+                                            onChange={e => this.setState({messageText: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="ml-3">
+                                        <button className="btn btn-default btn-sm" type="submit">
+                                            <h5>Send</h5>
+                                        </button>
+                                    </div>
+                                    
                                 </div>
                             </form>
-                        </th>
-                        <th>
-                            <button type="submit" className="btn btn-success mt-5" onClick={this.handleSubmit}>
-                                Send
-                            </button>
-                        </th>
-                    </tr>
-                    </tbody>
-                </table>
+                        </div>
+
+                        <div className="col-2" style={{backgroundColor:"#f1f2f6"}}>
+                            <div className="d-flex flex-column align-items-center">
+                                <img src={recipientImg} alt="Customer" width="200px" className="mt-3" style={{borderRadius:"50%"}} />
+                                <h4>Antoha</h4>
+                                <section>
+                                    <p><b>Email:</b> ---------</p>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Fragment>
 
         )
@@ -121,5 +240,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
     getUniqueDialog,
-    registerMessage
+    registerMessage,
+    fetchAllUnreadMessages
 })(MessageDialog);
