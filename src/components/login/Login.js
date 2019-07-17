@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {loginUser} from '../../actions/authAction';
+import {restoreCustomerPassword} from '../../actions/customerAction';
 
 class Login extends Component {
 
     state = {
         email: '',
         password: '',
-        role:'',
+        role: '',
         errors: {},
+        restoreEmail: '',
         userStatus: false
     };
 
@@ -24,6 +26,10 @@ class Login extends Component {
         this.setState({userStatus: !this.state.userStatus});
     };
 
+    handleRestorePassword = () => {
+        this.props.restoreCustomerPassword({email:this.state.restoreEmail})
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -32,18 +38,19 @@ class Login extends Component {
             password: this.state.password,
         };
 
-        let path='';
+        let path = '';
 
-        if(this.state.userStatus){
-            path='api/users/login';
+        if (this.state.userStatus) {
+            path = 'api/users/login';
         }
 
-        if(!this.state.userStatus){
-            path='api/customers/login';
+        if (!this.state.userStatus) {
+            path = 'api/customers/login';
         }
 
-        this.props.loginUser(user,path);
+        this.props.loginUser(user, path);
     };
+
 
     componentDidMount = () => {
         if (this.props.auth.isAuthenticated) {
@@ -63,20 +70,20 @@ class Login extends Component {
     }
 
     render() {
-        const {errors}=this.state;
+        const {errors} = this.state;
 
         return (
             <div className="login">
                 <div className="container">
                     <h2>Login</h2>
-                    <h5 className="text-info">{this.state.userStatus?'Translator':'Customer'}</h5>
+                    <h5 className="text-info">{this.state.userStatus ? 'Translator' : 'Customer'}</h5>
                     <label className="radio-inline">
                         <input
                             type="radio"
                             checked={!this.state.userStatus}
                             onChange={this.handleChangeUser}
                         />
-                        Customer
+                        <span className='ml-2'>Customer</span>
                     </label>
                     <label className="radio-inline ml-5 ">
                         <input
@@ -84,7 +91,7 @@ class Login extends Component {
                             checked={this.state.userStatus}
                             onChange={this.handleChangeUser}
                         />
-                        Translator
+                        <span className='ml-2'>Translator</span>
                     </label>
 
                     <form onSubmit={this.handleSubmit}>
@@ -94,8 +101,8 @@ class Login extends Component {
                                 placeholder="Email"
                                 name="email"
                                 className="form-control"
-                                onChange={ this.handleInputChange }
-                                value={ this.state.email }
+                                onChange={this.handleInputChange}
+                                value={this.state.email}
                             />
                             {errors.email && (<div className='text-danger'>{errors.email}</div>)}
                         </div>
@@ -105,19 +112,57 @@ class Login extends Component {
                                 placeholder="Password"
                                 name="password"
                                 className="form-control"
-                                onChange={ this.handleInputChange }
-                                value={ this.state.password }
+                                onChange={this.handleInputChange}
+                                value={this.state.password}
 
                             />
                             {errors.password && (<div className='text-danger'>{errors.password}</div>)}
+                            {errors.confirmation && (<div className='text-danger'>{errors.confirmation}</div>)}
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-info">
                                 Login
                             </button>
                         </div>
                     </form>
+                    {!this.state.userStatus ? (<button type="button" className="btn btn-warning" data-toggle="modal"
+                                                       data-target="#exampleModalCenter">
+                            I've forgot my password
+                        </button>
+                    ) : null}
+
+                    <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog"
+                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div className="modal-dialog modal-dialog-centered" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLongTitle">Enter your email</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    <input
+                                        type="email"
+                                        placeholder="Email"
+                                        name="restoreEmail"
+                                        className="form-control"
+                                        onChange={this.handleInputChange}
+                                        value={this.state.restoreEmail}
+                                    />
+                                    {errors.restoreCustomer && (<div className='text-danger'>{errors.restoreCustomer}</div>)}
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close
+                                    </button>
+                                    <button type="button" className="btn btn-warning" onClick={this.handleRestorePassword}>Restore password
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         )
     }
@@ -134,4 +179,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, {loginUser})(Login)
+export default connect(mapStateToProps, {loginUser, restoreCustomerPassword})(Login)

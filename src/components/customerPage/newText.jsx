@@ -8,6 +8,9 @@ import Select from 'react-select';
 import languages from '../../resources/JSON/languages'
 import tags from '../../resources/JSON/tags'
 import config from '../../firebaseConfig'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
 
 firebase.initializeApp(config);
 
@@ -101,24 +104,19 @@ class NewText extends Component {
     };
 
     resetForm = () => {
-        this.setState({
-            customerEmail: this.props.auth.user.email,
-            customerName: this.props.auth.user.name,
-            textAreaName: "",
-            textArea: "",
-            textAreaRequired: "required",
-            textFileName: "",
-            textFileRequired: "required",
-            textFileURL: "",
-            originalLanguage: '',
-            translationLanguage: '',
-            addReview: false,
-            translationSpeedCheck: false,
-            tags: [],
-            textAreaVisibility: false,
-            fileDownloadVisibility: false,
-            errors: {}
-        });
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'Your translate was successfully created!',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.value) {
+                window.location.reload()
+            }
+
+        })
+
+
     };
 
     handleSubmit = (e) => {
@@ -289,7 +287,7 @@ class NewText extends Component {
                         />
                         {errors.tags && (<div className='text-danger'>{errors.tags}</div>)}
                     </div>
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Create new translate text</button>
                 </form>
             </div>
         )

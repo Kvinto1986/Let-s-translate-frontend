@@ -20,3 +20,57 @@ export const registerCustomer = (customer, reset) => dispatch => {
             }
         });
 };
+
+export const confirmationCustomer = (hash, handleChangeRedirectTrue,handleChangeRedirectFalse) => dispatch => {
+    axios.post(`${server}api/customers/confirmationCustomer`, hash)
+        .then((data) => {
+            if(data) handleChangeRedirectTrue()
+        })
+        .catch(err => {
+            if (err.response) {
+                handleChangeRedirectFalse()
+            }
+        });
+};
+
+export const restoreCustomerPassword = (email) => dispatch => {
+    axios.post(`${server}api/customers/restorePassword`, email)
+        .then((data) => {
+        console.log(data)
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                });
+            }
+        });
+};
+
+export const newCustomerPassword = (password,handleChangeRedirectTrue,handleChangeRedirectFalse) => dispatch => {
+    axios.post(`${server}api/customers/newPassword`, password)
+        .then((data) => {
+            if(data) handleChangeRedirectTrue(data.data)
+        })
+        .catch(err => {
+            if (err.response) {
+                handleChangeRedirectFalse()
+            }
+        });
+};
+
+export const editPassword = (password,reset) => dispatch => {
+    axios.post(`${server}api/customers/editPassword`, password)
+        .then((data) => {
+            if(data) reset()
+        })
+        .catch(err => {
+            if (err.response) {
+                dispatch({
+                    type: GET_ERRORS,
+                    payload: err.response.data
+                });
+            }
+        });
+};

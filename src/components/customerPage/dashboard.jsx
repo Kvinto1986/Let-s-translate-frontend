@@ -11,6 +11,10 @@ import {
 } from "../../actions/textAction";
 import EditModal from './editTranslateModal'
 
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
+
 class Dashboard extends Component {
 
     state = {
@@ -76,18 +80,29 @@ class Dashboard extends Component {
     };
 
     reset = () => {
-        this.setState({
-            collectionsListVisibility: false,
-            checkedTexts: [],
-            textActionsVisibility: true,
-            textActionCreateCollectionVisibility: false,
-            textActionAddCollectionVisibility: false,
-            selectedCollection: this.props.collections[0],
-            newCollectionName: '',
-            errors: {}
-        });
-        this.props.getTextCustomers({email: this.props.auth.user.email, collectionName: this.state.selectedCollection});
-        this.props.getAllCollections({email: this.props.auth.user.email})
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'The action was successful!!',
+            allowOutsideClick: false
+        }).then(() => {
+            this.setState({
+                collectionsListVisibility: false,
+                checkedTexts: [],
+                textActionsVisibility: true,
+                textActionCreateCollectionVisibility: false,
+                textActionAddCollectionVisibility: false,
+                selectedCollection: this.props.collections[0],
+                newCollectionName: '',
+                errors: {}
+            });
+            this.props.getTextCustomers({
+                email: this.props.auth.user.email,
+                collectionName: this.state.selectedCollection
+            });
+            this.props.getAllCollections({email: this.props.auth.user.email})
+        })
+
 
     };
 
@@ -107,7 +122,23 @@ class Dashboard extends Component {
         const deletedTextsList = {
             textsList: this.state.checkedTexts
         };
-        this.props.deleteTexts(deletedTextsList, this.reset)
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            allowOutsideClick: false
+        }).then((result) => {
+            console.log();
+            if (result.value) {
+                this.props.deleteTexts(deletedTextsList, this.reset);
+            }
+        })
+
     };
 
     handleGetCustomerCollection = (e) => {

@@ -27,6 +27,8 @@ import UserProfile from './components/userProfile/UserProfile'
 import EditUserProfile from './components/userProfile/EditUserProfile'
 import MessagesPage from './components/messages/MessagesPage'
 import TranslatesReview from './components/translatorPage/translatesReview'
+import Confirmation from './components/register/confirmation'
+import NewPassword from './components/register/restorePassword'
 
 if (localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
@@ -51,6 +53,8 @@ class App extends Component {
                         <Route exact path="/dashboard" component={Dashboard}/>
                         <Route exact path="/texts" component={TextsList}/>
                         <Route exact path="/transactions" component={TransactionsBar}/>
+                        <Route path="/confirm" component={Confirmation}/>
+                        <Route path="/newPassword" component={NewPassword}/>
                         {/* Translator routes */}
                         <Route exact path="/translates" component={TranslatesBilboard}/>
                         <Route exact path="/translates/:translateId" component={TranslateInfoPage}/>

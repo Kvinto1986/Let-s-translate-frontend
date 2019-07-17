@@ -5,6 +5,10 @@ import Select from 'react-select';
 import languages from '../../resources/JSON/languages'
 import tags from '../../resources/JSON/tags'
 
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
+
 class EditModal extends Component {
 
     state = {
@@ -112,36 +116,43 @@ class EditModal extends Component {
             this.setState({tags: tags});
     };
 
-    resetForm = () => {this.setState({
-        textEditVisibility: false,
-        originalLanguageEditVisibility: false,
-        translateLanguageEditVisibility: false,
-        reviewEditVisibility: false,
-        speedEditVisibility: false,
-        tagsEditVisibility: false,
-        textAreaVisibility: false,
-        fileDownloadVisibility: false,
-        modalDismiss: '',
-        customerEmail: '',
-        customerName: '',
-        translateID: '',
-        textAreaName: "",
-        textArea: "",
-        textAreaRequired: "required",
-        textFileName: "",
-        textFileRequired: "required",
-        textFileURL: "",
-        fileName: '',
-        originalLanguage: '',
-        translationLanguage: '',
-        extraReview: '',
-        translationSpeed: '',
-        tags: [],
-        errors: {}
-    });
-        window.location.reload()
+    resetForm = () => {
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'The action was successful!!',
+            allowOutsideClick: false
+        }).then(() => {
+            this.setState({
+                textEditVisibility: false,
+                originalLanguageEditVisibility: false,
+                translateLanguageEditVisibility: false,
+                reviewEditVisibility: false,
+                speedEditVisibility: false,
+                tagsEditVisibility: false,
+                textAreaVisibility: false,
+                fileDownloadVisibility: false,
+                modalDismiss: '',
+                customerEmail: '',
+                customerName: '',
+                translateID: '',
+                textAreaName: "",
+                textArea: "",
+                textAreaRequired: "required",
+                textFileName: "",
+                textFileRequired: "required",
+                textFileURL: "",
+                fileName: '',
+                originalLanguage: '',
+                translationLanguage: '',
+                extraReview: '',
+                translationSpeed: '',
+                tags: [],
+                errors: {}
+            });
+            window.location.reload()
+        })
     };
-
 
 
     handleSubmit = (e) => {
@@ -190,7 +201,7 @@ class EditModal extends Component {
         } else {
             this.props.updateText(text, this.resetForm);
         }
-        this.setState({modalDismiss: 'modal'});
+
     };
 
 
@@ -320,7 +331,8 @@ class EditModal extends Component {
                                     {editButtonChange('originalLanguageEditVisibility')}
 
                                 </div>
-                                {errors.originalLanguage && (<div className='text-danger'>{errors.originalLanguage}</div>)}
+                                {errors.originalLanguage && (
+                                    <div className='text-danger'>{errors.originalLanguage}</div>)}
                                 <div className="form-group d-inline-flex col-12 justify-content-center">
                                     <label className='font-weight-bolder col-4'>Translation language:</label>
                                     <Select
