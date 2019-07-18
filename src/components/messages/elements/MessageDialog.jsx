@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { getUniqueDialog } from '../../../actions/messages/getUniqueDialog'
 import { registerMessage } from '../../../actions/messages/newMessageRegister'
 import { fetchAllUnreadMessages } from '../../../actions/messages/fetchAllUnreadMessages'
+import { findUserByEmail } from '../../../actions/user/findUserByEmail'
 import recipientImg from '../../../resources/images/bilboard/f2db5b1fae65676bfd1ecae1dbfdc3a2.jpg'
 import { socket } from '../../navigation/Header'
-import { DominoSpinner } from "react-spinners-kit"
+import { DominoSpinner } from 'react-spinners-kit'
 
 class MessageDialog extends Component {
 
@@ -40,10 +41,8 @@ class MessageDialog extends Component {
             recipientEmail: recipientEmail,
         })
 
-        // TODO: Fetch chat member data
-        this.props.getUniqueDialog({ recipientEmail, senderEmail })
-        socket.emit('didMountUnreadMessageCountDiscard', user)
-        // this.props.fetchAllUnreadMessages({user: this.props.auth.user})
+        this.props.findUserByEmail({recipientEmail})
+        this.props.getUniqueDialog({recipientEmail, senderEmail, user: this.props.auth.user})
 
         socket.on('spawnMessage', data => {
             if (user.email === data.senderEmail || user.email === data.recipientEmail) {
@@ -61,6 +60,10 @@ class MessageDialog extends Component {
             if (user.email === senderEmail && typerEmail === recipientEmail && this.state.typing) {
                 setTimeout(() => this.setState({typing: false}), 1000)
             }
+        })
+
+        socket.on('unreadMessageCountDiscard', user => {
+            this.props.fetchAllUnreadMessages({user})
         })
     }
 
@@ -103,11 +106,40 @@ class MessageDialog extends Component {
         if (this.state.messageText === "") {
             socket.emit('stopTypingEcho', user.email)
         }
+
+        const {chatMemberData} = this.props
         
         return (
             <Fragment>
                 <div style={{padding:"10px 25px"}}>
                     <div className="row">
+                        <div className="col-2" style={{backgroundColor:"#f1f2f6"}}>
+                            <div className="d-flex flex-column align-items-center" style={{position: 'sticky', top: '110px'}}>
+                                {
+                                    (Object.keys(chatMemberData).length === 0)
+                                    ? (
+                                        <Fragment>
+                                            <div className="d-flex justify-content-center align-items-center mt-5">
+                                                <div className="spinner-border text-dark" role="status">
+                                                    <span className="sr-only"></span>
+                                                </div>
+                                            </div>
+                                        </Fragment>
+                                    )
+                                    : (
+                                        <Fragment>
+                                            <h4>Chat</h4>
+                                            <img src={recipientImg} alt="Customer" width="200px" className="mt-3" style={{borderRadius:"50%"}} />
+                                            <h4>{chatMemberData.name}</h4>
+                                            <small>({chatMemberData.role})</small>
+                                            <section className="mt-1">
+                                                <p>Email: <small>{chatMemberData.email}</small></p>
+                                            </section>
+                                        </Fragment>
+                                    )
+                                }
+                            </div>
+                        </div>
                         <div className="col-10">
                             {
                                 this.props.dialogReducer.map((message) => {
@@ -190,7 +222,16 @@ class MessageDialog extends Component {
                                     </div>
                                 ))
                             }
-                            <form onSubmit={this.handleSubmit} className="mt-5">
+                            {
+                                (this.props.dialogReducer.length === 0) && (
+                                    <div className="d-flex justify-content-center align-items-center">
+                                        <div className="spinner-border text-dark" role="status">
+                                            <span className="sr-only"></span>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            <form onSubmit={this.handleSubmit} className="mt-5 mb-3" id="autoscrollflag">
                                 <div className="d-flex justify-content-center">
                                     <div className="form-group" style={{ width: "75%" }}>
                                         <textarea
@@ -213,16 +254,6 @@ class MessageDialog extends Component {
                                 </div>
                             </form>
                         </div>
-
-                        <div className="col-2" style={{backgroundColor:"#f1f2f6"}}>
-                            <div className="d-flex flex-column align-items-center">
-                                <img src={recipientImg} alt="Customer" width="200px" className="mt-3" style={{borderRadius:"50%"}} />
-                                <h4>Antoha</h4>
-                                <section>
-                                    <p><b>Email:</b> ---------</p>
-                                </section>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </Fragment>
@@ -235,11 +266,12 @@ class MessageDialog extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth,
     dialogReducer: state.dialogReducer,
-
+    chatMemberData: state.chatMemberData
 });
 
 export default connect(mapStateToProps, {
     getUniqueDialog,
     registerMessage,
-    fetchAllUnreadMessages
+    fetchAllUnreadMessages,
+    findUserByEmail
 })(MessageDialog);

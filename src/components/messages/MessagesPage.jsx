@@ -29,7 +29,8 @@ class MessagesPage extends Component {
                     props={this.props} 
                     openMessageDialog={this.openMessageDialog} 
                     messages={messages} 
-                    isEmpty={isEmpty}/>
+                    isEmpty={isEmpty}
+                    history={this.props.history}/>
                 )}/>
                 <Route
                 exact 

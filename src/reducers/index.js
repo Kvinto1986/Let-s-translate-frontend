@@ -12,6 +12,7 @@ import collectionReduser from './collectonReduser'
 import customerTranslatesReduser from './customerTranslatesReduser'
 import reviewTranslateListReducer from './reviewTranslateListReducer'
 import unreadMessagesReducer from './unreadMessagesReducer'
+import chatMemberReducer from './chatMemberReducer'
 
 export default combineReducers({
     auth: authReducer,
@@ -25,5 +26,6 @@ export default combineReducers({
     collections: collectionReduser,
     customerTranslates: customerTranslatesReduser,
     reviewTranslateList: reviewTranslateListReducer,
-    unreadMessages: unreadMessagesReducer
+    unreadMessages: unreadMessagesReducer,
+    chatMemberData: chatMemberReducer
 });
