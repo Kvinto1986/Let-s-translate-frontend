@@ -1,11 +1,21 @@
 import React, {Component} from 'react'
 import {fetchAllMessages} from '../../../actions/messages/fetchMessages'
 import {connect} from "react-redux";
+import { socket } from '../../navigation/Header';
 
 class MessageInbox extends Component {
 
     componentDidMount() {
-        this.props.fetchAllMessages({email: this.props.auth.user.email})
+        const {user} = this.props.auth
+        this.props.fetchAllMessages({email: user.email})
+        
+        socket.on('spawnMessage', data => {
+            if (user.email === data.recipientEmail) {
+                if(this.props.history.location.pathname.indexOf('/messages/inbox') === 0) {
+                    this.props.fetchAllMessages({email: user.email})
+                }
+            }
+        })
     }
 
     render() {
@@ -18,7 +28,9 @@ class MessageInbox extends Component {
                         <tbody>
                             {this.props.messages.map((elem, index) => {
                                 return (
-                                    <tr key={index} onClick={() => this.props.openMessageDialog(elem)}>
+                                    <tr key={index} onClick={() => {
+                                        this.props.openMessageDialog(elem)
+                                    }}>
                                         <td>
                                             {elem.recipientEmail}
                                         </td>

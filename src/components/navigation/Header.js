@@ -13,7 +13,10 @@ import LinkGroup from './LinkGroup'
 import Alert from '../common/Alert'
 
 const style = {
-    marginBottom: '25px'
+    marginBottom: '25px',
+    position: 'sticky', 
+    top: '0',
+    zIndex: '999'
 };
 
 const badgeStyle = {
@@ -68,7 +71,7 @@ class Header extends Component {
 
         socket.on('spawnMessage', data => {
             if (user.email === data.recipientEmail) {
-                if(this.props.history.location.pathname.indexOf('/messages') === -1) {
+                if(this.props.history.location.pathname.indexOf('/messages/dialog') === -1) {
                     this.props.fetchAllUnreadMessages({user: this.props.auth.user})
                 }
             }
@@ -96,25 +99,27 @@ class Header extends Component {
         const authLinks = (
             <Fragment>
                 <LinkGroup role={user.role} />
-                <div className="my-2 my-lg-0">
-                    <Link to="/messages">
-                        <img src={msgImage} alt='Messages' className="mr-1"/>
-                        {(unreadMessages.length > 0) && (
-                            <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>
-                                {unreadMessages.length}
-                            </span>
-                        )}
-                    </Link>
-                    <Link to="/profile">
-                        <span className='h4 text-white mr-3'>{user.name} ({user.role})</span>
-                    </Link>
-                    <button
-                        className="btn btn-success align-content-lg-end"
-                        type="button"
-                        onClick={this.onLogout.bind(this)}
-                    >
-                        Logout
-                    </button>
+                <div className="my-2 my-lg-0 d-fel">
+                    <div className="d-flex align-items-center">
+                        <Link to="/messages">
+                            <img src={msgImage} alt='Messages' className="mr-1" />
+                            {(unreadMessages.length > 0) && (
+                                <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>
+                                    {unreadMessages.length}
+                                </span>
+                            )}
+                        </Link>
+                        <Link to="/profile">
+                            <h5 className='text-white ml-3 mr-3 mt-2'>{user.name} ({user.role})</h5>
+                        </Link>
+                        <button
+                            className="btn btn-dark btn-sm align-content-lg-end"
+                            type="button"
+                            onClick={this.onLogout.bind(this)}
+                        >
+                            Logout
+                        </button>
+                    </div>
                 </div>
             </Fragment>
         );
@@ -134,8 +139,12 @@ class Header extends Component {
                     <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
                         <div className={'col-12 d-flex justify-content-between align-items-center'}>
                             <Link className="navbar-brand" to="/">
-                                <img src={logo} alt="logo-translate.png" width="120" height="90"/>
-                                <span className='h1 ml-3'>Let's translate</span>
+                                <div className="d-flex align-items-center">
+                                    <div>
+                                        <img src={logo} alt="logo-translate.png" width="60px"/>
+                                    </div>
+                                    <h1 className='display-4 ml-1' style={{fontSize: "30px"}}>Let's translate</h1>
+                                </div>
                             </Link>
                             {isAuthenticated ? authLinks : guestLinks}
                         </div>
