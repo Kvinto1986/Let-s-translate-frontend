@@ -26,7 +26,9 @@ class Dashboard extends Component {
         selectedCollection: '',
         newCollectionName: '',
         editedTranslate: {},
-        errors: {}
+        errors: {},
+        activeButton: 'btn btn btn-outline-primary col-3 mr-3 mt-3 active',
+        currentButton: {}
     };
 
     handleChangeEditedTranslate = (e, elem) => {
@@ -119,6 +121,11 @@ class Dashboard extends Component {
     handleDeleteTexts = (e) => {
         e.preventDefault();
 
+        this.setState({
+            textActionAddCollectionVisibility: false,
+            textActionCreateCollectionVisibility: false
+        })
+
         const deletedTextsList = {
             textsList: this.state.checkedTexts
         };
@@ -143,9 +150,18 @@ class Dashboard extends Component {
 
     handleGetCustomerCollection = (e) => {
         e.preventDefault();
+
+        const currentButton = this.state.currentButton;
+        currentButton.className = 'btn btn btn-outline-primary col-3 mr-3 mt-3';
+
+
         this.setState({
-            selectedCollection: e.target.name
+            selectedCollection: e.target.name,
+            activeButton: 'btn btn btn-outline-primary col-3 mr-3 mt-3 ',
+            currentButton: e.target
         });
+
+        e.target.className = 'btn btn btn-outline-primary col-3 mr-3 mt-3 active';
 
         this.props.getTextCustomers({email: this.props.auth.user.email, collectionName: e.target.name});
     };
@@ -178,7 +194,7 @@ class Dashboard extends Component {
             if (elem === '') {
                 return <button
                     key={elem + 'button'}
-                    className="btn list-group-item ml-5"
+                    className={this.state.activeButton}
                     name=''
                     onClick={this.handleGetCustomerCollection}>
                     Texts without collection
@@ -186,7 +202,7 @@ class Dashboard extends Component {
             } else {
                 return <button
                     key={elem + 'button'}
-                    className="btn list-group-item ml-5"
+                    className='btn btn btn-outline-primary col-3 mr-3 mt-3'
                     name={elem}
                     onClick={this.handleGetCustomerCollection}>
                     {elem}
@@ -251,28 +267,28 @@ class Dashboard extends Component {
         return (
 
             <div className="col-12 row d-flex flex-wrap justify-content-center">
-                <h3>Actions:</h3>
-                <div className="d-flex col-12 justify-content-center align-content-center mr-5">
+                <h1 className='text-info'>Actions:</h1>
+                <div className="d-flex col-12 justify-content-center align-content-center mt-3 mb-5 ">
                     <button
-                        className='btn btn-success mr-3'
+                        className='btn btn-success mr-3 col-3'
                         disabled={this.state.textActionsVisibility}
                         onClick={this.textActionCreateCollection}>
                         Create new collection
                     </button>
                     <button
-                        className='btn btn-warning mr-3'
+                        className='btn btn-warning mr-3 col-3'
                         disabled={this.state.textActionsVisibility}
                         onClick={this.textActionAddCollection}>
                         Add to collection
                     </button>
                     <button
-                        className='btn btn-danger mr-3'
+                        className='btn btn-danger mr-3 col-3'
                         disabled={this.state.textActionsVisibility}
                         onClick={this.handleDeleteTexts}>
                         Delete
                     </button>
                 </div>
-                <div className="d-inline-flex col-12 justify-content-center align-content-center mt-3">
+                <div className="d-inline-flex col-12 justify-content-center flex-wrap align-content-center mt-3">
                     {collectionList}
                 </div>
                 <div className="d-inline-flex col-12 justify-content-center align-content-center mt-3">
@@ -313,7 +329,7 @@ class Dashboard extends Component {
                 )}
 
 
-                <h1 className='mt-5'>{this.state.selectedCollection === '' ? ('Texts without collection:') : this.state.selectedCollection}</h1>
+                <h1 className='mt-5 text-primary'>{this.state.selectedCollection === '' ? ('Texts without collection:') : this.state.selectedCollection}</h1>
                 <div className="d-flex flex-wrap col-12 justify-content-center mt-3">
                     <table className='table'>
                         <tbody>
