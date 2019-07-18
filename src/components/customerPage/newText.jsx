@@ -31,13 +31,23 @@ class NewText extends Component {
         tags: [],
         textAreaVisibility: false,
         fileDownloadVisibility: false,
+        cost: 0,
+        charsCount: 1000,
+        wrongCost:false,
         errors: {}
+
     };
 
     handleInputFileChange = (e) => {
         this.setState({
             [e.target.name]: e.target.files[0], textAreaVisibility: true, textAreaName: "",
             textArea: ""
+        });
+    };
+
+    handleInputCharsCount = (e) => {
+        this.setState({
+            charsCount: Number.parseInt(e.target.value),
         });
     };
 
@@ -59,7 +69,8 @@ class NewText extends Component {
 
     handleChangeTextArea = (e) => {
         this.setState({
-            textArea: e.target.value
+            textArea: e.target.value,
+            charsCount: e.target.value.length
         });
 
         if (e.target.value.length === 0 && this.state.textAreaName.length === 0) {
@@ -93,6 +104,46 @@ class NewText extends Component {
 
     handleChangeTranslationSpeed = () => {
         this.setState({translationSpeedCheck: !this.state.translationSpeedCheck});
+    };
+
+    calculateCost = (e) => {
+        e.preventDefault();
+
+        if (this.state.originalLanguage !== '' && this.state.translationLanguage !== '' &&this.state.charsCount>999) {
+
+            const originalLangFactor = Array.from(languages).filter((elem) => {
+                return elem.label === this.state.originalLanguage
+            })[0].value;
+
+            const translateLangFactor = Array.from(languages).filter((elem) => {
+                return elem.label === this.state.translationLanguage
+            })[0].value;
+
+            const reviewFactor = (() => {
+                if (this.state.addReview) return 1.1;
+                else return 1
+            })();
+
+            const speedFactor = (() => {
+                if (this.state.translationSpeedCheck) return 1.3;
+                else return 1
+            })();
+
+            const charsCount = this.state.charsCount;
+
+            const cost = (originalLangFactor + translateLangFactor / 2) * reviewFactor * speedFactor * charsCount / 1000;
+
+            this.setState({
+                cost: cost.toFixed(2),
+                wrongCost:false
+            });
+        }
+        else {
+            this.setState({
+                cost: 0,
+                wrongCost:true
+            });
+        }
     };
 
     handleChangeTags = (tags) => {
@@ -131,6 +182,7 @@ class NewText extends Component {
             translationLanguage: this.state.translationLanguage,
             extraReview: this.state.addReview,
             translationSpeed: this.state.translationSpeedCheck,
+            cost: this.state.cost,
             tags: tagsArr
         };
 
@@ -179,46 +231,90 @@ class NewText extends Component {
     };
 
     render() {
+
         const {errors} = this.state;
 
         return (
-            <div className="col-8 mt-5">
+
+            <div className="col-12 mt-2 mb-5 d-flex justify-content-center">
                 <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label className={'mr-3'}>Download text:</label>
-                        <input
-                            type="file"
-                            placeholder="Text"
-                            name="textFileName"
-                            onChange={this.handleInputFileChange}
-                            disabled={this.state.fileDownloadVisibility}
-                            required={this.state.textFileRequired}
-                        />
-                    </div>
-                    <div className="form-group mt-3">
-                        <label className={'mr-3'}>Text name:</label>
-                        <input
-                            type="text"
-                            placeholder="Text"
-                            name="textAreaName"
-                            onChange={this.handleChangeTextAreaName}
-                            disabled={this.state.textAreaVisibility}
-                            value={this.state.textAreaName}
-                            required={this.state.textAreaRequired}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Your text</label>
-                        <textarea
-                            name='textArea'
-                            className="form-control"
-                            placeholder="Text"
-                            onChange={this.handleChangeTextArea}
-                            value={this.state.textArea}
-                            disabled={this.state.textAreaVisibility}
-                            required={this.state.textAreaRequired}
-                        />
-                        {errors.text && (<div className='text-danger'>{errors.text}</div>)}
+                    <ul className="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
+                        <li className="nav-item ">
+                            <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                               aria-controls="home" aria-selected="true">Download document</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                               aria-controls="profile" aria-selected="false">Create translate text</a>
+                        </li>
+                    </ul>
+                    <div className="tab-content" id="myTabContent">
+                        <div className="tab-pane fade show active" id="home" role="tabpanel"
+                             aria-labelledby="home-tab">
+                            <div className="form-group mt-4">
+                                <label className={'mr-3'}>Download text:</label>
+                                <input
+                                    type="file"
+                                    placeholder="Text"
+                                    name="textFileName"
+                                    onChange={this.handleInputFileChange}
+                                    disabled={this.state.fileDownloadVisibility}
+                                    required={this.state.textFileRequired}
+                                />
+                            </div>
+                            <div className="form-group mb-3">
+                                <label className={'mr-3'}>Characters</label>
+                                <input
+                                    min={1000}
+                                    type="number"
+                                    placeholder="Chars count (min 1000)"
+                                    name="charsCount"
+                                    value={this.state.charsCount}
+                                    onChange={this.handleInputCharsCount}
+                                    disabled={this.state.fileDownloadVisibility}
+                                    required={this.state.textFileRequired}
+                                />
+                            </div>
+                        </div>
+                        <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div className="form-group mt-4">
+                                <label className={'mr-3'}>Text name:</label>
+                                <input
+                                    type="text"
+                                    placeholder="Text"
+                                    name="textAreaName"
+                                    onChange={this.handleChangeTextAreaName}
+                                    disabled={this.state.textAreaVisibility}
+                                    value={this.state.textAreaName}
+                                    required={this.state.textAreaRequired}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Your text</label>
+                                <textarea
+                                    name='textArea'
+                                    className="form-control"
+                                    placeholder="Text"
+                                    onChange={this.handleChangeTextArea}
+                                    value={this.state.textArea}
+                                    disabled={this.state.textAreaVisibility}
+                                    required={this.state.textAreaRequired}
+                                />
+                                {errors.text && (<div className='text-danger'>{errors.text}</div>)}
+                            </div>
+                            <div className="form-group mb-3">
+                                <label className={'mr-3'}>Characters</label>
+                                <input
+                                    min={1000}
+                                    type="number"
+                                    placeholder="Chars count (min 1000)"
+                                    name="charsCount"
+                                    value={this.state.charsCount}
+                                    onChange={this.handleInputCharsCount}
+                                    disabled={true}
+                                />
+                            </div>
+                        </div>
                     </div>
                     <div className="form-group">
                         <label>Original language</label>
@@ -240,23 +336,25 @@ class NewText extends Component {
                     </div>
 
                     <div className="form-check">
-                        <input
-                            type="checkbox"
-                            className="form-check-input"
-                            checked={this.state.addReview}
-                            onChange={this.handleChangeAddReview}
-                        />
+                        <label className="form-check-label">
+                            <input
+                                type="checkbox"
+                                className="form-check-input mt-2"
+                                checked={this.state.addReview}
+                                onChange={this.handleChangeAddReview}
+                            />
 
-                        <label className="form-check-label">
-                            Translation with an additional review from the second translator
+
+                            <h5 className='text-secondary'>Translation with an additional review from the second
+                                translator (+ 10% to the cost)</h5>
                         </label>
                     </div>
                     <div className="form-check mt-3">
                         <label className="form-check-label">
-                            Translation speed
+                            <h5 className='text-secondary'> Translation speed: </h5>
                         </label>
                     </div>
-                    <div className="form-check mt-3">
+                    <div className="form-check mt-3 ml-3">
                         <label className="radio-inline">
                             <input
                                 type="radio"
@@ -274,8 +372,16 @@ class NewText extends Component {
                                 checked={this.state.translationSpeedCheck}
                                 onChange={this.handleChangeTranslationSpeed}
                             />
-                            Fast
+                            Fast (+50% less translation time, + 30% to the cost)
                         </label>
+                    </div>
+                    <div className="form-group">
+                        <button type="button" className="btn btn-success mt-3" onClick={this.calculateCost}>Calculate
+                            the cost of translation
+                        </button>
+                        <h5 className='mt-3 text-primary'>Cost: {!this.state.wrongCost?(<span className='text-primary'>{this.state.cost} $</span>):
+                            (<span className='text-danger'>No countries selected or characters less than 1000</span>)}</h5>
+                        {errors.cost && (<div className='text-danger'>{errors.cost}</div>)}
                     </div>
                     <div className="form-group">
                         <label>Tags</label>
@@ -287,7 +393,7 @@ class NewText extends Component {
                         />
                         {errors.tags && (<div className='text-danger'>{errors.tags}</div>)}
                     </div>
-                    <button type="submit" className="btn btn-primary">Create new translate text</button>
+                    <button type="submit" className="btn btn-primary ">Create new translate text</button>
                 </form>
             </div>
         )
