@@ -30,7 +30,7 @@ class Header extends Component {
     constructor() {
         super();
         this.state = {
-            endpoint: 'https://letstranslate-back.herokuapp.com/socket.io/',
+            endpoint: 'https://websocket-back.herokuapp.com/',
             newTextAlert: false,
             newTranslateStatus: false,
             unreadMessagesCount: 0
