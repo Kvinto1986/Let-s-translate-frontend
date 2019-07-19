@@ -241,11 +241,11 @@ class NewText extends Component {
                     <ul className="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
                         <li className="nav-item ">
                             <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                               aria-controls="home" aria-selected="true">Download document</a>
+                               aria-controls="home" aria-selected="true"><h6>Download document</h6></a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                               aria-controls="profile" aria-selected="false">Create translate text</a>
+                               aria-controls="profile" aria-selected="false"><h6>Create translate text</h6></a>
                         </li>
                     </ul>
                     <div className="tab-content" id="myTabContent">

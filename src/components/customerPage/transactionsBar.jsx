@@ -160,15 +160,15 @@ class OrdersBar extends Component {
 
         return (
             <div className='col-12 d-flex flex-wrap justify-content-center'>
-                <h1 className='col-12 d-flex flex-wrap justify-content-center'>My orders:</h1>
-                <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <h1 className='col-12 d-flex flex-wrap justify-content-center text-info'>My orders</h1>
+                <ul className="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
                     <li className="nav-item">
                         <a className="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home"
-                           role="tab" aria-controls="pills-home" aria-selected="true">In progress</a>
+                           role="tab" aria-controls="pills-home" aria-selected="true"><h3>In progress</h3></a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile"
-                           role="tab" aria-controls="pills-profile" aria-selected="false">Completed</a>
+                           role="tab" aria-controls="pills-profile" aria-selected="false"><h3>Completed</h3></a>
                     </li>
                 </ul>
                 <div className="tab-content col-12" id="pills-tabContent">
