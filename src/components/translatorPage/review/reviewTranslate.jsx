@@ -1,6 +1,13 @@
 import React, {Component} from 'react'
+import {translateReview} from '../../../actions/review/translateReviewAction.js'
+import { connect } from 'react-redux'
 
 class ReviewTranslate extends Component {
+
+    translateReviewHandle = status => {
+        this.props.translateReview(this.props.translateToReview, this.props.auth.user.languages, status)
+    }
+
     render() {
         const {translateToReview} = this.props
         return (
@@ -40,11 +47,11 @@ class ReviewTranslate extends Component {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>Translate</label>
+                                    <label>Translate: </label>
                                     {
                                         translateToReview.translatedfileName
                                         ? (
-                                            <button type="button" className="btn btn-primary" >
+                                            <button type="button" className="btn btn-primary btn-sm ml-2" >
                                                 <a 
                                                 href={translateToReview.initialTextFileUrl} 
                                                 className="text-decoration-none text-dark" 
@@ -55,7 +62,7 @@ class ReviewTranslate extends Component {
                                         )
                                         : (
                                             <textarea
-                                            className="form-control"
+                                            className="form-control btn-sm"
                                             value={translateToReview.translateText}
                                             readOnly
                                             />
@@ -66,8 +73,8 @@ class ReviewTranslate extends Component {
                         </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-dark" type="button">Reject</button>
-                        <button className="ml-1 btn btn-success" type="button">Resolve</button>
+                        <button className="btn btn-dark" type="button" onClick={() => this.translateReviewHandle(false)}>Reject</button>
+                        <button className="ml-1 btn btn-success" type="button" onClick={() => this.translateReviewHandle(true)}>Resolve</button>
                     </div>
                 </div>
             </section>
@@ -75,4 +82,10 @@ class ReviewTranslate extends Component {
     }
 }
 
-export default ReviewTranslate
+const mapStateToProps = state => ({
+    auth: state.auth,
+});
+
+export default connect(mapStateToProps, {
+    translateReview
+})(ReviewTranslate)

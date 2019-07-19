@@ -8,7 +8,7 @@ import {letsTranslate} from '../../../actions/translate/letsTranslate'
 class TranslateInfoPage extends Component {
 
     state = {
-        messageText: `Hello! My name is ${this.props.auth.user.name}, I'm glad to accept your order`
+        messageText: `Hello! My name is ${this.props.auth.user.name}, I'm glad to accept your order.`
     }
 
     componentDidMount() {
@@ -51,7 +51,8 @@ class TranslateInfoPage extends Component {
             initialfileName: text.fileName,
             initialTextFileUrl: text.fileUrl,
             progress: 0,
-            isPaid: false
+            isPaid: false,
+            isReady: false
         }
         
         this.props.letsTranslate(this.props.history, sendData)
@@ -106,7 +107,10 @@ class TranslateInfoPage extends Component {
                         </section>
                         {(role === 'translator') && (
                             <>
-                                <form onSubmit={e => this.handleSubmit(e)}>
+                                <form onSubmit={e => {
+                                    this.translateStartHendler()
+                                    this.handleSubmit(e)
+                                }}>
                                     <div className="form-group">
                                         <label>Your message to customer</label>
                                         <textarea
@@ -123,9 +127,6 @@ class TranslateInfoPage extends Component {
                                         </button>
                                     </div>
                                 </form>
-                                <button type="button" className="btn btn-dark" onClick={() => this.translateStartHendler()}>
-                                    Bind translate
-                                </button>
                             </>
                         )}
                     </div>

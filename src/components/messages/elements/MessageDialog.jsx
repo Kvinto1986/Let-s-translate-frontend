@@ -47,6 +47,7 @@ class MessageDialog extends Component {
         socket.on('spawnMessage', data => {
             if (user.email === data.senderEmail || user.email === data.recipientEmail) {
                 this.setState({liveTimeMessages: [...this.state.liveTimeMessages, data]})
+                window.scrollTo(0,document.body.scrollHeight);
             }
         })
 
@@ -213,7 +214,11 @@ class MessageDialog extends Component {
                             {
                                 (this.state.typing && (
                                     <div className="d-flex align-items-center">
-                                        <span className="mr-1"><small><em>{this.state.typing} is typing ... </em></small></span>
+                                        <span className="mr-1">
+                                            <small>
+                                                <em>{chatMemberData.name} is typing ...</em>
+                                            </small>
+                                        </span>
                                         <DominoSpinner 
                                             size={45}
                                             color="#686769"
@@ -234,7 +239,7 @@ class MessageDialog extends Component {
                             <form onSubmit={this.handleSubmit} className="mt-5 mb-3" id="autoscrollflag">
                                 <div className="d-flex justify-content-center">
                                     <div className="form-group" style={{ width: "75%" }}>
-                                        <textarea
+                                        <input
                                             name='messageText'
                                             className="form-control"
                                             placeholder="Type a message"
