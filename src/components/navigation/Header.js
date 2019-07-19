@@ -6,6 +6,7 @@ import {fetchAllUnreadMessages} from '../../actions/messages/fetchAllUnreadMessa
 import {withRouter} from 'react-router-dom';
 import socketIOClient from "socket.io-client";
 
+
 import logo from '../../resources/images/logo/logo-translate.png'
 import msgImage from '../../resources/images/navigation/message.png'
 
@@ -30,7 +31,7 @@ class Header extends Component {
     constructor() {
         super();
         this.state = {
-            endpoint: 'http://localhost:4000/',
+            endpoint: 'https://letstranslate-back.herokuapp.com/',
             newTextAlert: false,
             newTranslateStatus: false,
             unreadMessagesCount: 0
