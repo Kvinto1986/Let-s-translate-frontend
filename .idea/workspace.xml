@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4c2e518f-c45c-4bf9-a611-532bd32c70e1" name="Default Changelist" comment="fix messages">
+    <list default="true" id="4c2e518f-c45c-4bf9-a611-532bd32c70e1" name="Default Changelist" comment="for heroku">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/serverConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/serverConfig.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -15,14 +16,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/customerPage/transactionsBar.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="170" column="108" selection-start-line="170" selection-start-column="108" selection-end-line="170" selection-end-column="108" />
+            <state relative-caret-position="80">
+              <caret line="152" column="5" lean-forward="true" selection-start-line="152" selection-start-column="5" selection-end-line="152" selection-end-column="5" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/serverConfig.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="57" selection-start-column="57" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -40,7 +50,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <favorite-branches>
@@ -82,7 +92,6 @@
         <option value="$PROJECT_DIR$/src/reducers/authReduser.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/actions/authenticationAction.js" />
-        <option value="$PROJECT_DIR$/src/serverConfig.js" />
         <option value="$PROJECT_DIR$/src/reducers/errorsReduser.js" />
         <option value="$PROJECT_DIR$/src/reducers/index.js" />
         <option value="$PROJECT_DIR$/src/actions/logoutAction.js" />
@@ -113,6 +122,7 @@
         <option value="$PROJECT_DIR$/src/components/customerPage/newText.jsx" />
         <option value="$PROJECT_DIR$/src/components/customerPage/dashboard.jsx" />
         <option value="$PROJECT_DIR$/src/components/customerPage/transactionsBar.jsx" />
+        <option value="$PROJECT_DIR$/src/serverConfig.js" />
       </list>
     </option>
   </component>
@@ -253,7 +263,7 @@
       <workItem from="1563260949956" duration="15658000" />
       <workItem from="1563349024410" duration="16469000" />
       <workItem from="1563433176792" duration="16427000" />
-      <workItem from="1563519431473" duration="1801000" />
+      <workItem from="1563519431473" duration="2916000" />
     </task>
     <task id="LOCAL-00001" summary="feat:create react application">
       <created>1560845132419</created>
@@ -367,11 +377,25 @@
       <option name="project" value="LOCAL" />
       <updated>1563521630187</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="fix messages">
+      <created>1563522007033</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1563522007033</updated>
+    </task>
+    <task id="LOCAL-00018" summary="for heroku">
+      <created>1563522540069</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1563522540069</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99937000" />
+    <option name="totallyTimeSpent" value="101052000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -434,7 +458,8 @@
     <MESSAGE value="add text cost" />
     <MESSAGE value="add styles" />
     <MESSAGE value="fix messages" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix messages" />
+    <MESSAGE value="for heroku" />
+    <option name="LAST_COMMIT_MESSAGE" value="for heroku" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/validation/is-empty.js">
@@ -478,13 +503,6 @@
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/serverConfig.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="20" selection-start-column="20" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -850,11 +868,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/customerPage/transactionsBar.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="170" column="108" selection-start-line="170" selection-start-column="108" selection-end-line="170" selection-end-column="108" />
+        <state relative-caret-position="80">
+          <caret line="152" column="5" lean-forward="true" selection-start-line="152" selection-start-column="5" selection-end-line="152" selection-end-column="5" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/serverConfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="57" selection-start-column="57" selection-end-column="57" />
         </state>
       </provider>
     </entry>
