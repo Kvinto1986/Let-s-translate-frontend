@@ -267,7 +267,7 @@ class Dashboard extends Component {
         return (
 
             <div className="col-12 row d-flex flex-wrap justify-content-center">
-                <h1 className='text-info'>Actions:</h1>
+                <h1 className='text-info'>Actions</h1>
                 <div className="d-flex col-12 justify-content-center align-content-center mt-3 mb-5 ">
                     <button
                         className='btn btn-success mr-3 col-3'
@@ -289,6 +289,7 @@ class Dashboard extends Component {
                     </button>
                 </div>
                 <div className="d-inline-flex col-12 justify-content-center flex-wrap align-content-center mt-3">
+                    <h1 className='text-primary col-12 text-center'>Сollections</h1>
                     {collectionList}
                 </div>
                 <div className="d-inline-flex col-12 justify-content-center align-content-center mt-3">
