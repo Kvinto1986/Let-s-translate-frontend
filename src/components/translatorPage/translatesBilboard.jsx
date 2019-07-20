@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchTranslatesByAvailableLanguages} from '../../actions/fetchTranslates'
-import hotImg from '../../resources/images/fire.png'
-import yesImg from '../../resources/images/yes.png'
-import noImg from '../../resources/images/no.png'
+import hotImg from '../../resources/fire.png'
+import yesImg from '../../resources/yes.png'
+import noImg from '../../resources/no.png'
 
 class TranslatesBilboard extends Component {
 

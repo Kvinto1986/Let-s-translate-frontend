@@ -13,8 +13,7 @@ class LinkGroup extends Component {
         const role = this.props.role;
 
         const adminLinks = [
-            {title: 'Register translators', route: '/registerTranslator'},
-            {title: 'Edit tarifs', route: '/editTarifs'},
+            {title: 'Register translators', route: '/registerTranslator'}
         ];
 
         const customerLinks = [

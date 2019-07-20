@@ -70,16 +70,15 @@ class TranslatorRegister extends Component {
 
     render() {
         const {errors} = this.state;
-        const {languagesSelect}=this.state.languages
         return (
-            <div className="translatorRegister col-8">
-                <h2>Registration</h2>
-                <p className="text-info">Translator</p>
-                <form onSubmit={e => this.handleSubmit(e)}>
+            <div className="translatorRegister col-12 d-flex flex-wrap justify-content-center">
+                <h2 className='col-12 text-info text-center mt-3 mb-3'>Registration new translator</h2>
+                <form onSubmit={e => this.handleSubmit(e)} className='col-6'>
                     <div className="form-group">
+                        <label><h5 className='text-primary'>Name:</h5></label>
                         <input
                             type="text"
-                            placeholder="Name"
+                            placeholder="Enter name..."
                             name="name"
                             className="form-control"
                             onChange={this.handleInputChange}
@@ -88,9 +87,10 @@ class TranslatorRegister extends Component {
                         {errors.name && (<div className='text-danger'>{errors.name}</div>)}
                     </div>
                     <div className="form-group">
+                        <label><h5 className='text-primary'>Email:</h5></label>
                         <input
                             type="email"
-                            placeholder="Email"
+                            placeholder="enter email..."
                             name="email"
                             className="form-control"
                             onChange={this.handleInputChange}
@@ -99,9 +99,10 @@ class TranslatorRegister extends Component {
                         {errors.email && (<div className='text-danger'>{errors.email}</div>)}
                     </div>
                     <div className="form-group">
+                        <label><h5 className='text-primary'>Phone number:</h5></label>
                         <input
                             type="text"
-                            placeholder="Phone number"
+                            placeholder="enter phone number..."
                             name="phone"
                             className="form-control"
                             onChange={this.handleInputChange}
@@ -111,9 +112,10 @@ class TranslatorRegister extends Component {
                         
                     </div>
                     <div className="form-group">
+                        <label><h5 className='text-primary'>Password:</h5></label>
                         <input
                             type="password"
-                            placeholder="Password"
+                            placeholder="enter password..."
                             name="password"
                             className="form-control"
                             onChange={this.handleInputChange}
@@ -122,9 +124,10 @@ class TranslatorRegister extends Component {
                         {errors.password && (<div className='text-danger'>{errors.password}</div>)}
                     </div>
                     <div className="form-group">
+                        <label><h5 className='text-primary'>Confirm password:</h5></label>
                         <input
                             type="password"
-                            placeholder="Confirm Password"
+                            placeholder="enter confirm Password"
                             name="password_confirm"
                             className="form-control"
                             onChange={this.handleInputChange}
@@ -133,13 +136,14 @@ class TranslatorRegister extends Component {
                         {errors.password_confirm && (<div className='text-danger'>{errors.password_confirm}</div>)}
                     </div>
                     <div className="form-group">
+                        <label><h5 className='text-primary'>Select translation languages:</h5></label>
                         <Select
                             isMulti
                             joinValues
-                            value={languagesSelect}
                             onChange={this.handleChangeLang}
                             options={languages}
                         />
+                        {errors.languages && (<div className='text-danger'>{errors.languages}</div>)}
                     </div>
                     <div className="form-group">
                         <button type="submit" className="btn btn-primary">
