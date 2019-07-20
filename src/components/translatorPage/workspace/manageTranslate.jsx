@@ -18,7 +18,6 @@ const tagStyle = {
 }
 
 class ManageTranslate extends Component {
-
     state = {
         textId: this.props.translateToManage.textId,
         customerName: this.props.translateToManage.customerName,
@@ -32,7 +31,7 @@ class ManageTranslate extends Component {
         textFileURL: "",
         originalLanguage: this.props.translateToManage.originalLanguage,
         translationLanguage: this.props.translateToManage.translationLanguage,
-        translateTextVisibility: true,
+        translateTextVisibility: false,
         fileDownloadVisibility: true,
         progress: this.props.translateToManage.progress,
         tags: this.props.translateToManage.tags,
@@ -55,18 +54,17 @@ class ManageTranslate extends Component {
             }
         }
 
-        if (nextProps.translateToManage.progress==='100') {
+        if (nextProps.translateToManage.progress === '100') {
             this.setState({
                 translateTextVisibility: false,
-                fileDownloadVisibility:false,
-
+                fileDownloadVisibility: false,
             });
         }
 
        else {
             this.setState({
                 translateTextVisibility: true,
-                fileDownloadVisibility:true,
+                fileDownloadVisibility: true,
 
             });
         }
@@ -119,6 +117,10 @@ class ManageTranslate extends Component {
         }
     };
 
+    saveAlert = () => {
+        this.setState({saveIsSuccess: true})
+    }
+
     handleSave = () => {
         const {
             textId,
@@ -146,42 +148,8 @@ class ManageTranslate extends Component {
             date: Date.now()
         }
 
-        this.setState({saveIsSuccess: true})
-
-        if (this.state.textFileName.name) {
-            firebase
-                .storage()
-                .ref("translates")
-                .child(this.state.customerEmail + '-' + this.state.textFileName.name)
-                .put(this.state.textFileName).then((snapshot) => {
-                snapshot.ref.getDownloadURL().then(url =>
-                    this.setState({textFileURL: url})).then(() => {
-                    translateState.translatedfileName = this.state.customerEmail + '-' + this.state.textFileName.name;
-                    translateState.translatedTextFileUrl = this.state.textFileURL;
-                    this.props.finishTranslate(translateState);
-                })
-            });
-        }
-
-        else if (this.state.translateTextName.length > 0 && this.state.translateText.length > 0) {
-
-            firebase
-                .storage()
-                .ref("translates")
-                .child(this.state.customerEmail + '-' + this.state.translateTextName + '.txt')
-                .putString(this.state.translateText).then((snapshot) => {
-                snapshot.ref.getDownloadURL().then(url =>
-                    this.setState({textFileURL: url})).then(() => {
-                    translateState.translatedfileName = this.state.customerEmail + '-' + this.state.translateTextName + '.txt';
-                    translateState.translatedTextFileUrl = this.state.textFileURL;
-                    this.props.finishTranslate(translateState);
-                })
-            });
-        } else {
-            this.props.saveTranslate(translateState)
-        }
-
-
+        this.props.saveTranslate(translateState, this.saveAlert)
+        
     }
 
     handleFinish = (e) => {
@@ -220,16 +188,43 @@ class ManageTranslate extends Component {
             finalCost: null,
             date: Date.now()
         }
+
+        if (this.state.textFileName.name) {
+            firebase
+                .storage()
+                .ref("translates")
+                .child(this.state.customerEmail + '-' + this.state.textFileName.name)
+                .put(this.state.textFileName).then((snapshot) => {
+                snapshot.ref.getDownloadURL().then(url =>
+                    this.setState({textFileURL: url})).then(() => {
+                    finalTranslateState.translatedfileName = this.state.customerEmail + '-' + this.state.textFileName.name;
+                    finalTranslateState.translatedTextFileUrl = this.state.textFileURL;
+                    this.props.finishTranslate(finalTranslateState);
+                })
+            });
+        }
+
+        else if (this.state.translateTextName.length > 0 && this.state.translateText.length > 0) {
+            firebase
+                .storage()
+                .ref("translates")
+                .child(this.state.customerEmail + '-' + this.state.translateTextName + '.txt')
+                .putString(this.state.translateText).then((snapshot) => {
+                snapshot.ref.getDownloadURL().then(url =>
+                    this.setState({textFileURL: url})).then(() => {
+                    finalTranslateState.translatedfileName = this.state.customerEmail + '-' + this.state.translateTextName + '.txt';
+                    finalTranslateState.translatedTextFileUrl = this.state.textFileURL;
+                    this.props.finishTranslate(finalTranslateState);
+                })
+            });
+        }
         
-        this.props.finishTranslate(finalTranslateState)
     }
 
     render() {
         const {manageStyle} = this.props
-        const {originalLanguage, translationLanguage, translateText, translateTextName, saveIsSuccess, tags, progress, errors} = this.state
-        let alert, fileIsDisabled
-        
-        // TODO: Create Alert separated component
+        const {originalLanguage, translationLanguage, fileDownloadVisibility, translateText, translateTextName, saveIsSuccess, tags, progress, errors} = this.state
+        let alert
         if (progress == 100) {
             alert = (
                 <div className="alert alert-warning alert-dismissible fade show" role="alert">
@@ -287,12 +282,21 @@ class ManageTranslate extends Component {
             )
         }
 
-        if (progress < 100) {
-            fileIsDisabled = true
-        }
-        else {
-            fileIsDisabled = false
-        }
+        // if (progress < 100) {
+        //     fileIsDisabled = true
+        // }
+        // else {
+        //     fileIsDisabled = false
+        // }
+        // console.log(progress > 99, translateText === null, translateTextName == false);
+        
+
+        let fileIsDisabled = !(progress > 99 && translateText === null && translateTextName == false) 
+        ? true
+        : false
+
+        console.log(fileDownloadVisibility, fileIsDisabled);
+        
 
         return (
             <>
@@ -352,7 +356,7 @@ class ManageTranslate extends Component {
                                 type="file"
                                 name="textFileName"
                                 onChange={this.handleInputFileChange}
-                                disabled={this.state.fileDownloadVisibility || fileIsDisabled}
+                                disabled={fileIsDisabled && fileDownloadVisibility}
                                 required={this.state.textFileRequired}
                                 className={classnames({
                                     'is-invalid': errors.translateManage
