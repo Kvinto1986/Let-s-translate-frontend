@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {getCustomersTranslates} from "../../actions/translate/getTranslatesForCustomer";
-import {payTranslate} from "../../actions/translate/payTranslate";
+import {payTranslate,cancelTranslate} from "../../actions/translate/payTranslate";
+import noImg from '../../resources/no.png'
 
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
@@ -28,7 +29,7 @@ class OrdersBar extends Component {
     };
 
     handlePay = (order) => {
-        console.log(order)
+
         Swal.fire({
             title: 'Payment',
             text: "You won't be able to revert this ",
@@ -41,6 +42,25 @@ class OrdersBar extends Component {
         }).then((result) => {
             if (result.value) {
                 this.props.payTranslate({id: order.id}, this.reset);
+            }
+
+        })
+    };
+
+    handleCancelOrder = (order) => {
+        Swal.fire({
+            title: 'Cancel order',
+            text: "Are you sure you want to cancel the order (50% of the order amount will be charged from your account)?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes,cancel order',
+            cancelButtonText: 'No',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.value) {
+                this.props.cancelTranslate(order, this.reset);
             }
 
         })
@@ -114,15 +134,24 @@ class OrdersBar extends Component {
                 </td>
                 {elem.progress === '100' ? (
                     <td>
-                        <button className='btn btn-danger'
+                        <button className='btn btn-success'
                                 onClick={() => this.handlePay(elem)}>Pay
                         </button>
                     </td>
 
                 ) : <td>
-                    <button className='btn btn-danger'
-                            disabled={true}>Pay
-                    </button>
+                    <img src={noImg} style={{height: '40px'}} className='ml-2' alt="No"/>
+                </td>}
+
+                {parseInt(elem.progress) < 50 ? (
+                    <td>
+                        <button className='btn btn-danger'
+                                onClick={() => this.handleCancelOrder(elem)}>Cancel
+                        </button>
+                    </td>
+
+                ) : <td>
+                    <img src={noImg} style={{height: '40px'}} className='ml-2' alt="No"/>
                 </td>}
             </tr>
         });
@@ -152,8 +181,10 @@ class OrdersBar extends Component {
                 </td>
                 <td>
                     <button className='btn btn-warning text-decoration-none'
-                       onClick={() => this.openMessageDialog(elem)}>Open</button>
+                            onClick={() => this.openMessageDialog(elem)}>Open
+                    </button>
                 </td>
+
             </tr>
         })
 
@@ -213,6 +244,9 @@ class OrdersBar extends Component {
                                 <th>
                                     Payment
                                 </th>
+                                <th>
+                                    Cancel order
+                                </th>
                             </tr>
                             {inProgressList}
                             </tbody>
@@ -263,5 +297,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
     getCustomersTranslates,
-    payTranslate
+    payTranslate,
+    cancelTranslate
 })(withRouter(OrdersBar))

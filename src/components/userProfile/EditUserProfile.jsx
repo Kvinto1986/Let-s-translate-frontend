@@ -13,6 +13,10 @@ import CreditCardNumberInput from './edit/CreditCardNumberInput'
 import NewPassword from './edit/NewPassword'
 import CurrentPassword from './edit/CurrentPassword'
 
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
+
 class EditUserProfile extends Component {
 
     state = {
@@ -35,6 +39,8 @@ class EditUserProfile extends Component {
         e.preventDefault()
 
         const data = {
+            nameOld: this.props.auth.user.name,
+            emailOld: this.props.auth.user.email,
             name: this.state.name,
             email: this.state.email,
             phone: this.state.phone,
@@ -43,9 +49,17 @@ class EditUserProfile extends Component {
             passwordCur: this.state.passwordCur
         }
 
+
+
         this.props.editProfileData(data, this.props.auth.user)
         .then((res) => {
-            this.props.logoutUser(this.props.history)
+            Swal.fire({
+                type: 'success',
+                title: 'Congratulations!',
+                text: 'The action was successful!!',
+                allowOutsideClick: false
+            }).then(() => {
+            this.props.logoutUser(this.props.history)})
         })
     }
 
