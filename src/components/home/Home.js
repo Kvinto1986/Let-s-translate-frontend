@@ -55,64 +55,82 @@ class Home extends Component {
         const {secondLang} = this.state.secondLang;
 
         return (
-            <div className='landing col-12 mt-5 d-flex justify-content-between align-items-center'>
-                <div id="carouselExampleIndicators" className="carousel slide mt-3 col-8" data-ride="carousel">
-                    <ol className="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-                    <div className="carousel-inner border-info rounded-lg">
-                        <div className="carousel-item active">
-                            <img className="d-block w-100 " src={translate1Image} alt="First slide"/>
-                            <div className="carousel-caption d-none d-md-block">
-                                <h5>Best of ever translators!</h5>
-                                <p>Our transloators make translates so fast!</p>
+            <div className='landing col-12 d-flex justify-content-center align-items-center'>
+                <div className="row">
+                        <section className="main_title-wrapper col-12">
+                            <div className="passiveLandingTitleAbstraction1 text-light"></div>
+                            <h1 className="main_h1 display-1">
+                                Let's translate 
+                            </h1>
+                            <b>
+                                <small>A client platform for language translations</small>
+                            </b>
+                        </section>
+                        <section className="carousel-wrapper">
+                            <div id="carouselExampleIndicators" className="carousel slide mt-3 col-12" data-ride="carousel">
+                                <ol className="carousel-indicators">
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                                </ol>
+                                <div className="carousel-inner border-info rounded-lg">
+                                    <div className="carousel-item active">
+                                        <img className="d-block w-100 " src={translate1Image} alt="First slide" />
+                                        <div className="carousel-caption d-none d-md-block">
+                                            <h5>Best of ever translators!</h5>
+                                            <p>Our transloators make translates so fast!</p>
+                                        </div>
+                                    </div>
+                                    <div className="carousel-item border-info rounded-lg">
+                                        <img className="d-block w-100 " src={translate2Image} alt="Second slide" />
+                                        <div className="carousel-caption d-none d-md-block">
+                                            <h5>Best of ever translators!</h5>
+                                            <p>Our transloators make translates so fast!</p>
+                                        </div>
+                                    </div>
+                                    <div className="carousel-item border-info rounded-lg">
+                                        <img className="d-block w-100" src={translate3Image} alt="Third slide" />
+                                        <div className="carousel-caption d-none d-md-block">
+                                            <h5>Best of ever translators!</h5>
+                                            <p>Our transloators make translates so fast!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                                data-slide="prev">
+                                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span className="sr-only">Previous</span>
+                                </a>
+                                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                                data-slide="next">
+                                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span className="sr-only">Next</span>
+                                </a>
                             </div>
-                        </div>
-                        <div className="carousel-item border-info rounded-lg">
-                            <img className="d-block w-100 " src={translate2Image} alt="Second slide"/>
-                            <div className="carousel-caption d-none d-md-block">
-                                <h5>Best of ever translators!</h5>
-                                <p>Our transloators make translates so fast!</p>
+                        </section>
+                        <section className="costCalculator-wrapper col-12">
+                            <div className="container d-flex flex-column justify-content-center align-items-center">
+                                <h2 className="display-4 mt-5 mb-5">Calculate the cost of translation</h2>
+                                <div className="select-wrapper">
+                                    <label>From</label>
+                                    <Select
+                                        value={firstLang}
+                                        onChange={this.handleChangeFirstLang}
+                                        options={languages}
+                                    />
+                                </div>
+                                <div className="select-wrapper">
+                                    <label className={'mt-3'}>To</label>
+                                    <Select
+                                        value={secondLang}
+                                        onChange={this.handleChangeSecondLang}
+                                        options={languages}
+                                    />
+                                </div>
+                                {this.state.firstLangVal>0&&this.state.secondLangVal>0?(<h3 className={'text-light mt-3'}>
+                                Total translate cost: {this.state.translateCost}$ for 1000 characters</h3>):null}
                             </div>
-                        </div>
-                        <div className="carousel-item border-info rounded-lg">
-                            <img className="d-block w-100 " src={translate3Image} alt="Third slide"/>
-                            <div className="carousel-caption d-none d-md-block">
-                                <h5>Best of ever translators!</h5>
-                                <p>Our transloators make translates so fast!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                       data-slide="prev">
-                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Previous</span>
-                    </a>
-                    <a className="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                       data-slide="next">
-                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span className="sr-only">Next</span>
-                    </a>
-                </div>
-                <div className='col-4'>
-                    <h2>Calculate the cost of translation</h2>
-                    <label>From</label>
-                    <Select
-                        value={firstLang}
-                        onChange={this.handleChangeFirstLang}
-                        options={languages}
-                    />
-                    <label className={'mt-3'}>To</label>
-                    <Select
-                        value={secondLang}
-                        onChange={this.handleChangeSecondLang}
-                        options={languages}
-                    />
-
-                    {this.state.firstLangVal>0&&this.state.secondLangVal>0?(<h3 className={'text-primary mt-3'}>
-                        Total translate cost: {this.state.translateCost}$ for 1000 characters</h3>):null}
+                        </section>
                 </div>
             </div>
         )

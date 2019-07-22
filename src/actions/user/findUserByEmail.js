@@ -3,6 +3,7 @@ import server from '../../serverConfig'
 import {FETCH_CHAT_MEMBER_DATA} from '../types'
 
 export const findUserByEmail = user => dispatch => {
+    console.log(user)
     axios.post(`${server}api/users/findUserByEmail`, user)
     .then(res => {
         dispatch({

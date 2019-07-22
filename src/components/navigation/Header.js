@@ -12,13 +12,6 @@ import msgImage from '../../resources/images/navigation/message.png'
 import LinkGroup from './LinkGroup'
 import Alert from '../common/Alert'
 
-const style = {
-    marginBottom: '25px',
-    position: 'sticky', 
-    top: '0',
-    zIndex: '999'
-};
-
 const badgeStyle = {
     fontSize: '9px'
 };
@@ -94,7 +87,6 @@ class Header extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {unreadMessages} = this.props
-        console.log(unreadMessages.length);
         
         const authLinks = (
             <Fragment>
@@ -126,24 +118,26 @@ class Header extends Component {
 
         const guestLinks = (
             <Fragment>
-                <div className={'col-2 d-flex justify-content-between align-items-center'}>
-                    <Link className={'btn btn-lg btn-info text-decoration-none'} to="/registerCustomer">Register</Link>
-                    <Link className={'btn btn-lg btn-warning text-decoration-none'} to="/login">LogIn</Link>
+                <div className={'col-2 d-flex justify-content-end align-items-center'}>
+                    <Link className={'guestLink text-decoration-none mr-5'} to="/registerCustomer">Register</Link>
+                    <Link className={'guestLink text-decoration-none'} to="/login">LogIn</Link>
                 </div>
             </Fragment>
         );
 
         return (
             <Fragment>
-                <header style={style}>
-                    <nav className={"navbar navbar-expand-lg navbar-dark bg-dark"}>
+                <header>
+                    <nav className={"navbar navbar-expand-lg navbar-dark"}>
                         <div className={'col-12 d-flex justify-content-between align-items-center'}>
                             <Link className="navbar-brand" to="/">
                                 <div className="d-flex align-items-center">
                                     <div>
                                         <img src={logo} alt="logo-translate.png" width="60px"/>
                                     </div>
-                                    <h1 className='display-4 ml-1' style={{fontSize: "30px"}}>Let's translate</h1>
+                                    <h1 className='display-4 ml-1' style={{fontSize: "30px"}}>
+                                        <em className="titleLink"><b>Let's translate</b></em>
+                                    </h1>
                                 </div>
                             </Link>
                             {isAuthenticated ? authLinks : guestLinks}
