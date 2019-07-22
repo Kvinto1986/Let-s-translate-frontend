@@ -132,7 +132,7 @@ class OrdersBar extends Component {
                             onClick={() => this.openMessageDialog(elem)}>Open
                     </button>
                 </td>
-                {elem.progress === '100' && elem.isReady && elem.isReviewed ? (
+                {elem.progress === '100' && elem.isReady ? (
                     <td>
                         <button className='btn btn-success'
                                 onClick={() => this.handlePay(elem)}>Pay
