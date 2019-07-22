@@ -65,7 +65,7 @@ export const registrationCollection = (collection,reset) => dispatch => {
 };
 
 export const deleteTexts = (texts,reset) => dispatch => {
-    axios.delete(`${server}api/texts/deleteTexts`,texts)
+    axios.post(`${server}api/texts/deleteTexts`,texts)
         .then(() =>reset())
         .catch(err => {
             if (err.response) {

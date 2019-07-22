@@ -111,16 +111,16 @@ class Home extends Component {
                         <section className="costCalculator-wrapper col-12">
                             <div className="container d-flex flex-column justify-content-center align-items-center">
                                 <h2 className="display-4 mt-5 mb-5">Calculate the cost of translation</h2>
-                                <div className="select-wrapper">
-                                    <label>From</label>
+                                <div className="select-wrapper text-dark">
+                                    <label className='text-light'>From</label>
                                     <Select
                                         value={firstLang}
                                         onChange={this.handleChangeFirstLang}
                                         options={languages}
                                     />
                                 </div>
-                                <div className="select-wrapper">
-                                    <label className={'mt-3'}>To</label>
+                                <div className="select-wrapper text-dark">
+                                    <label className='mt-3 text-light'>To</label>
                                     <Select
                                         value={secondLang}
                                         onChange={this.handleChangeSecondLang}
