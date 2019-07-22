@@ -82,8 +82,18 @@ div#root
                 padding-bottom: 350px
                 div.select-wrapper
                     width: 100%
+@media screen and (max-width: 400px)     
+    h1.text-secondary
+        font-size: 2em
+
 
 @media screen and (max-width: 550px)
+    table    
+        th,td 
+            padding: 2px !important
+        img
+            width: 10px
+            height: 10px !important
     section.main_title-wrapper
         h1.main_h1
             font-size: 48px
@@ -91,6 +101,21 @@ div#root
         b
             font-size: 36px
             letter-spacing: 0px
+@media screen and (max-width: 700px)
+    table
+        font-size: 0.7em !important
+        padding: 2px !important
+        img
+            width: 20px
+            height: 20px !important
+        button 
+            font-size: 0.8em !important
+            padding: 4px !important
+@media screen and (max-width: 1000px)
+    div.overflow-auto.mt-4.mb-4
+        height: 30vh !important
+// @media screen and (max-width: 1200px)
+
             
 
 

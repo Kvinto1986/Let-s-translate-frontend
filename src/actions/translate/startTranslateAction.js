@@ -5,7 +5,7 @@ import server from '../../serverConfig'
 export const startTranslate = (data) => dispatch => {
     axios.post(`${server}api/messages/registration`, data)
     .then(res => {
-        alert('Message created!')
+        console.log('Message created!')
     })
     .catch(err => {
         if (err.response) {

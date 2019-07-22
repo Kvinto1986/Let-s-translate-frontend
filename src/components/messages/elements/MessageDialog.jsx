@@ -114,7 +114,7 @@ class MessageDialog extends Component {
             <Fragment>
                 <div style={{padding:"10px 25px"}} className="mt-3">
                     <div className="row">
-                        <div className="col-2" style={{backgroundColor:"#f1f2f6"}}>
+                        <div className="col-2 recDataBar" style={{backgroundColor:"#f1f2f6"}}>
                             <div className="d-flex flex-column align-items-center" style={{position: 'sticky', top: '110px'}}>
                                 {
                                     (Object.keys(chatMemberData).length === 0)

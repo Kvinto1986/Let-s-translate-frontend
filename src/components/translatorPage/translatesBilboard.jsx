@@ -19,10 +19,10 @@ class TranslatesBilboard extends Component {
         
         return (
             <div className="col-12 d-flex flex-wrap justify-content-center mt-3">
-                <h1 className='text-secondary'>Available translates:</h1>
+                <h1 className='text-secondary'>Available translates</h1>
                 <div className="d-flex col-12 justify-content-center align-content-center mt-5">
-                <div className="row">
-                        <table className="table table">
+                    <div className="row">
+                        <table className="table">
                             <thead>
                                 <tr className="bg-dark text-light">
                                     <th scope="col">#</th>
