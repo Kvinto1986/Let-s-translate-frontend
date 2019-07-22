@@ -36,7 +36,7 @@ class Confirm extends Component {
 
             return (
                 <div className='col-12 row mt-5 d-flex flex-wrap justify-content-center text-info'>
-                <h1>Congratulations, your profile has been verified!</h1>
+                    <h1>Congratulations, your profile has been verified!</h1>
                 </div>
             )
         } else if (this.state.redirect===false) {

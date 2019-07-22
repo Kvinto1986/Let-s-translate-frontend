@@ -25,7 +25,7 @@ class TranslatesReview extends Component {
         const {reviewTranslateList: translates} = this.props
         const {translateToReview} = this.state
         return (
-            <div className="row">
+            <div className="row mt-3">
                 <section className="col-xl-6 col-12">
                     <h5>Translates review</h5>
                     <table className="table table-hover table-responsive">

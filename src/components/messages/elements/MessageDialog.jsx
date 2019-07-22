@@ -112,7 +112,7 @@ class MessageDialog extends Component {
         
         return (
             <Fragment>
-                <div style={{padding:"10px 25px"}}>
+                <div style={{padding:"10px 25px"}} className="mt-3">
                     <div className="row">
                         <div className="col-2" style={{backgroundColor:"#f1f2f6"}}>
                             <div className="d-flex flex-column align-items-center" style={{position: 'sticky', top: '110px'}}>

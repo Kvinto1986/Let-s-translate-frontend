@@ -37,7 +37,7 @@ class TranslatorWorkspace extends Component {
         const manageStyle = (!translateToManage) ? unActiveManage : activeManage
 
         return (
-            <div className="row">
+            <div className="row mt-3">
                 <section className="col-xl-6 col-12">
                     <div className="container">
                         {

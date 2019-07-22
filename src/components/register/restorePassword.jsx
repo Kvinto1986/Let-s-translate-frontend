@@ -79,7 +79,7 @@ class NewPassword extends Component {
         if (this.state.redirect===true) {
 
             return (
-                <div className='col-12 row mt-5 d-flex flex-wrap justify-content-center'>
+                <div className='col-12 row mt-5 d-flex flex-wrap justify-content-center mt-3'>
                     <h1 className='text-info'>Please, you can change your password.</h1>
                     <form className='col-8 row mt-5 d-flex flex-wrap justify-content-center'>
                         <div className="form-group">
