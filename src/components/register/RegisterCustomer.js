@@ -88,7 +88,7 @@ class RegisterCustomer extends Component {
         : <ButtonSubmit title="Register"  handleSubmit={this.handleSubmit} isDisabled={true}/>
 
         return (
-            <div className="registerCustomer">
+            <div className="registerCustomer mt-3">
                 <div className="container">
                     <h2>Registration</h2>
                     <p className="text-info">Customer</p>

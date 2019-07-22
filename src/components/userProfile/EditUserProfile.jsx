@@ -76,7 +76,7 @@ class EditUserProfile extends Component {
         const {errors} = this.state      
         
         return (
-            <div className="container">
+            <div className="container mt-3">
                 <FormTitle title="Profile edit" />
                 <form className="ml-3 d-flex flex-column justify-content-center">
                     <NameInput 

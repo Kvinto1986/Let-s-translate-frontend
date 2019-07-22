@@ -20,7 +20,7 @@ class MessageInbox extends Component {
 
     render() {
         return (
-            <div className="container"> 
+            <div className="container mt-3"> 
                 <h3>Inbox</h3>
                 <hr/>
                 <section>

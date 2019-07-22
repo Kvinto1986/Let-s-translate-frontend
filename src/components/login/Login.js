@@ -73,7 +73,7 @@ class Login extends Component {
         const {errors} = this.state;
 
         return (
-            <div className="login">
+            <div className="login mt-3">
                 <div className="container">
                     <h2>Login</h2>
                     <h5 className="text-info">{this.state.userStatus ? 'Translator' : 'Customer'}</h5>

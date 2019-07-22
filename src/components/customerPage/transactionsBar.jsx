@@ -190,7 +190,7 @@ class OrdersBar extends Component {
 
 
         return (
-            <div className='col-12 d-flex flex-wrap justify-content-center'>
+            <div className='col-12 d-flex flex-wrap justify-content-center mt-3'>
                 <h1 className='col-12 d-flex flex-wrap justify-content-center text-info'>My orders</h1>
                 <ul className="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
                     <li className="nav-item">
