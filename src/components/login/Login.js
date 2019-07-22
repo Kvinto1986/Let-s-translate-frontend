@@ -34,9 +34,8 @@ class Login extends Component {
         Swal.fire({
             type: 'success',
             title: 'Congratulations!',
-            text: 'The action was successful!!',
-            allowOutsideClick: false
-        }).then(() => {this.props.history.push('/')})
+            text: 'The action was successful!!'
+        }).then(() => {window.location.reload();})
     };
 
     handleRestorePassword = () => {
