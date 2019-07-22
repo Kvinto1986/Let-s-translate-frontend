@@ -5,6 +5,10 @@ import {connect} from 'react-redux';
 import {loginUser} from '../../actions/authAction';
 import {restoreCustomerPassword} from '../../actions/customerAction';
 
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
+
 class Login extends Component {
 
     state = {
@@ -26,8 +30,17 @@ class Login extends Component {
         this.setState({userStatus: !this.state.userStatus});
     };
 
+    reset = () => {
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'The action was successful!!',
+            allowOutsideClick: false
+        }).then(() => {this.props.history.push('/')})
+    };
+
     handleRestorePassword = () => {
-        this.props.restoreCustomerPassword({email:this.state.restoreEmail})
+        this.props.restoreCustomerPassword({email: this.state.restoreEmail},this.reset)
     };
 
     handleSubmit = (e) => {
@@ -73,7 +86,7 @@ class Login extends Component {
         const {errors} = this.state;
 
         return (
-            <div className="login mt-3">
+            <div className="login">
                 <div className="container">
                     <h2>Login</h2>
                     <h5 className="text-info">{this.state.userStatus ? 'Translator' : 'Customer'}</h5>
@@ -150,12 +163,14 @@ class Login extends Component {
                                         onChange={this.handleInputChange}
                                         value={this.state.restoreEmail}
                                     />
-                                    {errors.restoreCustomer && (<div className='text-danger'>{errors.restoreCustomer}</div>)}
+                                    {errors.restoreCustomer && (
+                                        <div className='text-danger'>{errors.restoreCustomer}</div>)}
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close
                                     </button>
-                                    <button type="button" className="btn btn-warning" onClick={this.handleRestorePassword}>Restore password
+                                    <button type="button" className="btn btn-warning"
+                                            onClick={this.handleRestorePassword}>Restore password
                                     </button>
                                 </div>
                             </div>

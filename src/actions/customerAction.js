@@ -33,10 +33,10 @@ export const confirmationCustomer = (hash, handleChangeRedirectTrue,handleChange
         });
 };
 
-export const restoreCustomerPassword = (email) => dispatch => {
+export const restoreCustomerPassword = (email,reset) => dispatch => {
     axios.post(`${server}api/customers/restorePassword`, email)
         .then((data) => {
-        console.log(data)
+        reset()
         })
         .catch(err => {
             if (err.response) {
