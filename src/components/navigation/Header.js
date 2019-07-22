@@ -87,7 +87,6 @@ class Header extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
         const {unreadMessages} = this.props
-        console.log(unreadMessages.length);
         
         const authLinks = (
             <Fragment>

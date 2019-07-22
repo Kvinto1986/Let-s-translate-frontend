@@ -7,7 +7,6 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #656D78;
   z-index: 0;
 }
 
@@ -29,10 +28,6 @@ div#root header nav .titleLink {
   font-family: Arial, Helvetica, sans-serif;
   letter-spacing: -1px;
   font-weight: 100 !important;
-}
-
-div#root main {
-  background: #656D78;
 }
 
 div#root main section.main_title-wrapper {
