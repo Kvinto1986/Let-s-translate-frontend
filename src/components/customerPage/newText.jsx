@@ -269,6 +269,7 @@ class NewText extends Component {
                                     type="number"
                                     placeholder="Chars count (min 1000)"
                                     name="charsCount"
+                                    className="form-control"
                                     value={this.state.charsCount}
                                     onChange={this.handleInputCharsCount}
                                     disabled={this.state.fileDownloadVisibility}
@@ -283,6 +284,7 @@ class NewText extends Component {
                                     type="text"
                                     placeholder="Text"
                                     name="textAreaName"
+                                    className="form-control"
                                     onChange={this.handleChangeTextAreaName}
                                     disabled={this.state.textAreaVisibility}
                                     value={this.state.textAreaName}
@@ -335,48 +337,44 @@ class NewText extends Component {
                             <div className='text-danger'>{errors.translationLanguage}</div>)}
                     </div>
 
-                    <div className="form-check">
-                        <label className="form-check-label">
-                            <input
-                                type="checkbox"
-                                className="form-check-input mt-2"
-                                checked={this.state.addReview}
-                                onChange={this.handleChangeAddReview}
-                            />
-
-
-                            <h5 className='text-secondary'>Translation with an additional review from the second
-                                translator (+ 10% to the cost)</h5>
-                        </label>
+                    <div className="form-check d-flex align-items-center">
+                        <input
+                            type="checkbox"
+                            className="form-check-input mb-1"
+                            checked={this.state.addReview}
+                            onChange={this.handleChangeAddReview}
+                        />
+                        <small>
+                            Translation with an additional review (+10% to the cost)
+                        </small>
                     </div>
-                    <div className="form-check mt-3">
-                        <label className="form-check-label">
-                            <h5 className='text-secondary'> Translation speed: </h5>
-                        </label>
-                    </div>
-                    <div className="form-check mt-3 ml-3">
-                        <label className="radio-inline">
-                            <input
-                                type="radio"
-                                className="form-check-input"
-                                checked={!this.state.translationSpeedCheck}
-                                onChange={this.handleChangeTranslationSpeed}
-
-                            />
-                            Ordinary
-                        </label>
-                        <label className="radio-inline ml-5 ">
-                            <input
-                                type="radio"
-                                className="form-check-input"
-                                checked={this.state.translationSpeedCheck}
-                                onChange={this.handleChangeTranslationSpeed}
-                            />
-                            Fast (+50% less translation time, + 30% to the cost)
-                        </label>
+                    <div>
+                        <p className="form-check-label mt-3">
+                            Translation speed
+                        </p>
+                        <div className="form-check mt-3">
+                            <label className="radio-inline">
+                                <input
+                                    type="radio"
+                                    className="form-check-input"
+                                    checked={!this.state.translationSpeedCheck}
+                                    onChange={this.handleChangeTranslationSpeed}
+                                />
+                                <small>Ordinary</small>
+                            </label>
+                            <label className="radio-inline ml-5 ">
+                                <input
+                                    type="radio"
+                                    className="form-check-input"
+                                    checked={this.state.translationSpeedCheck}
+                                    onChange={this.handleChangeTranslationSpeed}
+                                />
+                                <small>Fast (+50% less translation time, + 30% to the cost)</small>
+                            </label>
+                        </div>
                     </div>
                     <div className="form-group">
-                        <button type="button" className="btn btn-success mt-3" onClick={this.calculateCost}>Calculate
+                        <button type="button" className="btn btn-dark btn-sm mt-3" onClick={this.calculateCost}>Calculate
                             the cost of translation
                         </button>
                         <h5 className='mt-3 text-primary'>Cost: {!this.state.wrongCost?(<span className='text-primary'>{this.state.cost} $</span>):

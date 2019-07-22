@@ -55,7 +55,6 @@ class TranslatorRegister extends Component {
         };    
 
         this.props.registerTranslator(translator, this.resetForm);
-        console.log(this.state)
     };
 
     componentWillReceiveProps(nextProps) {
@@ -71,86 +70,90 @@ class TranslatorRegister extends Component {
     render() {
         const {errors} = this.state;
         return (
-            <div className="translatorRegister col-12 d-flex flex-wrap justify-content-center">
-                <h2 className='col-12 text-info text-center mt-3 mb-3'>Registration new translator</h2>
-                <form onSubmit={e => this.handleSubmit(e)} className='col-6'>
-                    <div className="form-group">
-                        <label><h5 className='text-primary'>Name:</h5></label>
-                        <input
-                            type="text"
-                            placeholder="Enter name..."
-                            name="name"
-                            className="form-control"
-                            onChange={this.handleInputChange}
-                            value={this.state.name}
-                        />
-                        {errors.name && (<div className='text-danger'>{errors.name}</div>)}
+            <div className="translatorRegister col-12 mt-5">
+                <div className="container">
+                    <div className="d-flex flex-column justify-content-center align-items-center">
+                        <h3 className='col-12 text-center mt-3 mb-3'>New translator register</h3>
+                        <form onSubmit={e => this.handleSubmit(e)} className='col-lg-8 col-12'>
+                            <div className="form-group">
+                                <label>Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="Name"
+                                    name="name"
+                                    className="form-control"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.name}
+                                />
+                                {errors.name && (<div className='text-danger'>{errors.name}</div>)}
+                            </div>
+                            <div className="form-group">
+                                <label>Email</label>
+                                <input
+                                    type="email"
+                                    placeholder="Email"
+                                    name="email"
+                                    className="form-control"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.email}
+                                />
+                                {errors.email && (<div className='text-danger'>{errors.email}</div>)}
+                            </div>
+                            <div className="form-group">
+                                <label>Phone number</label>
+                                <input
+                                    type="text"
+                                    placeholder="Phone number"
+                                    name="phone"
+                                    className="form-control"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.phone}
+                                />
+                                {errors.phone && (<div className='text-danger'>{errors.phone}</div>)}
+                                
+                            </div>
+                            <div className="form-group">
+                                <label>Password</label>
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    name="password"
+                                    className="form-control"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.password}
+                                />
+                                {errors.password && (<div className='text-danger'>{errors.password}</div>)}
+                            </div>
+                            <div className="form-group">
+                                <label>Confirm password</label>
+                                <input
+                                    type="password"
+                                    placeholder="Confirm password"
+                                    name="password_confirm"
+                                    className="form-control"
+                                    onChange={this.handleInputChange}
+                                    value={this.state.password_confirm}
+                                />
+                                {errors.password_confirm && (<div className='text-danger'>{errors.password_confirm}</div>)}
+                            </div>
+                            <div className="form-group">
+                                <label>Select translation languages</label>
+                                <Select
+                                    isMulti
+                                    joinValues
+                                    onChange={this.handleChangeLang}
+                                    options={languages}
+                                />
+                                {errors.languages && (<div className='text-danger'>{errors.languages}</div>)}
+                            </div>
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-primary">
+                                    Register
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div className="form-group">
-                        <label><h5 className='text-primary'>Email:</h5></label>
-                        <input
-                            type="email"
-                            placeholder="enter email..."
-                            name="email"
-                            className="form-control"
-                            onChange={this.handleInputChange}
-                            value={this.state.email}
-                        />
-                        {errors.email && (<div className='text-danger'>{errors.email}</div>)}
-                    </div>
-                    <div className="form-group">
-                        <label><h5 className='text-primary'>Phone number:</h5></label>
-                        <input
-                            type="text"
-                            placeholder="enter phone number..."
-                            name="phone"
-                            className="form-control"
-                            onChange={this.handleInputChange}
-                            value={this.state.phone}
-                        />
-                        {errors.phone && (<div className='text-danger'>{errors.phone}</div>)}
-                        
-                    </div>
-                    <div className="form-group">
-                        <label><h5 className='text-primary'>Password:</h5></label>
-                        <input
-                            type="password"
-                            placeholder="enter password..."
-                            name="password"
-                            className="form-control"
-                            onChange={this.handleInputChange}
-                            value={this.state.password}
-                        />
-                        {errors.password && (<div className='text-danger'>{errors.password}</div>)}
-                    </div>
-                    <div className="form-group">
-                        <label><h5 className='text-primary'>Confirm password:</h5></label>
-                        <input
-                            type="password"
-                            placeholder="enter confirm Password"
-                            name="password_confirm"
-                            className="form-control"
-                            onChange={this.handleInputChange}
-                            value={this.state.password_confirm}
-                        />
-                        {errors.password_confirm && (<div className='text-danger'>{errors.password_confirm}</div>)}
-                    </div>
-                    <div className="form-group">
-                        <label><h5 className='text-primary'>Select translation languages:</h5></label>
-                        <Select
-                            isMulti
-                            joinValues
-                            onChange={this.handleChangeLang}
-                            options={languages}
-                        />
-                        {errors.languages && (<div className='text-danger'>{errors.languages}</div>)}
-                    </div>
-                    <div className="form-group">
-                        <button type="submit" className="btn btn-primary">
-                            Register
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         )
     }
