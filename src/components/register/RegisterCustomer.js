@@ -7,6 +7,10 @@ import {registerCustomer} from '../../actions/customerAction';
 
 import ButtonSubmit from '../common/ButtonSubmit'
 
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
+
 class RegisterCustomer extends Component {
     state = {
         name: "",
@@ -32,18 +36,27 @@ class RegisterCustomer extends Component {
     };
 
     resetForm = () => {
-        this.setState({
-            name: "",
-            email: "",
-            password: '',
-            password_confirm: '',
-            creditCard:'',
-            errors: {},
-        });
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'The action was successful!!',
+            allowOutsideClick: false
+        }).then(() => {
+            this.setState({
+                name: "",
+                email: "",
+                password: '',
+                password_confirm: '',
+                creditCard: '',
+                errors: {},
+            });
+        })
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
+
+
 
         const customer = {
             role:'customer',
