@@ -66,8 +66,8 @@ class TranslateInfoPage extends Component {
 
             return (
                 <div className="col-12 mt-5 d-flex justify-content-center align-items-center">
-                    <div className="row">
-                        <div className="col-lg-4 col-sm-6 col-12">
+                    <div className="row ">
+                        <div className="col-lg-6 col-sm-6 col-12">
                             <h3>Translate information</h3>
                             <section>
                                 <h5>Translate themes</h5>
@@ -99,7 +99,7 @@ class TranslateInfoPage extends Component {
                                 </button>
                             </div>
                         </div>
-                        <div className="col-lg-3 col-sm-6 col-12">
+                        <div className="col-lg-6 col-sm-6 col-12">
                             <h3>Customer</h3>
                             <img src={customerImg} alt="Customer" width="200px" />
                             <h4>{customerData.name}</h4>

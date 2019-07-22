@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { Progress } from 'react-sweet-progress';
+import {Progress} from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import {saveTranslate} from '../../../actions/translate/saveTranslate'
 import {finishTranslate} from '../../../actions/translate/finishTranslate'
@@ -8,7 +8,11 @@ import classnames from 'classnames';
 
 import * as firebase from "firebase";
 
-import { socket } from '../../navigation/Header';
+import {socket} from '../../navigation/Header';
+
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
 
 
 const tagStyle = {
@@ -59,9 +63,7 @@ class ManageTranslate extends Component {
                 translateTextVisibility: false,
                 fileDownloadVisibility: false,
             });
-        }
-
-       else {
+        } else {
             this.setState({
                 translateTextVisibility: true,
                 fileDownloadVisibility: true,
@@ -78,8 +80,8 @@ class ManageTranslate extends Component {
 
     handleInputFileChange = (e) => {
         this.setState({
-            [e.target.name]: e.target.files[0], 
-            translateTextVisibility: true, 
+            [e.target.name]: e.target.files[0],
+            translateTextVisibility: true,
             translateTextName: "",
             translateText: ""
         });
@@ -132,7 +134,7 @@ class ManageTranslate extends Component {
             translateTextName,
             translateText,
         } = this.state
-        
+
         const translateState = {
             textId,
             customerName,
@@ -149,7 +151,37 @@ class ManageTranslate extends Component {
         }
 
         this.props.saveTranslate(translateState, this.saveAlert)
-        
+
+    }
+
+    finishTranslateAlert = () => {
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'The action was successful!!'
+        }).then(() => {
+            this.setState({
+                    textId: this.props.translateToManage.textId,
+                    customerName: this.props.translateToManage.customerName,
+                    customerEmail: this.props.translateToManage.customerEmail,
+                    initialfileName: '',
+                    translateTextName: this.props.translateToManage.translateTextName,
+                    translateText: this.props.translateToManage.translateText,
+                    translateTextRequired: "required",
+                    textFileName: "",
+                    textFileRequired: "required",
+                    textFileURL: "",
+                    originalLanguage: this.props.translateToManage.originalLanguage,
+                    translationLanguage: this.props.translateToManage.translationLanguage,
+                    translateTextVisibility: false,
+                    fileDownloadVisibility: true,
+                    progress: this.props.translateToManage.progress,
+                    tags: this.props.translateToManage.tags,
+                    collectionName: this.props.translateToManage.collectionName,
+                    saveIsSuccess: '',
+                    errors: {}
+                })
+        })
     }
 
     handleFinish = (e) => {
@@ -199,12 +231,10 @@ class ManageTranslate extends Component {
                     this.setState({textFileURL: url})).then(() => {
                     finalTranslateState.translatedfileName = this.state.customerEmail + '-' + this.state.textFileName.name;
                     finalTranslateState.translatedTextFileUrl = this.state.textFileURL;
-                    this.props.finishTranslate(finalTranslateState);
+                    this.props.finishTranslate(finalTranslateState,this.finishTranslateAlert);
                 })
             });
-        }
-
-        else if (this.state.translateTextName.length > 0 && this.state.translateText.length > 0) {
+        } else if (this.state.translateTextName.length > 0 && this.state.translateText.length > 0) {
             firebase
                 .storage()
                 .ref("translates")
@@ -214,11 +244,11 @@ class ManageTranslate extends Component {
                     this.setState({textFileURL: url})).then(() => {
                     finalTranslateState.translatedfileName = this.state.customerEmail + '-' + this.state.translateTextName + '.txt';
                     finalTranslateState.translatedTextFileUrl = this.state.textFileURL;
-                    this.props.finishTranslate(finalTranslateState);
+                    this.props.finishTranslate(finalTranslateState,this.finishTranslateAlert);
                 })
             });
         }
-        
+
     }
 
     render() {
@@ -229,7 +259,7 @@ class ManageTranslate extends Component {
             alert = (
                 <div className="alert alert-warning alert-dismissible fade show" role="alert">
                     <strong>Message: </strong>Translate progress was marked as <strong>done</strong>.
-                    <hr />
+                    <hr/>
                     <p className="mb-0">load translate as file, you can</p>
                     <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -245,30 +275,30 @@ class ManageTranslate extends Component {
                     <p>
                         Your translate successfully saved.
                     </p>
-                    <hr />
+                    <hr/>
                     <p className="mb-0">You can continue work with that later.</p>
                     <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
             )
-        }
-        else if (saveIsSuccess === false) {
+        } else if (saveIsSuccess === false) {
             alert = (
                 <div className="alert alert-danger mt-4" role="alert">
                     <h4 className="alert-heading">Well done!</h4>
                     <p>
-                        Aww yeah, you successfully read this important alert message. 
+                        Aww yeah, you successfully read this important alert message.
                         This example text is going to run a bit longer so that you can see
                         how spacing within an alert works with this kind of content.
                     </p>
-                    <hr />
-                    <p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                    <hr/>
+                    <p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and
+                        tidy.</p>
                 </div>
             )
         }
 
-        if(this.state.errors.translateManage) {
+        if (this.state.errors.translateManage) {
             alert = (
                 <div className="alert alert-danger mt-4" role="alert">
                     <button type="button" className="close" data-dismiss="alert" aria-label="Close">
@@ -289,14 +319,14 @@ class ManageTranslate extends Component {
         //     fileIsDisabled = false
         // }
         // console.log(progress > 99, translateText === null, translateTextName == false);
-        
 
-        let fileIsDisabled = !(progress > 99 && translateText === null && translateTextName == false) 
-        ? true
-        : false
+
+        let fileIsDisabled = !(progress > 99 && translateText === null && translateTextName == false)
+            ? true
+            : false
 
         console.log(fileDownloadVisibility, fileIsDisabled);
-        
+
 
         return (
             <>
@@ -333,7 +363,7 @@ class ManageTranslate extends Component {
                                         disabled
                                         readOnly
                                     />
-                                </div>  
+                                </div>
                             </div>
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
@@ -346,7 +376,7 @@ class ManageTranslate extends Component {
                                         disabled
                                         readOnly
                                     />
-                                </div> 
+                                </div>
                             </div>
                         </div>
                         <p>Translate from <b>{originalLanguage}</b> to <b>{translationLanguage}</b></p>
@@ -385,7 +415,7 @@ class ManageTranslate extends Component {
                                 className={classnames('form-control', {
                                     'is-invalid': errors.translateManage
                                 })}
-                                placeholder="Text"  
+                                placeholder="Text"
                                 onChange={this.handleChangetranslateText}
                                 value={translateText || ''}
                                 disabled={this.state.translateTextVisibility}
@@ -416,13 +446,14 @@ class ManageTranslate extends Component {
                         </div>
                         <div className="form-group d-flex justify-content-end">
                             <div>
-                                <button type="button" className="btn btn-sm btn-primary mr-3" onClick={() => this.handleSave()}>
+                                <button type="button" className="btn btn-sm btn-primary mr-3"
+                                        onClick={() => this.handleSave()}>
                                     Save
                                 </button>
-                                <button 
-                                type="submit" 
-                                className="btn btn-sm btn-success"
-                                disabled={(progress == 100) ? false : true}
+                                <button
+                                    type="submit"
+                                    className="btn btn-sm btn-success"
+                                    disabled={(progress == 100) ? false : true}
                                 >
                                     Finish
                                 </button>
