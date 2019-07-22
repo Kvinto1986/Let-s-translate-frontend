@@ -160,27 +160,7 @@ class ManageTranslate extends Component {
             title: 'Congratulations!',
             text: 'The action was successful!!'
         }).then(() => {
-            this.setState({
-                    textId: this.props.translateToManage.textId,
-                    customerName: this.props.translateToManage.customerName,
-                    customerEmail: this.props.translateToManage.customerEmail,
-                    initialfileName: '',
-                    translateTextName: this.props.translateToManage.translateTextName,
-                    translateText: this.props.translateToManage.translateText,
-                    translateTextRequired: "required",
-                    textFileName: "",
-                    textFileRequired: "required",
-                    textFileURL: "",
-                    originalLanguage: this.props.translateToManage.originalLanguage,
-                    translationLanguage: this.props.translateToManage.translationLanguage,
-                    translateTextVisibility: false,
-                    fileDownloadVisibility: true,
-                    progress: this.props.translateToManage.progress,
-                    tags: this.props.translateToManage.tags,
-                    collectionName: this.props.translateToManage.collectionName,
-                    saveIsSuccess: '',
-                    errors: {}
-                })
+            window.location.reload();
         })
     }
 
