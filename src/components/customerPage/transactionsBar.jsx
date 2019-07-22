@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {getCustomersTranslates} from "../../actions/translate/getTranslatesForCustomer";
-import {payTranslate,cancelTranslate} from "../../actions/translate/payTranslate";
+import {payTranslate, cancelTranslate} from "../../actions/translate/payTranslate";
 import noImg from '../../resources/no.png'
 
 import Swal from 'sweetalert2/dist/sweetalert2.js'
@@ -132,7 +132,7 @@ class OrdersBar extends Component {
                             onClick={() => this.openMessageDialog(elem)}>Open
                     </button>
                 </td>
-                {elem.progress === '100' ? (
+                {elem.progress === '100' && elem.isReady && elem.isReviewed ? (
                     <td>
                         <button className='btn btn-success'
                                 onClick={() => this.handlePay(elem)}>Pay
