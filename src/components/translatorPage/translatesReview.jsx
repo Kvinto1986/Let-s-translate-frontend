@@ -28,7 +28,7 @@ class TranslatesReview extends Component {
             <div className="row mt-3">
                 <section className="col-xl-6 col-12">
                     <h5>Translates review</h5>
-                    <table className="table table-hover table-responsive">
+                    <table className="table table-hover">
                         <thead>
                             <tr className="table-secondary">
                                 <th scope="col">Translator</th>
