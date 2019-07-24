@@ -34,12 +34,13 @@ class Login extends Component {
         Swal.fire({
             type: 'success',
             title: 'Congratulations!',
-            text: 'The action was successful!!'
-        }).then(() => {window.location.reload();})
+            text: 'The action was successful!!',
+            allowOutsideClick: false
+        }).then(() => {this.props.history.push('/')})
     };
 
     handleRestorePassword = () => {
-        this.props.restoreCustomerPassword({email: this.state.restoreEmail},this.reset)
+            this.props.restoreCustomerPassword({email: this.state.restoreEmail},this.reset)
     };
 
     handleSubmit = (e) => {
@@ -132,18 +133,15 @@ class Login extends Component {
                             {errors.confirmation && (<div className='text-danger'>{errors.confirmation}</div>)}
                         </div>
                         <div className="form-group">
-                            <button type="submit" className="btn btn-outline-dark">
+                            <button type="submit" className="btn btn-info">
                                 Login
                             </button>
                         </div>
                     </form>
-                    {!this.state.userStatus ? (
-                        <span 
-                        className="text-primary" 
-                        data-toggle="modal"
-                        data-target="#exampleModalCenter">
-                            <small style={{cursor: "pointer"}}>I've forgot my password</small>
-                        </span>
+                    {!this.state.userStatus ? (<button type="button" className="btn btn-warning" data-toggle="modal"
+                                                       data-target="#exampleModalCenter">
+                            I've forgot my password
+                        </button>
                     ) : null}
 
                     <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog"
