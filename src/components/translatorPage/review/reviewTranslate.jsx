@@ -4,12 +4,28 @@ import { connect } from 'react-redux'
 
 class ReviewTranslate extends Component {
 
+    state = {
+        reviewFeedback: ''
+    }
+
     translateReviewHandle = status => {
-        this.props.translateReview(this.props.translateToReview, this.props.auth.user.languages, status)
+        const reviewMessageData = {
+            senderEmail: this.props.auth.user.email,
+            recipientEmail: this.props.translateToReview.translatorEmail,
+            senderName: this.props.auth.user.name,
+            recipientName: this.props.translateToReview.translatorName,
+            messageText: `Review feedback: ${this.state.reviewFeedback}`
+        }
+
+        this.props.translateReview(this.props.translateToReview, this.props.auth.user.languages, status, reviewMessageData)
     }
 
     render() {
         const {translateToReview} = this.props
+        const {reviewFeedback} = this.state
+
+        const submitIsDisabled = (reviewFeedback.length > 0) ? false : true
+
         return (
             <section className="col-xl-6 col-12">
                 <div className="container">
@@ -35,46 +51,50 @@ class ReviewTranslate extends Component {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>Translate name</label>
-                                    <input
-                                    className="form-control"
-                                    value={
-                                        translateToReview.translateTextName
-                                        ? translateToReview.translateTextName
-                                        : translateToReview.translatedfileName
-                                    }
-                                    readOnly 
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Translate: </label>
                                     {
                                         translateToReview.translatedfileName
                                         ? (
-                                            <button type="button" className="btn btn-primary btn-sm ml-2" >
-                                                <a 
-                                                href={translateToReview.initialTextFileUrl} 
-                                                className="text-decoration-none text-dark" 
-                                                download={translateToReview.initialfileName}>
-                                                    Download
-                                                </a>
-                                            </button>
+                                            <>
+                                                <div>
+                                                    <label><small>Initial text download: </small></label>
+                                                    <button type="button" className="btn btn-light btn-sm ml-2" >
+                                                        <a 
+                                                            href={translateToReview.initialTextFileUrl} 
+                                                            className="text-decoration-none text-dark" 
+                                                            download={translateToReview.initialfileName}>
+                                                                Download
+                                                        </a>
+                                                    </button>
+                                                </div>
+                                                <div>
+                                                    <label>Translate: </label>
+                                                    <textarea
+                                                    className="form-control"
+                                                    value={translateToReview.translateText}
+                                                    readOnly
+                                                    />
+                                                </div>
+                                            </>
                                         )
-                                        : (
-                                            <textarea
-                                            className="form-control btn-sm"
-                                            value={translateToReview.translateText}
-                                            readOnly
-                                            />
-                                        )
+                                        : null
                                     }
+                                </div>
+                                <div className="form-group">
+                                    <label>Your feedback</label>
+                                    <textarea 
+                                    row="5"
+                                    placeholder="Feedback"
+                                    className="form-control btn-sm"
+                                    name="reviewFeedback"
+                                    onChange={e => this.setState({[e.target.name]: e.target.value})}
+                                    />
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-dark" type="button" onClick={() => this.translateReviewHandle(false)}>Reject</button>
-                        <button className="ml-1 btn btn-success" type="button" onClick={() => this.translateReviewHandle(true)}>Resolve</button>
+                        <button className="btn btn-dark" type="button" onClick={() => this.translateReviewHandle(false)} disabled={submitIsDisabled}>Reject</button>
+                        <button className="ml-1 btn btn-success" type="button" onClick={() => this.translateReviewHandle(true)} disabled={submitIsDisabled}>Resolve</button>
                     </div>
                 </div>
             </section>
