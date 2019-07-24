@@ -1,9 +1,12 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { fetchTranslateDataByID } from '../../../actions/fetchTranslateByID'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {fetchTranslateDataByID} from '../../../actions/fetchTranslateByID'
 import customerImg from '../../../resources/images/bilboard/f2db5b1fae65676bfd1ecae1dbfdc3a2.jpg'
 import {startTranslate} from '../../../actions/translate/startTranslateAction'
 import {letsTranslate} from '../../../actions/translate/letsTranslate'
+import {getComments} from '../../../actions/commenAction'
+import Comments from '../translate/comments'
+
 
 class TranslateInfoPage extends Component {
 
@@ -13,6 +16,7 @@ class TranslateInfoPage extends Component {
 
     componentDidMount() {
         this.props.fetchTranslateDataByID(this.props.match.params.translateId)
+        this.props.getComments({textId: this.props.match.params.translateId})
     }
 
     handleSubmit = (e) => {
@@ -54,15 +58,15 @@ class TranslateInfoPage extends Component {
             isPaid: false,
             isReady: false
         }
-        
+
         this.props.letsTranslate(this.props.history, sendData)
     }
 
     render() {
-        const { data } = this.props.selectedTranslate;
-        const { role } = this.props.auth.user
+        const {data} = this.props.selectedTranslate;
+        const {role} = this.props.auth.user
         if (Object.keys(data).length > 0) {
-            const { translate, customerData } = data;
+            const {translate, customerData} = data;
 
             return (
                 <div className="col-12 mt-5 d-flex justify-content-center align-items-center">
@@ -94,14 +98,15 @@ class TranslateInfoPage extends Component {
                                 <span>{translate.date} </span>
                             </section>
                             <div>
-                                <button type="button" className="btn btn-info mt-3" >
-                                    <a href={translate.fileUrl} className="text-decoration-none text-light" download={translate.fileName}>Download text</a>
+                                <button type="button" className="btn btn-info mt-3">
+                                    <a href={translate.fileUrl} className="text-decoration-none text-light"
+                                       download={translate.fileName}>Download text</a>
                                 </button>
                             </div>
                         </div>
                         <div className="col-lg-6 col-sm-6 col-12">
                             <h3>Customer</h3>
-                            <img src={customerImg} alt="Customer" width="200px" />
+                            <img src={customerImg} alt="Customer" width="200px"/>
                             <h4>{customerData.name}</h4>
                             <section>
                                 <p><b>Email:</b> {customerData.email}</p>
@@ -131,12 +136,14 @@ class TranslateInfoPage extends Component {
                                 </>
                             )}
                         </div>
+
                     </div>
+                    <Comments
+                    />
                 </div>
 
             )
-        }
-        else {
+        } else {
             return null
         }
     }
@@ -144,11 +151,13 @@ class TranslateInfoPage extends Component {
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    selectedTranslate: state.selectedTranslate
+    selectedTranslate: state.selectedTranslate,
+
 });
 
 export default connect(mapStateToProps, {
     fetchTranslateDataByID,
     startTranslate,
-    letsTranslate
+    letsTranslate,
+    getComments
 })(TranslateInfoPage)

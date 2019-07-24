@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import Select from 'react-select';
-import {withRouter} from 'react-router-dom';
+import {withRouter,Link} from 'react-router-dom';
 import {
     getTextCustomers,
     registrationCollection,
@@ -259,6 +259,11 @@ class Dashboard extends Component {
                         Edit
                     </button>
                 </td>
+                <td>
+                    <Link to={`/translates/${elem.id}`}>
+                        Read
+                    </Link>
+                </td>
             </tr>
         });
 
@@ -370,6 +375,9 @@ class Dashboard extends Component {
                             </th>
                             <th>
                                 Action
+                            </th>
+                            <th>
+                                Comments
                             </th>
                         </tr>
                         {textsList}
