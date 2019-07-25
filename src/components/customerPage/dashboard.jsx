@@ -260,9 +260,9 @@ class Dashboard extends Component {
                     </button>
                 </td>
                 <td>
-                    <Link to={`/translates/${elem.id}`}>
-                        Read
-                    </Link>
+                    <a className='btn btn-primary' href={`/translates/${elem.id}`}>
+                        Show
+                    </a>
                 </td>
             </tr>
         });
@@ -377,7 +377,7 @@ class Dashboard extends Component {
                                 Action
                             </th>
                             <th>
-                                Comments
+                                Details
                             </th>
                         </tr>
                         {textsList}

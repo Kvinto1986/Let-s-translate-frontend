@@ -177,6 +177,7 @@ class NewText extends Component {
 
         const text = {
             name: this.state.customerName,
+            charsCount: this.state.charsCount,
             email: this.state.customerEmail,
             originalLanguage: this.state.originalLanguage,
             translationLanguage: this.state.translationLanguage,
