@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {fetchTranslateDataByID} from '../../../actions/fetchTranslateByID'
 import customerImg from '../../../resources/images/bilboard/f2db5b1fae65676bfd1ecae1dbfdc3a2.jpg'
@@ -69,79 +69,80 @@ class TranslateInfoPage extends Component {
             const {translate, customerData} = data;
 
             return (
-                <div className="col-12 mt-5 d-flex justify-content-center align-items-center">
-                    <div className="row ">
-                        <div className="col-lg-6 col-sm-6 col-12">
-                            <h3>Translate information</h3>
-                            <section>
-                                <h5>Translate themes</h5>
-                                <span>{translate.tags.join(', ')}</span>
-                            </section>
-                            <section>
-                                <h5>Customer name</h5>
-                                <span>{translate.name}</span>
-                            </section>
-                            <section>
-                                <h5>Languages</h5>
-                                <span>{translate.originalLanguage} - {translate.translationLanguage}</span>
-                            </section>
-                            <section>
-                                <h5>Extra review</h5>
-                                <span>{translate.extraReview ? 'Yes' : 'No'} </span>
-                            </section>
-                            <section>
-                                <h5>Deadline </h5>
-                                <span>{translate.translationSpeed ? 'Hot' : 'Not so hot'} </span>
-                            </section>
-                            <section>
-                                <h5>Published at</h5>
-                                <span>{translate.date} </span>
-                            </section>
-                            <div>
-                                <button type="button" className="btn btn-info mt-3">
-                                    <a href={translate.fileUrl} className="text-decoration-none text-light"
-                                       download={translate.fileName}>Download text</a>
-                                </button>
+                <>
+                    <div className="col-12 mt-5">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-lg-6 col-sm-6 col-12">
+                                    <h3>Translate information</h3>
+                                    <section>
+                                        <h5>Translate themes</h5>
+                                        <span>{translate.tags.join(', ')}</span>
+                                    </section>
+                                    <section>
+                                        <h5>Customer name</h5>
+                                        <span>{translate.name}</span>
+                                    </section>
+                                    <section>
+                                        <h5>Languages</h5>
+                                        <span>{translate.originalLanguage} - {translate.translationLanguage}</span>
+                                    </section>
+                                    <section>
+                                        <h5>Extra review</h5>
+                                        <span>{translate.extraReview ? 'Yes' : 'No'} </span>
+                                    </section>
+                                    <section>
+                                        <h5>Deadline </h5>
+                                        <span>{translate.translationSpeed ? 'Hot' : 'Not so hot'} </span>
+                                    </section>
+                                    <section>
+                                        <h5>Published at</h5>
+                                        <span>{translate.date} </span>
+                                    </section>
+                                    <div>
+                                        <button type="button" className="btn btn-info mt-3">
+                                            <a href={translate.fileUrl} className="text-decoration-none text-light"
+                                            download={translate.fileName}>Download text</a>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="col-lg-6 col-sm-6 col-12 d-flex flex-column align-items-center">
+                                    <h3>Customer</h3>
+                                    <img src={customerImg} alt="Customer" width="200px"/>
+                                    <h4>{customerData.name}</h4>
+                                    <section>
+                                        <p><b>Email:</b> {customerData.email}</p>
+                                    </section>
+                                    {(role === 'translator') && (
+                                        <>
+                                            <form 
+                                            className="preOrderMessageForm"
+                                            onSubmit={e => {
+                                                this.translateStartHendler()
+                                                this.handleSubmit(e)
+                                            }}>
+                                                <div className="form-group preOrderMessageArea d-flex flex-column align-items-center">
+                                                    <label>Your message to customer</label>
+                                                    <textarea
+                                                        name='messageText'
+                                                        className="form-control takeOrderTextarea"
+                                                        placeholder="Yor message"
+                                                        onChange={e => this.handleInputChange(e)}
+                                                        value={this.state.messageText}
+                                                    />
+                                                    <button type="submit" className="btn btn-outline-dark takeOrderBut mt-3">
+                                                        Take an order
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        <div className="col-lg-6 col-sm-6 col-12">
-                            <h3>Customer</h3>
-                            <img src={customerImg} alt="Customer" width="200px"/>
-                            <h4>{customerData.name}</h4>
-                            <section>
-                                <p><b>Email:</b> {customerData.email}</p>
-                            </section>
-                            {(role === 'translator') && (
-                                <>
-                                    <form onSubmit={e => {
-                                        this.translateStartHendler()
-                                        this.handleSubmit(e)
-                                    }}>
-                                        <div className="form-group">
-                                            <label>Your message to customer</label>
-                                            <textarea
-                                                name='messageText'
-                                                className="form-control"
-                                                placeholder="Yor message"
-                                                onChange={e => this.handleInputChange(e)}
-                                                value={this.state.messageText}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <button type="submit" className="btn btn-dark">
-                                                Take an order
-                                            </button>
-                                        </div>
-                                    </form>
-                                </>
-                            )}
-                        </div>
-
                     </div>
-                    <Comments
-                    />
-                </div>
-
+                    <Comments />
+                </>
             )
         } else {
             return null
