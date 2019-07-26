@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import {translateReview} from '../../../actions/review/translateReviewAction.js'
 import { connect } from 'react-redux'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
 
 class ReviewTranslate extends Component {
 
@@ -16,6 +19,15 @@ class ReviewTranslate extends Component {
             recipientName: this.props.translateToReview.translatorName,
             messageText: `Review feedback: ${this.state.reviewFeedback}`
         }
+
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'The action was successful!!',
+            allowOutsideClick: false
+        }).then(() => {
+            window.location.reload()
+        })
 
         this.props.translateReview(this.props.translateToReview, this.props.auth.user.languages, status, reviewMessageData)
     }
