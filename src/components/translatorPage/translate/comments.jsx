@@ -73,7 +73,7 @@ class Comments extends Component {
                                     <li key={elem.senderName + индекс} className="d-flex mb-3">
                                         <div className="media-body">
                                             <h5 className="mt-0 d-flex align-items-center">
-                                                <b>{elem.senderName}</b>
+                                                <b>{elem.senderName} <small style={{fontSize: "13px"}}>({elem.userRole})</small></b>
                                                 <span className="text-secondary answerLink mt-0 mb-0 ml-2" onClick={() => this.insertName(elem.senderName)}>
                                                     <small><em>Answer</em></small>
                                                 </span>

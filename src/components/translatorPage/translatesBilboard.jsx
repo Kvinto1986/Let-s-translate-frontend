@@ -56,7 +56,7 @@ class TranslatesBilboard extends Component {
                                                         ? <td ><img src={hotImg} style={{height:'40px'}}  className='ml-3'alt="Hot"/></td>
                                                         : <td ><img src={noImg} style={{height:'20px'}} className='ml-4' alt="No"/></td>
                                                     }
-                                                    {translate.extraReview
+                                                    {!translate.extraReview
                                                         ? <td ><img src={noImg} style={{height:'20px'}} alt="No" className='ml-4'/></td>
                                                         : <td><img src={yesImg} style={{height:'20px'}} alt="Yes" className='ml-4'/></td>
                                                     }

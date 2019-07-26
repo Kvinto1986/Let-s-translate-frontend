@@ -203,7 +203,6 @@ class NewText extends Component {
         }
 
         if (this.state.textArea.length > 0 && this.state.textAreaName.length > 0) {
-
             firebase
                 .storage()
                 .ref("texts")

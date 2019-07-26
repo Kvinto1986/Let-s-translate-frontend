@@ -11,7 +11,6 @@ class TranslatesReview extends Component {
 
     componentDidMount() {
         const languages = this.props.auth.user.languages
-        // TODO: Don't fetch current translator's translates for review
         this.props.fetchTranslatesToReview(languages, this.props.auth.user.email)
     }
 
