@@ -9,7 +9,7 @@ import noImg from '../../resources/no.png'
 class TranslatesBilboard extends Component {
 
     componentDidMount() {
-        const {languages} = this.props.auth.user
+        const {languages} = this.props.auth.user;
         this.props.fetchTranslatesByAvailableLanguages(languages)
     }
 
@@ -47,18 +47,18 @@ class TranslatesBilboard extends Component {
                                     : (
                                         translates.map((translate, index) => {
                                             return (
-                                                <tr key={translate.name + index} className="d-flex justify-content-center">
+                                                <tr key={translate.name + index}>
                                                     <th scope="row">{index+1}</th>
                                                     <td>{translate.name}</td>
                                                     <td>{translate.originalLanguage}</td>
                                                     <td>{translate.translationLanguage}</td>
                                                     {translate.translationSpeed
-                                                        ? <td><div><img src={hotImg} style={{height:'30px'}} alt="Hot"/></div></td>
-                                                        : <td><img src={noImg} style={{height:'20px'}} alt="No"/></td>
+                                                        ? <td><div className="d-flex justify-content-center"><img src={hotImg} style={{height:'30px'}} alt="Hot"/></div></td>
+                                                        : <td><div className="d-flex justify-content-center"><img src={noImg} style={{height:'20px'}} alt="No"/></div></td>
                                                     }
                                                     {!translate.extraReview
-                                                        ? <td><img src={noImg} style={{height:'20px'}} alt="No"/></td>
-                                                        : <td><img src={yesImg} style={{height:'20px'}} alt="Yes"/></td>
+                                                        ? <td><div className="d-flex justify-content-center"><img src={noImg} style={{height:'20px'}} alt="No"/></div></td>
+                                                        : <td><div className="d-flex justify-content-center"><img src={yesImg} style={{height:'20px'}} alt="Yes"/></div></td>
                                                     }
                                                     <td><em>{translate.tags.join(', ')}</em></td>
                                                     <td>{translate.cost}$</td>
