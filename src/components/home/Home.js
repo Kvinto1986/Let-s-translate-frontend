@@ -110,7 +110,7 @@ class Home extends Component {
                         </section>
                         <section className="costCalculator-wrapper col-12">
                             <div className="container d-flex flex-column justify-content-center align-items-center">
-                                <h2 className="display-4 mt-5 mb-5">Calculate the cost of translation</h2>
+                                <h2 className="display-4 mt-5 mb-5 text-center" id="home__calculator_label">Calculate the cost of translation</h2>
                                 <div className="select-wrapper text-dark">
                                     <label className='text-light'>From</label>
                                     <Select
@@ -127,8 +127,21 @@ class Home extends Component {
                                         options={languages}
                                     />
                                 </div>
-                                {this.state.firstLangVal>0&&this.state.secondLangVal>0?(<h3 className={'text-light mt-3'}>
-                                Total translate cost: {this.state.translateCost}$ for 1000 characters</h3>):null}
+                                <p>
+                                    {
+                                        this.state.firstLangVal > 0 && 
+                                        this.state.secondLangVal > 0 
+                                        ? (
+                                            <h3 className={'text-light text-center mt-3'} id="calculator__totalCost_label">
+                                                Total translate cost: <b>{this.state.translateCost}$</b> for 1000 characters
+                                            </h3>
+                                        )
+                                        : null
+                                    }
+                                </p>
+                                <div className="byTag">
+                                    <p className="text-center">By React Team 2019™</p>
+                                </div>
                             </div>
                         </section>
                 </div>

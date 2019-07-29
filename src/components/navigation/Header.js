@@ -128,18 +128,22 @@ class Header extends Component {
         return (
             <Fragment>
                 <header>
-                    <nav className={"navbar navbar-expand-lg navbar-dark"}>
-                        <div className={'col-12 d-flex justify-content-between align-items-center'}>
-                            <Link className="navbar-brand" to="/">
-                                <div className="d-flex align-items-center">
-                                    <div>
-                                        <img src={logo} alt="logo-translate.png" width="60px"/>
-                                    </div>
-                                    <h1 className='display-4 ml-1' style={{fontSize: "30px"}}>
-                                        <em className="titleLink"><b>Let's translate</b></em>
-                                    </h1>
+                    <nav className="navbar navbar-expand-lg navbar-dark">
+                        <Link className="navbar-brand" to="/">
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <img src={logo} className="header__logo" alt="logo-translate" width="40px"/>
                                 </div>
-                            </Link>
+                                <h1 className='display-4 ml-1' style={{fontSize: "26px", margin: "0px"}}>
+                                    <em className="titleLink"><b>Let's translate</b></em>
+                                </h1>
+                            </div>
+                        </Link>
+                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1" aria-controls="navbar1" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div className="collapse navbar-collapse" id="navbar1">
                             {isAuthenticated ? authLinks : guestLinks}
                         </div>
                     </nav>
