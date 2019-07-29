@@ -9,7 +9,7 @@ import noImg from '../../resources/no.png'
 class TranslatesBilboard extends Component {
 
     componentDidMount() {
-        const {languages} = this.props.auth.user;
+        const {languages} = this.props.auth.user
         this.props.fetchTranslatesByAvailableLanguages(languages)
     }
 
