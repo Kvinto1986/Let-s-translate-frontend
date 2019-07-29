@@ -118,9 +118,9 @@ class Header extends Component {
 
         const guestLinks = (
             <Fragment>
-                <div className={'col-2 d-flex justify-content-end align-items-center'}>
-                    <Link className={'guestLink text-decoration-none mr-5'} to="/registerCustomer">Register</Link>
-                    <Link className={'guestLink text-decoration-none'} to="/login">LogIn</Link>
+                <div className={'col-2 d-flex justify-content-end align-items-center nav-item'}>
+                    <Link className={'guestLink text-decoration-none mr-5 nav-item'} to="/registerCustomer">Register</Link>
+                    <Link className={'guestLink text-decoration-none nav-item'} to="/login">LogIn</Link>
                 </div>
             </Fragment>
         );

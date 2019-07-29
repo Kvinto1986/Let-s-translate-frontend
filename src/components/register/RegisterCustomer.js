@@ -220,7 +220,7 @@ class RegisterCustomer extends Component {
                                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
                                 culpa qui officia deserunt mollit anim id est laborum.</p>
                             <div className="form-check form-check-inline">
-                                <label className="form-check-label checkingUnit"><h4 className="p-3">I read license</h4></label>
+                                <label className="form-check-label checkingUnit"><h4 className="p-3">I’ve read license</h4></label>
                                 <input className="form-check-input ml-3" type="checkbox" onChange={e => this.handleIsChecked(e)}/>
                                 </div>
                         </div>
