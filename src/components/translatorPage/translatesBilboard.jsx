@@ -9,7 +9,7 @@ import noImg from '../../resources/no.png'
 class TranslatesBilboard extends Component {
 
     componentDidMount() {
-        const {languages} = this.props.auth.user;
+        const {languages} = this.props.auth.user
         this.props.fetchTranslatesByAvailableLanguages(languages)
     }
 
@@ -19,7 +19,7 @@ class TranslatesBilboard extends Component {
         
         return (
             <div className="col-12 d-flex flex-wrap justify-content-center mt-3">
-                <h1 className='text-secondary'>Available translates</h1>
+                <h4 className="mt-4">Available translates</h4>
                 <div className="d-flex col-12 justify-content-center align-content-center mt-5">
                     <div className="row">
                         <table className="table">
@@ -47,18 +47,18 @@ class TranslatesBilboard extends Component {
                                     : (
                                         translates.map((translate, index) => {
                                             return (
-                                                <tr key={translate.name + index}>
+                                                <tr key={translate.name + index} className="d-flex justify-content-center">
                                                     <th scope="row">{index+1}</th>
                                                     <td>{translate.name}</td>
                                                     <td>{translate.originalLanguage}</td>
                                                     <td>{translate.translationLanguage}</td>
                                                     {translate.translationSpeed
-                                                        ? <td ><img src={hotImg} style={{height:'40px'}}  className='ml-3'alt="Hot"/></td>
-                                                        : <td ><img src={noImg} style={{height:'20px'}} className='ml-4' alt="No"/></td>
+                                                        ? <td><div><img src={hotImg} style={{height:'30px'}} alt="Hot"/></div></td>
+                                                        : <td><img src={noImg} style={{height:'20px'}} alt="No"/></td>
                                                     }
                                                     {!translate.extraReview
-                                                        ? <td ><img src={noImg} style={{height:'20px'}} alt="No" className='ml-4'/></td>
-                                                        : <td><img src={yesImg} style={{height:'20px'}} alt="Yes" className='ml-4'/></td>
+                                                        ? <td><img src={noImg} style={{height:'20px'}} alt="No"/></td>
+                                                        : <td><img src={yesImg} style={{height:'20px'}} alt="Yes"/></td>
                                                     }
                                                     <td><em>{translate.tags.join(', ')}</em></td>
                                                     <td>{translate.cost}$</td>
