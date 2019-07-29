@@ -13,7 +13,7 @@ const UserProfile = props => {
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/1200px-Anonymous_emblem.svg.png"
                         alt="userAvatar" width="200px"
                     />
-                    <h1 className='mt-3 text-secondary'>{name}</h1>
+                    <h1 className='mt-3 text-center text-secondary'>{name}</h1>
                 </div>
                 <div className="col-sm-8 col-12 d-flex flex-column align-items-center">
                     <section className="d-flex flex-column align-items-center">

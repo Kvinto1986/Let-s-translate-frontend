@@ -28,7 +28,7 @@ class MessageInbox extends Component {
                         <tbody>
                             {this.props.messages.map((elem, index) => {
                                 return (
-                                    <tr key={index} onClick={() => {
+                                    <tr key={index} className="mt-5" onClick={() => {
                                         this.props.openMessageDialog(elem)
                                     }}>
                                         <td>
