@@ -13,6 +13,7 @@ import {socket} from '../../navigation/Header';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import 'sweetalert2/src/sweetalert2.scss'
+import { STATUS_CODES } from 'http';
 
 
 const tagStyle = {
@@ -169,7 +170,7 @@ class ManageTranslate extends Component {
             title: 'Congratulations!',
             text: 'The action was successful!!'
         }).then(() => {
-            window.location.reload();
+            window.location.reload()
         })
     }
 
@@ -240,6 +241,18 @@ class ManageTranslate extends Component {
 
     }
 
+    progressHendle = e => {
+        if (e.target.value < 0) {
+            this.setState({progress: 0})
+        }
+        else if (e.target.value > 100) {
+            this.setState({progress: 100})
+        }
+        else {
+            this.setState({progress: e.target.value})
+        }
+    }
+
     render() {
         const {manageStyle} = this.props
         const {originalLanguage, translationLanguage, fileDownloadVisibility, translateText, translateTextName, saveIsSuccess, tags, progress, errors} = this.state
@@ -262,7 +275,7 @@ class ManageTranslate extends Component {
                 <div className="alert alert-primary mt-4 alert-dismissible fade show" role="alert">
                     <h4 className="alert-heading">Well done!</h4>
                     <p>
-                        Your translate successfully saved.
+                        Your translate successfully saved with {this.state.progress}% of progress.
                     </p>
                     <hr/>
                     <p className="mb-0">You can continue work with that later.</p>
@@ -425,7 +438,7 @@ class ManageTranslate extends Component {
                                 className={classnames('form-control', {
                                     'is-invalid': errors.progress
                                 })}
-                                onChange={(e) => this.setState({progress: e.target.value})}
+                                onChange={(e) => this.progressHendle(e)}
                             />
                             {errors.progress && (<div className="invalid-feedback">{errors.progress}</div>)}
                         </div>

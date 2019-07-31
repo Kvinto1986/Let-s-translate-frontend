@@ -51,7 +51,6 @@ class EditUserProfile extends Component {
             passwordCur: this.state.passwordCur
         }
 
-
         this.props.editProfileData(data, this.props.auth.user)
             .then((res) => {
                 Swal.fire({
