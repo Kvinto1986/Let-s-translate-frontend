@@ -33,16 +33,28 @@ class NewText extends Component {
         fileDownloadVisibility: false,
         cost: 0,
         charsCount: 1000,
-        wrongCost:false,
+        wrongCost: false,
+        formats: ['doc', 'docx', 'txt', 'pdf', 'jpg', 'jpeg', 'png'],
+        format: false,
         errors: {}
 
     };
 
     handleInputFileChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.files[0], textAreaVisibility: true, textAreaName: "",
-            textArea: ""
-        });
+        console.log(e.target.files[0])
+
+        const format = e.target.files[0].name.split('.').pop()
+
+        const fileSize = e.target.files[0].size;
+
+        console.log(fileSize)
+        if (this.state.formats.includes(format) && fileSize < 50000) {
+            this.setState({
+                [e.target.name]: e.target.files[0], textAreaVisibility: true, textAreaName: "",
+                format: false, textArea: ""
+            });
+        } else this.setState({format: true})
+
     };
 
     handleInputCharsCount = (e) => {
@@ -109,7 +121,7 @@ class NewText extends Component {
     calculateCost = (e) => {
         e.preventDefault();
 
-        if (this.state.originalLanguage !== '' && this.state.translationLanguage !== '' &&this.state.charsCount>999) {
+        if (this.state.originalLanguage !== '' && this.state.translationLanguage !== '' && this.state.charsCount > 999) {
 
             const originalLangFactor = Array.from(languages).filter((elem) => {
                 return elem.label === this.state.originalLanguage
@@ -135,13 +147,12 @@ class NewText extends Component {
 
             this.setState({
                 cost: cost.toFixed(2),
-                wrongCost:false
+                wrongCost: false
             });
-        }
-        else {
+        } else {
             this.setState({
                 cost: 0,
-                wrongCost:true
+                wrongCost: true
             });
         }
     };
@@ -187,12 +198,16 @@ class NewText extends Component {
             tags: tagsArr
         };
 
+        const metadata = {
+            contentType: 'image/jpeg',
+        };
+
         if (this.state.textFileName.name) {
             firebase
                 .storage()
                 .ref("texts")
                 .child(this.state.customerEmail + '-' + this.state.textFileName.name)
-                .put(this.state.textFileName).then((snapshot) => {
+                .put(this.state.textFileName, metadata).then((snapshot) => {
                 snapshot.ref.getDownloadURL().then(url =>
                     this.setState({textFileURL: url})).then(() => {
                     text.fileName = this.state.customerEmail + '-' + this.state.textFileName.name;
@@ -261,6 +276,7 @@ class NewText extends Component {
                                     disabled={this.state.fileDownloadVisibility}
                                     required={this.state.textFileRequired}
                                 />
+                                {this.state.format && (<div className='text-danger'>Invalid file format</div>)}
                             </div>
                             <div className="form-group mb-3">
                                 <label className={'mr-3'}>Characters</label>
@@ -374,11 +390,14 @@ class NewText extends Component {
                         </div>
                     </div>
                     <div className="form-group">
-                        <button type="button" className="btn btn-dark btn-sm mt-3" onClick={this.calculateCost}>Calculate
+                        <button type="button" className="btn btn-dark btn-sm mt-3"
+                                onClick={this.calculateCost}>Calculate
                             the cost of translation
                         </button>
-                        <h5 className='mt-3 text-primary'>Cost: {!this.state.wrongCost?(<span className='text-primary'>{this.state.cost} $</span>):
-                            (<span className='text-danger'>No countries selected or characters less than 1000</span>)}</h5>
+                        <h5 className='mt-3 text-primary'>Cost: {!this.state.wrongCost ? (
+                                <span className='text-primary'>{this.state.cost} $</span>) :
+                            (<span
+                                className='text-danger'>No countries selected or characters less than 1000</span>)}</h5>
                         {errors.cost && (<div className='text-danger'>{errors.cost}</div>)}
                     </div>
                     <div className="form-group">
@@ -391,7 +410,9 @@ class NewText extends Component {
                         />
                         {errors.tags && (<div className='text-danger'>{errors.tags}</div>)}
                     </div>
-                    <button type="submit" className="btn btn-primary ">Create new translate text</button>
+                    <button type="submit" className="btn btn-primary " disabled={this.state.format}>Create new translate
+                        text
+                    </button>
                 </form>
             </div>
         )
