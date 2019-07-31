@@ -10,7 +10,7 @@ const CurrentPassword = ({handleChange, errors}) => {
             className={classNames('form-control form-control-lg', {
                 'is-invalid': errors
             })}
-            type="passwordCur"
+            type="password"
             placeholder="Current password"
             name="passwordCur"
             onChange={(e) => handleChange(e)}
