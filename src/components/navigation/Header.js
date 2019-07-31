@@ -125,6 +125,7 @@ class Header extends Component {
                     <Link className={'guestLink text-decoration-none nav-link'} to="/login">LogIn</Link>
                 </li>
             </ul>
+
         );
 
         return (

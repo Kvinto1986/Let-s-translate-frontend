@@ -140,7 +140,7 @@ class Login extends Component {
                     </form>
                     {!this.state.userStatus ? (<button type="button" className="btn btn-warning" data-toggle="modal"
                                                        data-target="#exampleModalCenter">
-                            I've forgot my password
+                            I’ve forgotten my password
                         </button>
                     ) : null}
 

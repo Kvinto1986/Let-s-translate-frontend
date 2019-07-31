@@ -75,24 +75,24 @@ class Home extends Component {
                                 </ol>
                                 <div className="carousel-inner border-info rounded-lg">
                                     <div className="carousel-item active">
-                                        <img className="d-block w-100 " src={translate1Image} alt="First slide" />
+                                        <img className="d-block w-100 h-25 " src={translate1Image} alt="First slide" />
                                         <div className="carousel-caption d-none d-md-block">
-                                            <h5>Best of ever translators!</h5>
-                                            <p>Our transloators make translates so fast!</p>
+                                            <h2 className='text-warning'>Best of ever translators!</h2>
+                                            <h4 >Our translators make translates so fast!</h4>
                                         </div>
                                     </div>
                                     <div className="carousel-item border-info rounded-lg">
                                         <img className="d-block w-100 " src={translate2Image} alt="Second slide" />
                                         <div className="carousel-caption d-none d-md-block">
-                                            <h5>Best of ever translators!</h5>
-                                            <p>Our transloators make translates so fast!</p>
+                                            <h2 className='text-warning'>Best of ever translators!</h2>
+                                            <h4>Our translators make translates so fast!</h4>
                                         </div>
                                     </div>
                                     <div className="carousel-item border-info rounded-lg">
                                         <img className="d-block w-100" src={translate3Image} alt="Third slide" />
                                         <div className="carousel-caption d-none d-md-block">
-                                            <h5>Best of ever translators!</h5>
-                                            <p>Our transloators make translates so fast!</p>
+                                            <h2 className='text-warning'>Best of ever translators!</h2>
+                                            <h4 >Our translators make translates so fast!</h4>
                                         </div>
                                     </div>
                                 </div>

@@ -50,17 +50,17 @@ class EditUserProfile extends Component {
         }
 
 
-
         this.props.editProfileData(data, this.props.auth.user)
-        .then((res) => {
-            Swal.fire({
-                type: 'success',
-                title: 'Congratulations!',
-                text: 'The action was successful!!',
-                allowOutsideClick: false
-            }).then(() => {
-            this.props.logoutUser(this.props.history)})
-        })
+            .then((res) => {
+                Swal.fire({
+                    type: 'success',
+                    title: 'Congratulations!',
+                    text: 'The action was successful!!',
+                    allowOutsideClick: false
+                }).then(() => {
+                    this.props.logoutUser(this.props.history)
+                })
+            })
     }
 
     componentWillReceiveProps(nextProps) {
@@ -73,51 +73,56 @@ class EditUserProfile extends Component {
 
     render() {
         const {role, name, email, phone, creditCard} = this.props.auth.user
-        const {errors} = this.state      
-        
-        return (
-            <div className="container mt-3">
-                <FormTitle title="Profile edit" />
-                <form className="ml-3 d-flex flex-column justify-content-center">
-                    <NameInput 
-                    name={name}
-                    handleChange={this.handleChange}
-                    errors={errors.name}
-                    />
-                    <EmailInput 
-                    email={email}
-                    handleChange={this.handleChange}
-                    errors={errors.email}
-                    />
-                    {(role === "customer") &&
-                        <CreditCardNumberInput 
-                        creditCard={creditCard}
-                        handleChange={this.handleChange}
-                        errors={errors.creditCard}
+        const {errors} = this.state
+
+        if (role === "translator" || role === "customer") {
+            return (
+
+                <div className="container mt-3">
+                    <FormTitle title="Profile edit"/>
+                    <form className="ml-3 d-flex flex-column justify-content-center">
+                        <NameInput
+                            name={name}
+                            handleChange={this.handleChange}
+                            errors={errors.name}
                         />
-                    }
-                    {(role === "translator" || role === "admin") &&
-                        <PhoneInput 
-                        phone={phone}
-                        handleChange={this.handleChange}
-                        errors={errors.phone}
+                        <EmailInput
+                            email={email}
+                            handleChange={this.handleChange}
+                            errors={errors.email}
                         />
-                    }
-                    <NewPassword 
-                    handleChange={this.handleChange}
-                    errors={errors.password}
-                    />
-                    <CurrentPassword 
-                    handleChange={this.handleChange}
-                    errors={errors.password_cur}
-                    />
-                    {errors.common && (<p className="text-danger">{errors.common}</p>)}
-                    <ButtonSubmit 
-                    title="Submit"
-                    handleSubmit={this.handleSubmit}
-                    />
-                </form>
-            </div>
+                        {(role === "customer") &&
+                        <CreditCardNumberInput
+                            creditCard={creditCard}
+                            handleChange={this.handleChange}
+                            errors={errors.creditCard}
+                        />
+                        }
+                        {(role === "translator") &&
+                        <PhoneInput
+                            phone={phone}
+                            handleChange={this.handleChange}
+                            errors={errors.phone}
+                        />
+                        }
+                        <NewPassword
+                            handleChange={this.handleChange}
+                            errors={errors.password}
+                        />
+                        <CurrentPassword
+                            handleChange={this.handleChange}
+                            errors={errors.password_cur}
+                        />
+                        {errors.common && (<p className="text-danger">{errors.common}</p>)}
+                        <ButtonSubmit
+                            title="Submit"
+                            handleSubmit={this.handleSubmit}
+                        />
+                    </form>
+                </div>
+            )
+        } else return (
+            <h1 className='col-12 text-danger text-center mt-5'>You can't change the administrator data!</h1>
         )
     }
 }
