@@ -42,6 +42,8 @@ class ManageTranslate extends Component {
         tags: this.props.translateToManage.tags,
         collectionName: this.props.translateToManage.collectionName,
         saveIsSuccess: '',
+        formats: ['doc', 'docx', 'txt', 'pdf', 'jpg', 'jpeg', 'png'],
+        format: true,
         errors: {}
     }
 
@@ -80,13 +82,20 @@ class ManageTranslate extends Component {
     }
 
     handleInputFileChange = (e) => {
-        this.setState({
-            [e.target.name]: e.target.files[0],
-            translateTextVisibility: true,
-            translateTextName: "",
-            translateText: ""
-        });
-    };
+        const format = e.target.files[0].name.split('.').pop();
+
+        const fileSize = e.target.files[0].size;
+        if (this.state.formats.includes(format) && fileSize < 50000) {
+            this.setState({
+                [e.target.name]: e.target.files[0],
+                translateTextVisibility: true,
+                translateTextName: "",
+                format: false,
+                translateText: ""
+            })
+        } else this.setState({format: true})
+    }
+
 
     handleChangetranslateTextName = (e) => {
         this.setState({
@@ -212,7 +221,7 @@ class ManageTranslate extends Component {
                     this.setState({textFileURL: url})).then(() => {
                     finalTranslateState.translatedfileName = this.state.customerEmail + '-' + this.state.textFileName.name;
                     finalTranslateState.translatedTextFileUrl = this.state.textFileURL;
-                    this.props.finishTranslate(finalTranslateState,this.finishTranslateAlert);
+                    this.props.finishTranslate(finalTranslateState, this.finishTranslateAlert);
                 })
             });
         } else if (this.state.translateTextName.length > 0 && this.state.translateText.length > 0) {
@@ -225,7 +234,7 @@ class ManageTranslate extends Component {
                     this.setState({textFileURL: url})).then(() => {
                     finalTranslateState.translatedfileName = this.state.customerEmail + '-' + this.state.translateTextName + '.txt';
                     finalTranslateState.translatedTextFileUrl = this.state.textFileURL;
-                    this.props.finishTranslate(finalTranslateState,this.finishTranslateAlert);
+                    this.props.finishTranslate(finalTranslateState, this.finishTranslateAlert);
                 })
             });
         }
@@ -385,6 +394,7 @@ class ManageTranslate extends Component {
                                     'is-invalid': errors.translateManage
                                 })}
                             />
+                            {this.state.format && (<div className='text-danger'>Invalid file format</div>)}
                         </div>
                         <div className="form-group mt-3">
                             <label className={'mr-3'}>Translated text name</label>
@@ -446,7 +456,7 @@ class ManageTranslate extends Component {
                                 <button
                                     type="submit"
                                     className="btn btn-sm btn-success"
-                                    disabled={(progress == 100) ? false : true}
+                                    disabled={(progress == 100&&!this.state.format) ? false : true}
                                 >
                                     Finish
                                 </button>
