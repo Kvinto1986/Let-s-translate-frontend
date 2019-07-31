@@ -161,7 +161,7 @@ class ManageTranslate extends Component {
             title: 'Congratulations!',
             text: 'The action was successful!!'
         }).then(() => {
-            window.location.reload();
+            window.location.reload()
         })
     }
 
