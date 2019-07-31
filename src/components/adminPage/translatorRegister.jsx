@@ -4,6 +4,10 @@ import {connect} from 'react-redux'
 import Select from 'react-select'
 import languages from '../../resources/JSON/langForForm'
 
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+
+import 'sweetalert2/src/sweetalert2.scss'
+
 class TranslatorRegister extends Component {
     state = {
         name: "",
@@ -28,15 +32,17 @@ class TranslatorRegister extends Component {
     };
 
     resetForm = () => {
-        this.setState({
-            name: "",
-            email: "",
-            password: '',
-            password_confirm: '',
-            phone:'',
-            languages: [],
-            errors: {},
-        });
+        Swal.fire({
+            type: 'success',
+            title: 'Congratulations!',
+            text: 'Translator was successfully created!',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.value) {
+                window.location.reload()
+            }
+
+        })
     };
 
     handleSubmit = (e) => {

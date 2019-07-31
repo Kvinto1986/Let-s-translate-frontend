@@ -41,13 +41,11 @@ class NewText extends Component {
     };
 
     handleInputFileChange = (e) => {
-        console.log(e.target.files[0])
 
         const format = e.target.files[0].name.split('.').pop()
 
         const fileSize = e.target.files[0].size;
 
-        console.log(fileSize)
         if (this.state.formats.includes(format) && fileSize < 50000) {
             this.setState({
                 [e.target.name]: e.target.files[0], textAreaVisibility: true, textAreaName: "",
@@ -177,8 +175,6 @@ class NewText extends Component {
             }
 
         })
-
-
     };
 
     handleSubmit = (e) => {
