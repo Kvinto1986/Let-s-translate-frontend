@@ -112,9 +112,9 @@ class MessageDialog extends Component {
         
         return (
             <Fragment>
-                <div style={{padding:"10px 25px"}} className="mt-3">
+                <div style={{padding:"10px 25px"}} className="mt-sm-3">
                     <div className="row">
-                        <div className="col-2 recDataBar" style={{backgroundColor:"#f1f2f6"}}>
+                        <div className="col-sm-2 col-12 recDataBar mb-sm-0 mb-3" style={{backgroundColor:"#f1f2f6"}}>
                             <div className="d-flex flex-column align-items-center" style={{position: 'sticky', top: '110px'}}>
                                 {
                                     (Object.keys(chatMemberData).length === 0)
@@ -141,7 +141,7 @@ class MessageDialog extends Component {
                                 }
                             </div>
                         </div>
-                        <div className="col-10">
+                        <div className="col-sm-10 col-12">
                             {
                                 this.props.dialogReducer.map((message) => {
                                     
