@@ -284,20 +284,6 @@ class ManageTranslate extends Component {
                     </button>
                 </div>
             )
-        } else if (saveIsSuccess === false) {
-            alert = (
-                <div className="alert alert-danger mt-4" role="alert">
-                    <h4 className="alert-heading">Well done!</h4>
-                    <p>
-                        Aww yeah, you successfully read this important alert message.
-                        This example text is going to run a bit longer so that you can see
-                        how spacing within an alert works with this kind of content.
-                    </p>
-                    <hr/>
-                    <p className="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and
-                        tidy.</p>
-                </div>
-            )
         }
 
         if (this.state.errors.translateManage) {
@@ -314,22 +300,9 @@ class ManageTranslate extends Component {
             )
         }
 
-        // if (progress < 100) {
-        //     fileIsDisabled = true
-        // }
-        // else {
-        //     fileIsDisabled = false
-        // }
-        // console.log(progress > 99, translateText === null, translateTextName == false);
-
-
-        let fileIsDisabled = !(progress > 99 && translateText === null && translateTextName == false)
-            ? true
-            : false
-
-        console.log(fileDownloadVisibility, fileIsDisabled);
-
-
+        const isProgressFull = (progress == 100) ? true : false
+        let fileIsDisabled = !(isProgressFull && !translateText && !translateTextName) ? true : false
+        
         return (
             <>
                 <h4>Manage section</h4>
@@ -388,7 +361,7 @@ class ManageTranslate extends Component {
                                 type="file"
                                 name="textFileName"
                                 onChange={this.handleInputFileChange}
-                                disabled={fileIsDisabled && fileDownloadVisibility}
+                                disabled={fileIsDisabled}
                                 required={this.state.textFileRequired}
                                 className={classnames({
                                     'is-invalid': errors.translateManage
