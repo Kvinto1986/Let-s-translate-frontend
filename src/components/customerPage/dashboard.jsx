@@ -306,6 +306,7 @@ class Dashboard extends Component {
                                 className='m-5 ml-2 col-4'
                                 value={this.state.collectionName}
                                 onChange={this.handleChangeNewCollection}
+                                required={true}
                             />
                             <button className='btn btn-success m-5' type='submit'>Create</button>
 
@@ -325,9 +326,9 @@ class Dashboard extends Component {
                         </form>
                     )}
                 </div>
-                {errors.collectionName && (
+                {errors.newCollectionName && (
                     <div
-                        className='d-inline-flex col-12 justify-content-center text-danger'>{errors.collectionName}</div>)}
+                        className='d-inline-flex col-12 justify-content-center text-danger'>{errors.newCollectionName}</div>)}
                 {this.state.collectionsListVisibility && (
                     <div className="d-inline-flex col-12 justify-content-center mt-3">
                         {collectionList}

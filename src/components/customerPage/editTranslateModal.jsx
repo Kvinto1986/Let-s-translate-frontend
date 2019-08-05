@@ -220,6 +220,7 @@ class EditModal extends Component {
             extraReview: this.state.extraReview,
             translationSpeed: this.state.translationSpeed,
             charsCount: this.state.charsCount,
+            cost:this.state.cost,
             tags: tagsArr
         };
 

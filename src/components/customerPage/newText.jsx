@@ -272,7 +272,8 @@ class NewText extends Component {
                                     disabled={this.state.fileDownloadVisibility}
                                     required={this.state.textFileRequired}
                                 />
-                                {this.state.format && (<div className='text-danger'>Invalid file format</div>)}
+                                {this.state.format && (<div className='text-danger'>Wrong format or file size exceeds 50mb</div>)}
+                                {errors.text && (<div className='text-danger'>{errors.text}</div>)}
                             </div>
                             <div className="form-group mb-3">
                                 <label className={'mr-3'}>Characters</label>

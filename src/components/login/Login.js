@@ -36,7 +36,7 @@ class Login extends Component {
             title: 'Congratulations!',
             text: 'The action was successful!!',
             allowOutsideClick: false
-        }).then(() => {this.props.history.push('/')})
+        }).then(() => {window.location.reload()})
     };
 
     handleRestorePassword = () => {

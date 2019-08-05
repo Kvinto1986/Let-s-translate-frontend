@@ -54,6 +54,16 @@ class Home extends Component {
         const {firstLang} = this.state.firstLang;
         const {secondLang} = this.state.secondLang;
 
+        const validlanguages = ["English", "Russian", "Spanish", "Deutsch", "Polish", "Japanese", "Chinese", "Hindi", "Portuguese", "French", "Italian"];
+
+        const arr=["Deutsch","Chinese"]
+
+        if(validlanguages.includes(arr.join(','))){
+            console.log('EEEEEEEEEEEEEEEEEEEEE!'+arr.join(','))
+        }
+
+        else  console.log('NOOOOOOOOOOOOOO'+arr.join(','))
+
         return (
             <div className='landing col-12 d-flex justify-content-center align-items-center'>
                 <div className="row">
