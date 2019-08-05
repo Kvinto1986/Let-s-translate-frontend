@@ -5,8 +5,11 @@ import Select from 'react-select'
 import languages from '../../resources/JSON/langForForm'
 
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import ReactPhoneInput from 'react-phone-input-2'
 
 import 'sweetalert2/src/sweetalert2.scss'
+
+import 'react-phone-input-2/dist/style.css'
 
 class TranslatorRegister extends Component {
     state = {
@@ -29,6 +32,10 @@ class TranslatorRegister extends Component {
         this.setState({
             [e.target.name]: e.target.value
         })
+    };
+
+    handlePhoneChange = (number) => {
+        this.setState({phone: number})
     };
 
     resetForm = () => {
@@ -107,13 +114,13 @@ class TranslatorRegister extends Component {
                             </div>
                             <div className="form-group">
                                 <label>Phone number</label>
-                                <input
+                                <ReactPhoneInput
                                     type="text"
                                     placeholder="Phone number"
                                     name="phone"
                                     className="form-control"
-                                    onChange={this.handleInputChange}
                                     value={this.state.phone}
+                                    onChange={this.handlePhoneChange}
                                 />
                                 {errors.phone && (<div className='text-danger'>{errors.phone}</div>)}
                                 

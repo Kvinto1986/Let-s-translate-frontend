@@ -16,6 +16,8 @@ import CurrentPassword from './edit/CurrentPassword'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import 'sweetalert2/src/sweetalert2.scss'
+import ReactPhoneInput from "react-phone-input-2";
+import CurentValue from "../common/CurentValue";
 
 class EditUserProfile extends Component {
 
@@ -35,6 +37,9 @@ class EditUserProfile extends Component {
         })
     }
 
+    handlePhoneChange = (number) => {
+        this.setState({phone: number})
+    };
 
 
     handleSubmit = (e) => {
@@ -100,11 +105,18 @@ class EditUserProfile extends Component {
                         />
                         }
                         {(role === "translator") &&
-                        <PhoneInput
-                            phone={phone}
-                            handleChange={this.handleChange}
-                            errors={errors.phone}
+                        <div className="form-group">
+                            <label>Phone <CurentValue value={phone} /></label>
+                        <ReactPhoneInput
+                            type="text"
+                            placeholder="Phone number"
+                            name="phone"
+                            className="form-control"
+                            value={this.state.phone}
+                            onChange={this.handlePhoneChange}
                         />
+                        {errors.phone && (<div className='text-danger'>{errors.phone}</div>)}
+                        </div>
                         }
                         <NewPassword
                             handleChange={this.handleChange}
