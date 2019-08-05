@@ -65,6 +65,12 @@ class TranslateInfoPage extends Component {
     render() {
         const {data} = this.props.selectedTranslate;
         const {role} = this.props.auth.user
+        let submitIsBloked = true
+
+        if (this.state.messageText.length < 99) {
+            submitIsBloked = false
+        }
+
         if (Object.keys(data).length > 0) {
             const {translate, customerData} = data;
 
@@ -122,7 +128,7 @@ class TranslateInfoPage extends Component {
                                                 this.handleSubmit(e)
                                             }}>
                                                 <div className="form-group preOrderMessageArea d-flex flex-column align-items-center">
-                                                    <label>Your message to customer</label>
+                                                    <label>Your message to customer <small>(more then 99 symbols)</small></label>
                                                     <textarea
                                                         name='messageText'
                                                         className="form-control takeOrderTextarea"
@@ -130,7 +136,7 @@ class TranslateInfoPage extends Component {
                                                         onChange={e => this.handleInputChange(e)}
                                                         value={this.state.messageText}
                                                     />
-                                                    <button type="submit" className="btn btn-outline-dark takeOrderBut mt-3">
+                                                    <button type="submit" disabled={submitIsBloked} className="btn btn-outline-dark takeOrderBut mt-3">
                                                         Take an order
                                                     </button>
                                                 </div>

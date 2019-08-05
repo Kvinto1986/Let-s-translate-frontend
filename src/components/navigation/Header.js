@@ -93,14 +93,18 @@ class Header extends Component {
                 <LinkGroup role={user.role} />
                 <div className="my-2 my-lg-0 d-fel">
                     <div className="d-flex align-items-center">
-                        <Link to="/messages">
-                            <img src={msgImage} alt='Messages' className="mr-1" />
-                            {(unreadMessages.length > 0) && (
-                                <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>
-                                    {unreadMessages.length}
-                                </span>
-                            )}
-                        </Link>
+                        {
+                            user.role !== 'admin' && (
+                                <Link to="/messages">
+                                    <img src={msgImage} alt='Messages' className="mr-1" />
+                                    {(unreadMessages.length > 0) && (
+                                        <span className="badge badge badge-pill badge-secondary mr-4" style={badgeStyle}>
+                                            {unreadMessages.length}
+                                        </span>
+                                    )}
+                                </Link>
+                            )
+                        }
                         <Link to="/profile">
                             <h5 className='text-white ml-3 mr-3 mt-2'>{user.name} ({user.role})</h5>
                         </Link>

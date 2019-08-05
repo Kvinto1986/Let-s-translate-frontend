@@ -61,7 +61,7 @@ class RegisterCustomer extends Component {
         const customer = {
             role:'customer',
             name: this.state.name,
-            email: this.state.email,
+            email: this.state.email.toLowerCase(),
             password: this.state.password,
             password_confirm: this.state.password_confirm,
             creditCard: this.state.creditCard.replace(/\s+/g, '')
