@@ -17,7 +17,7 @@ class LinkGroup extends Component {
         ];
 
         const customerLinks = [
-            {title: 'New translate text', route: '/texts'},
+            {title: 'New text for translation', route: '/texts'},
             {title: 'Translates collections', route: '/dashboard'},
             {title: 'Orders status', route: '/transactions'},
         ];

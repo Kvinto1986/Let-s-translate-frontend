@@ -39,10 +39,14 @@ const UserProfile = props => {
                         <span>{date}</span>
                     </section>
                 </div>
-                <Link to="/profile/edit" style={{color: 'black',border:'2px solid black',
-                    textDecoration:'none',backgroundColor:'whitesmoke',marginTop:'5%', padding: "5px 15px"}}>
-                    <span>Edit profile</span>
-                </Link>
+                {
+                    role !== 'admin' && (
+                        <Link to="/profile/edit" style={{color: 'black',border:'2px solid black',
+                            textDecoration:'none',backgroundColor:'whitesmoke',marginTop:'5%', padding: "5px 15px"}}>
+                            <span>Edit profile</span>
+                        </Link>
+                    )
+                }
             </div>
         )
         : (
