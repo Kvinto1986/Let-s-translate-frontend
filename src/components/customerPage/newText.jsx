@@ -141,7 +141,7 @@ class NewText extends Component {
 
             const charsCount = this.state.charsCount;
 
-            const cost = (originalLangFactor + translateLangFactor / 2) * reviewFactor * speedFactor * charsCount / 1000;
+            const cost = (originalLangFactor + translateLangFactor )/ 2 * reviewFactor * speedFactor * charsCount / 1000;
 
             this.setState({
                 cost: cost.toFixed(2),

@@ -23,7 +23,7 @@ class Home extends Component {
         this.setState({
             firstLang: langSelect.label,
             firstLangVal: langSelect.value,
-            translateCost: (langSelect.value + this.state.secondLangVal) / 2 * 10
+            translateCost: (langSelect.value + this.state.secondLangVal) / 2
         });
 
         if(langSelect.label===this.state.secondLang){
@@ -39,7 +39,7 @@ class Home extends Component {
         this.setState({
             secondLang: langSelect.label,
             secondLangVal: langSelect.value,
-            translateCost: (this.state.firstLangVal + langSelect.value) / 2 * 10
+            translateCost: (this.state.firstLangVal + langSelect.value) / 2
         });
 
         if(langSelect.label===this.state.firstLang){

@@ -102,6 +102,7 @@ class EditUserProfile extends Component {
                             creditCard={creditCard}
                             handleChange={this.handleChange}
                             errors={errors.creditCard}
+
                         />
                         }
                         {(role === "translator") &&
@@ -114,6 +115,7 @@ class EditUserProfile extends Component {
                             className="form-control"
                             value={this.state.phone}
                             onChange={this.handlePhoneChange}
+
                         />
                         {errors.phone && (<div className='text-danger'>{errors.phone}</div>)}
                         </div>

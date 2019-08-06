@@ -43,7 +43,7 @@ class ManageTranslate extends Component {
         collectionName: this.props.translateToManage.collectionName,
         saveIsSuccess: '',
         formats: ['doc', 'docx', 'txt', 'pdf', 'jpg', 'jpeg', 'png'],
-        format: true,
+        format: false,
         errors: {}
     }
 
