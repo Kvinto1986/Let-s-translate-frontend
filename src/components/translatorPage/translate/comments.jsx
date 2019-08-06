@@ -60,6 +60,14 @@ class Comments extends Component {
 
     render() {
         const {errors} = this.state;
+        let isBigMessage = false      
+
+        if(this.state.messageText.length > 500) {
+            isBigMessage = true
+        }
+        else {
+            isBigMessage = false
+        }
 
         return (
             <div className="col-12">
@@ -74,7 +82,10 @@ class Comments extends Component {
                                         <div className="media-body">
                                             <h5 className="mt-0 d-flex align-items-center">
                                                 <b>{elem.senderName} <small style={{fontSize: "13px"}}>({elem.userRole})</small></b>
-                                                <span className="text-secondary answerLink mt-0 mb-0 ml-2" onClick={() => this.insertName(elem.senderName)}>
+                                                <span 
+                                                className="text-secondary answerLink mt-0 mb-0 ml-2" 
+                                                onClick={() => this.insertName(elem.senderName)}
+                                                >
                                                     <small><em>Answer</em></small>
                                                 </span>
                                             </h5>
@@ -100,15 +111,16 @@ class Comments extends Component {
                         </div>
                         {errors.messageText && (<div className='text-danger'>{errors.messageText}</div>)}
                         <div>
-                            <button className='btn btn-success mt-3'>Send</button>
+                            <button className='btn btn-success mt-3' disabled={isBigMessage}>Send</button>
+                            {isBigMessage && (
+                                <p className="text-warning mt-1 mb-1"><small>Comment message is larger then 500 symbols.</small></p>
+                            )}
                         </div>
                     </form>
                 </div>
             </div>
         )
     }
-
-
 }
 
 const mapStateToProps = state => ({
