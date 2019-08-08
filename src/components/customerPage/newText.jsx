@@ -34,7 +34,7 @@ class NewText extends Component {
         cost: 0,
         charsCount: 1000,
         wrongCost: false,
-        formats: ['doc', 'docx', 'txt', 'pdf', 'jpg', 'jpeg', 'png'],
+        formats: ['doc', 'docx', 'txt', 'pdf', 'jpg', 'jpeg', 'png','DOC', 'DOCX', 'TXT', 'PDF', 'JPG', 'JPEG', 'PNG'],
         format: false,
         errors: {}
 
@@ -46,7 +46,7 @@ class NewText extends Component {
 
         const fileSize = e.target.files[0].size;
 
-        if (this.state.formats.includes(format) && fileSize < 50000) {
+        if (this.state.formats.includes(format) && fileSize < 50000000) {
             this.setState({
                 [e.target.name]: e.target.files[0], textAreaVisibility: true, textAreaName: "",
                 format: false, textArea: ""
