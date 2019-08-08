@@ -43,7 +43,7 @@ class ManageTranslate extends Component {
         tags: this.props.translateToManage.tags,
         collectionName: this.props.translateToManage.collectionName,
         saveIsSuccess: '',
-        formats: ['doc', 'docx', 'txt', 'pdf', 'jpg', 'jpeg', 'png'],
+        formats: ['doc', 'docx', 'txt', 'pdf', 'jpg', 'jpeg', 'png','DOC', 'DOCX', 'TXT', 'PDF', 'JPG', 'JPEG', 'PNG'],
         format: false,
         errors: {}
     }
@@ -86,9 +86,10 @@ class ManageTranslate extends Component {
 
     handleInputFileChange = (e) => {
         const format = e.target.files[0].name.split('.').pop();
-
+        console.log(format)
         const fileSize = e.target.files[0].size;
-        if (this.state.formats.includes(format) && fileSize < 50000) {
+        console.log(e.target.files[0].size)
+        if (this.state.formats.includes(format) && fileSize < 50000000) {
             this.setState({
                 [e.target.name]: e.target.files[0],
                 translateTextVisibility: true,
@@ -377,7 +378,7 @@ class ManageTranslate extends Component {
                                     'is-invalid': errors.translateManage
                                 })}
                             />
-                            {this.state.format && (<div className='text-danger'>Invalid file format</div>)}
+                            {this.state.format && (<div className='text-danger'>Wrong format or file size exceeds 50mb</div>)}
                         </div>
                         <div className="form-group mt-3">
                             <label className={'mr-3'}>Translated text name</label>
