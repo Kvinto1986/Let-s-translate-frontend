@@ -36,7 +36,7 @@ class ReviewTranslate extends Component {
         const {translateToReview} = this.props
         const {reviewFeedback} = this.state
 
-        const submitIsDisabled = (reviewFeedback.length > 0) ? false : true
+        const submitIsDisabled = (reviewFeedback == true) ? false : true
 
         return (
             <section className="col-xl-6 col-12">

@@ -14,6 +14,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 import 'sweetalert2/src/sweetalert2.scss'
 import { STATUS_CODES } from 'http';
+import { thisTypeAnnotation } from '@babel/types';
 
 
 const tagStyle = {
@@ -66,12 +67,14 @@ class ManageTranslate extends Component {
                 translateTextVisibility: false,
                 fileDownloadVisibility: false,
             });
-        } else {
-            this.setState({
-                translateTextVisibility: true,
-                fileDownloadVisibility: true,
-
-            });
+        }
+        
+        if(nextProps.errors) {
+            if (!this.state.textFileName) {
+                this.setState({
+                    translateTextVisibility: false
+                })
+            }
         }
 
         if (nextProps.errors) {
@@ -133,6 +136,14 @@ class ManageTranslate extends Component {
         this.setState({saveIsSuccess: true})
     }
 
+    stateRefresh = () => {
+        if(!this.state.textFileName) {
+            this.setState({
+                translateTextVisibility: false
+            })
+        } 
+    }
+
     handleSave = () => {
         const {
             textId,
@@ -160,8 +171,7 @@ class ManageTranslate extends Component {
             date: Date.now()
         }
 
-        this.props.saveTranslate(translateState, this.saveAlert)
-
+        this.props.saveTranslate(translateState, this.saveAlert, this.stateRefresh)
     }
 
     finishTranslateAlert = () => {
@@ -294,7 +304,7 @@ class ManageTranslate extends Component {
                     </button>
                     <h4 className="alert-heading">Manage error!</h4>
                     <p>
-                        Here is {this.state.errors.translateManage}
+                        Error: {this.state.errors.translateManage}
                     </p>
                 </div>
             )
