@@ -18,6 +18,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import ReactPhoneInput from "react-phone-input-2";
 import CurentValue from "../common/CurentValue";
+import CreditCardInput from "react-credit-card-input";
 
 class EditUserProfile extends Component {
 
@@ -31,6 +32,7 @@ class EditUserProfile extends Component {
         errors: {}
     };
 
+
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -39,6 +41,12 @@ class EditUserProfile extends Component {
 
     handlePhoneChange = (number) => {
         this.setState({phone: number})
+    };
+
+    handleChangeCreditCard= (e) => {
+        this.setState({
+            creditCard: e.target.value
+        })
     };
 
 
@@ -98,12 +106,17 @@ class EditUserProfile extends Component {
                             errors={errors.email}
                         />
                         {(role === "customer") &&
-                        <CreditCardNumberInput
-                            creditCard={creditCard}
-                            handleChange={this.handleChange}
-                            errors={errors.creditCard}
+                        <div className="form-group">
+                            <label>Credit card number <CurentValue value={creditCard} /></label>
+                            <div className="form-group">
+                            <CreditCardInput
+                                cardNumberInputProps={{ value: this.state.creditCard, onChange: this.handleChangeCreditCard }}
+                                fieldClassName="input"
+                            />
+                            </div>
 
-                        />
+                            {errors.creditCard && (<div className='text-danger'>{errors.creditCard}</div>)}
+                        </div>
                         }
                         {(role === "translator") &&
                         <div className="form-group">
