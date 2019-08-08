@@ -11,7 +11,8 @@ import Comments from '../translate/comments'
 class TranslateInfoPage extends Component {
 
     state = {
-        messageText: `Hello! My name is ${this.props.auth.user.name}, I'm glad to accept your order.`
+        messageText: `Hello! My name is ${this.props.auth.user.name}, I'm glad to accept your order.`,
+        emptyMessageError: false
     }
 
     componentDidMount() {
@@ -21,15 +22,42 @@ class TranslateInfoPage extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        const sendData = {
-            senderName: this.props.auth.user.name,
-            senderEmail: this.props.auth.user.email,
-            recipientName: this.props.selectedTranslate.data.customerData.name,
-            recipientEmail: this.props.selectedTranslate.data.customerData.email,
-            messageText: this.state.messageText
-        }
+        if (this.state.messageText == false) {
+            this.setState({emptyMessageError: 'Message are not valid'})
+        } else {
+            //Message
+            const sendData = {
+                senderName: this.props.auth.user.name,
+                senderEmail: this.props.auth.user.email,
+                recipientName: this.props.selectedTranslate.data.customerData.name,
+                recipientEmail: this.props.selectedTranslate.data.customerData.email,
+                messageText: this.state.messageText
+            }
+    
+            this.props.startTranslate(sendData)
 
-        this.props.startTranslate(sendData)
+            // Take order
+            const {translate: text} = this.props.selectedTranslate.data
+            const ordData = {
+                textId: this.props.match.params.translateId,
+                translatorName: this.props.auth.user.name,
+                translatorEmail: this.props.auth.user.email,
+                customerName: text.name,
+                customerEmail: text.email,
+                originalLanguage: text.originalLanguage,
+                translationLanguage: text.translationLanguage,
+                translationSpeed: text.translationSpeed,
+                extraReview: text.extraReview,
+                tags: text.tags,
+                initialfileName: text.fileName,
+                initialTextFileUrl: text.fileUrl,
+                progress: 0,
+                isPaid: false,
+                isReady: false
+            }
+
+            this.props.letsTranslate(this.props.history, ordData)
+        }
     }
 
     handleInputChange = (e) => {
@@ -38,37 +66,17 @@ class TranslateInfoPage extends Component {
         })
     }
 
-    translateStartHendler = () => {
-        const {translate: text} = this.props.selectedTranslate.data
-
-        const sendData = {
-            textId: this.props.match.params.translateId,
-            translatorName: this.props.auth.user.name,
-            translatorEmail: this.props.auth.user.email,
-            customerName: text.name,
-            customerEmail: text.email,
-            originalLanguage: text.originalLanguage,
-            translationLanguage: text.translationLanguage,
-            translationSpeed: text.translationSpeed,
-            extraReview: text.extraReview,
-            tags: text.tags,
-            initialfileName: text.fileName,
-            initialTextFileUrl: text.fileUrl,
-            progress: 0,
-            isPaid: false,
-            isReady: false
-        }
-
-        this.props.letsTranslate(this.props.history, sendData)
-    }
-
     render() {
         const {data} = this.props.selectedTranslate;
         const {role} = this.props.auth.user
         let submitIsBloked = true
 
-        if (this.state.messageText.length < 99) {
+        //Unlock button
+        if (this.state.messageText.length < 99 && this.state.messageText.length > 2) {
             submitIsBloked = false
+        }
+        else {
+            submitIsBloked = true
         }
 
         if (Object.keys(data).length > 0) {
@@ -124,11 +132,10 @@ class TranslateInfoPage extends Component {
                                             <form 
                                             className="preOrderMessageForm"
                                             onSubmit={e => {
-                                                this.translateStartHendler()
                                                 this.handleSubmit(e)
                                             }}>
                                                 <div className="form-group preOrderMessageArea d-flex flex-column align-items-center">
-                                                    <label>Your message to customer <small>(more then 99 symbols)</small></label>
+                                                    <label>Your message to customer <small>(2-99 symbols)</small></label>
                                                     <textarea
                                                         name='messageText'
                                                         className="form-control takeOrderTextarea"
@@ -139,6 +146,16 @@ class TranslateInfoPage extends Component {
                                                     <button type="submit" disabled={submitIsBloked} className="btn btn-outline-dark takeOrderBut mt-3">
                                                         Take an order
                                                     </button>
+                                                    {
+                                                        (this.state.messageText.length > 99 && this.state.messageText.length < 2) && (
+                                                            <p className="text-warning">Message should be 2 - 99 symbols</p>
+                                                        )
+                                                    }
+                                                    {
+                                                        this.state.emptyMessageError && (
+                                                            <p className="text-danger">{this.state.emptyMessageError}</p>
+                                                        )
+                                                    }
                                                 </div>
                                             </form>
                                         </>
