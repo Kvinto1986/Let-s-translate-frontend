@@ -93,7 +93,6 @@ class OrdersBar extends Component {
             if (elem.progress === '100') {
                 color = 'bg-info text-light'
             }
-
             return <tr key={elem.id} className={color}>
                 <td>
                     {elem.translatorName}
@@ -122,11 +121,6 @@ class OrdersBar extends Component {
                 <td>
                     {elem.progress} %
                 </td>
-
-                <td>
-                    {elem.finalCost} $
-                </td>
-
                 <td>
                     <button className='btn btn-warning'
                             onClick={() => this.openMessageDialog(elem)}>Open
@@ -159,7 +153,7 @@ class OrdersBar extends Component {
         const completedList = this.props.customerTranslates.filter((elem) => {
             return elem.isPaid
         }).map(elem => {
-
+            
             return <tr key={elem.id} className='bg-dark text-light'>
                 <td>
                     {elem.translatorName}
@@ -234,9 +228,6 @@ class OrdersBar extends Component {
                                 </th>
                                 <th>
                                     Translation progress
-                                </th>
-                                <th>
-                                    Cost
                                 </th>
                                 <th>
                                     Chat

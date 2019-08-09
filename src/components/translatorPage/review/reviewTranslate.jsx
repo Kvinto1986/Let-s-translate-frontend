@@ -44,8 +44,7 @@ class ReviewTranslate extends Component {
     render() {
         const {translateToReview} = this.props
         const {reviewFeedback} = this.state
-
-
+        
         return (
             <section className="col-xl-6 col-12">
                 <div className="container">
