@@ -8,7 +8,16 @@ import 'sweetalert2/src/sweetalert2.scss'
 class ReviewTranslate extends Component {
 
     state = {
-        reviewFeedback: ''
+        reviewFeedback: '',
+        submitIsDisabled:true   
+    }
+
+    handleTextArea=(e)=>{
+        this.setState({reviewFeedback: e.target.value})
+        if(e.target.value===''){
+            this.setState({submitIsDisabled: true})
+        }
+        else this.setState({submitIsDisabled: false})
     }
 
     translateReviewHandle = status => {
@@ -17,7 +26,7 @@ class ReviewTranslate extends Component {
             recipientEmail: this.props.translateToReview.translatorEmail,
             senderName: this.props.auth.user.name,
             recipientName: this.props.translateToReview.translatorName,
-            messageText: `Review feedback: ${this.state.reviewFeedback}`
+            messageText: this.state.reviewFeedback
         }
 
         Swal.fire({
@@ -36,7 +45,6 @@ class ReviewTranslate extends Component {
         const {translateToReview} = this.props
         const {reviewFeedback} = this.state
 
-        const submitIsDisabled = (reviewFeedback.length > 0) ? false : true
 
         return (
             <section className="col-xl-6 col-12">
@@ -98,15 +106,15 @@ class ReviewTranslate extends Component {
                                     placeholder="Feedback"
                                     className="form-control btn-sm"
                                     name="reviewFeedback"
-                                    onChange={e => this.setState({[e.target.name]: e.target.value})}
+                                    onChange={this.handleTextArea}
                                     />
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-dark" type="button" onClick={() => this.translateReviewHandle(false)} disabled={submitIsDisabled}>Reject</button>
-                        <button className="ml-1 btn btn-success" type="button" onClick={() => this.translateReviewHandle(true)} disabled={submitIsDisabled}>Resolve</button>
+                        <button className="btn btn-dark" type="button" onClick={() => this.translateReviewHandle(false)} disabled={this.state.submitIsDisabled}>Reject</button>
+                        <button className="ml-1 btn btn-success" type="button" onClick={() => this.translateReviewHandle(true)} disabled={this.state.submitIsDisabled}>Resolve</button>
                     </div>
                 </div>
             </section>
