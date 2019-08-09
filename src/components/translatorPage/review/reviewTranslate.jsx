@@ -9,7 +9,7 @@ class ReviewTranslate extends Component {
 
     state = {
         reviewFeedback: '',
-        submitIsDisabled:true   
+        submitIsDisabled:true
     }
 
     handleTextArea=(e)=>{
